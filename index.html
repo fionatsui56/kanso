@@ -1817,6 +1817,172 @@
     }
     .tool-page-footer span { color: var(--ink); font-weight: 600; }
 
+    /* ── NOTICE PERIOD ── */
+    .np-mode-tabs {
+      display: flex;
+      background: var(--surface2);
+      border-radius: 10px;
+      padding: 4px;
+      margin-bottom: 20px;
+      border: 1px solid var(--border);
+      gap: 4px;
+    }
+    .np-tab {
+      flex: 1;
+      padding: 9px 8px;
+      font-family: var(--font);
+      font-size: 12px;
+      font-weight: 600;
+      border: none;
+      border-radius: 7px;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: transparent;
+      color: var(--subtle);
+      line-height: 1.3;
+      text-align: center;
+    }
+    .np-tab.active { background: var(--ink); color: var(--surface); }
+    .np-result-card {
+      background: var(--surface2);
+      color: var(--surface);
+      border-radius: 14px;
+      padding: 20px;
+      margin-top: 16px;
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+    .np-result-card.show { display: block; }
+    .np-result-label { font-size: 11px; color: var(--subtle); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; }
+    .np-result-date {
+      font-size: clamp(20px, 6vw, 28px);
+      font-weight: 700;
+      font-family: var(--font-display);
+      color: var(--ink);
+      margin-bottom: 8px;
+      letter-spacing: -0.5px;
+    }
+    .np-result-detail { font-size: 12px; color: var(--text); line-height: 1.6; }
+    .np-result-detail strong { color: var(--ink); }
+    .np-calendar {
+      margin-top: 16px;
+      border-top: 1px solid var(--border);
+      padding-top: 16px;
+    }
+    .np-cal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+    .np-cal-title { font-size: 13px; font-weight: 600; color: var(--text); }
+    .np-cal-nav {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--subtle);
+      border-radius: 6px;
+      padding: 4px 10px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.2s;
+    }
+    .np-cal-nav:hover { background: var(--surface2); color: var(--text); }
+    .np-cal-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 3px;
+    }
+    .np-cal-day-label {
+      text-align: center;
+      font-size: 10px;
+      color: var(--subtle);
+      padding: 4px 0;
+      font-weight: 600;
+    }
+    .np-cal-cell {
+      text-align: center;
+      padding: 5px 2px;
+      border-radius: 6px;
+      font-size: 11px;
+      line-height: 1.2;
+      position: relative;
+      color: var(--text);
+    }
+    .np-cal-cell.today { background: var(--ink); color: var(--surface); font-weight: 700; }
+    .np-cal-cell.holiday { color: #B76E62; font-weight: 600; }
+    .np-cal-cell.weekend { color: var(--subtle); }
+    .np-cal-cell.start-day { background: #C5DEC8; color: #2E2B26; font-weight: 700; border-radius: 6px; }
+    .np-cal-cell.end-day { background: #F6EBC8; color: #2E2B26; font-weight: 700; border-radius: 6px; }
+    .np-cal-cell.in-range { background: rgba(63,74,60,0.06); }
+    .np-cal-cell.empty { opacity: 0; pointer-events: none; }
+    .np-legend {
+      display: flex;
+      gap: 12px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+    .np-legend-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 10px;
+      color: var(--subtle);
+    }
+    .np-legend-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 3px;
+    }
+    .np-remark {
+      font-size: 11px;
+      color: var(--subtle);
+      margin-top: 16px;
+      line-height: 1.6;
+      opacity: 0.8;
+    }
+
+    /* ── NP HOLIDAY LIST ── */
+    .np-holiday-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 0;
+      cursor: pointer;
+      border-top: 1px solid var(--border);
+      margin-top: 16px;
+      color: var(--subtle);
+      font-size: 12px;
+      font-weight: 600;
+      user-select: none;
+    }
+    .np-holiday-toggle:hover { color: var(--text); }
+    .np-holiday-toggle-icon { transition: transform 0.2s; font-size: 11px; }
+    .np-holiday-toggle-icon.open { transform: rotate(180deg); }
+    .np-holiday-list {
+      display: none;
+      padding-bottom: 8px;
+    }
+    .np-holiday-list.show { display: block; animation: fadeIn 0.2s ease; }
+    .np-holiday-year {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--ink);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin: 12px 0 8px;
+    }
+    .np-holiday-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 7px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 12px;
+    }
+    .np-holiday-item:last-child { border-bottom: none; }
+    .np-holiday-date { color: var(--subtle); min-width: 90px; }
+    .np-holiday-name { color: var(--text); font-weight: 500; }
+    .np-holiday-note { font-size: 10px; color: var(--subtle); opacity: 0.7; font-style: italic; }
+
     /* ── RESPONSIVE ── */
     @media (max-width: 380px) {
       .tools-grid { grid-template-columns: 1fr; }
@@ -1905,6 +2071,11 @@
         <div class="tool-icon blue" style="background:#F0E4B8">⏱</div>
         <div class="tool-name">Stopwatch</div>
         <div class="tool-desc">正數計時，支援 Lap 記錄</div>
+      </div>
+      <div class="tool-card" onclick="showTool('noticeperiod')">
+        <div class="tool-icon mint" style="background:#F6EBC8">📋</div>
+        <div class="tool-name">通知期計算</div>
+        <div class="tool-desc">計算通知期到期日，扣除公眾假期</div>
       </div>
     </div>
   </div>
@@ -3993,6 +4164,332 @@ document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape') closeMqFullscreen();
 });
 
+
+// ── NOTICE PERIOD CALCULATOR ─────────────────────
+// HK Public Holidays 2026 (official) + 2027 (estimated)
+const HK_HOLIDAYS = new Set([
+  // 2026
+  '2026-01-01', // 元旦
+  '2026-02-17', // 農曆年初一
+  '2026-02-18', // 農曆年初二
+  '2026-02-19', // 農曆年初三
+  '2026-04-03', // 耶穌受難節
+  '2026-04-04', // 受難節翌日
+  '2026-04-06', // 復活節星期一
+  '2026-04-05', // 清明節
+  '2026-05-01', // 勞動節
+  '2026-05-21', // 佛誕
+  '2026-06-19', // 端午節
+  '2026-07-01', // 香港回歸紀念日
+  '2026-09-24', // 中秋節翌日
+  '2026-10-01', // 國慶日
+  '2026-10-16', // 重陽節
+  '2026-12-25', // 聖誕節
+  '2026-12-26', // 聖誕節後第一個平日
+  // 2027 (estimated)
+  '2027-01-01', // 元旦
+  '2027-02-06', // 農曆年初一
+  '2027-02-08', // 農曆年初二
+  '2027-02-09', // 農曆年初三
+  '2027-03-26', // 耶穌受難節
+  '2027-03-27', // 受難節翌日
+  '2027-03-29', // 復活節星期一
+  '2027-04-05', // 清明節
+  '2027-05-01', // 勞動節
+  '2027-05-13', // 佛誕
+  '2027-06-09', // 端午節
+  '2027-07-01', // 香港回歸紀念日
+  '2027-09-16', // 中秋節翌日
+  '2027-10-01', // 國慶日
+  '2027-10-08', // 重陽節
+  '2027-12-25', // 聖誕節
+  '2027-12-27', // 聖誕節後補假
+]);
+
+const HK_HOLIDAY_NAMES = {
+  '2026-01-01': '元旦',
+  '2026-02-17': '農曆年初一',
+  '2026-02-18': '農曆年初二',
+  '2026-02-19': '農曆年初三',
+  '2026-04-03': '耶穌受難節',
+  '2026-04-04': '受難節翌日',
+  '2026-04-06': '復活節',
+  '2026-04-05': '清明節',
+  '2026-05-01': '勞動節',
+  '2026-05-21': '佛誕',
+  '2026-06-19': '端午節',
+  '2026-07-01': '回歸紀念日',
+  '2026-09-24': '中秋節翌日',
+  '2026-10-01': '國慶日',
+  '2026-10-16': '重陽節',
+  '2026-12-25': '聖誕節',
+  '2026-12-26': '聖誕後假',
+  '2027-01-01': '元旦',
+  '2027-02-06': '農曆年初一',
+  '2027-02-08': '農曆年初二',
+  '2027-02-09': '農曆年初三',
+  '2027-03-26': '耶穌受難節',
+  '2027-03-27': '受難節翌日',
+  '2027-03-29': '復活節',
+  '2027-04-05': '清明節',
+  '2027-05-01': '勞動節',
+  '2027-05-13': '佛誕',
+  '2027-06-09': '端午節',
+  '2027-07-01': '回歸紀念日',
+  '2027-09-16': '中秋節翌日',
+  '2027-10-01': '國慶日',
+  '2027-10-08': '重陽節',
+  '2027-12-25': '聖誕節',
+  '2027-12-27': '聖誕後補假',
+};
+
+var npMode = 'a';
+var npCalYear, npCalMonth;
+var npStartDate = null, npEndDate = null;
+
+function setNpMode(mode) {
+  npMode = mode;
+  document.getElementById('np-mode-a').style.display = mode === 'a' ? 'block' : 'none';
+  document.getElementById('np-mode-b').style.display = mode === 'b' ? 'block' : 'none';
+  document.querySelectorAll('.np-tab').forEach(function(t){ t.classList.remove('active'); });
+  document.getElementById('np-tab-' + mode).classList.add('active');
+  document.getElementById('np-result').classList.remove('show');
+  hideStatus('np-status');
+}
+
+function isWorkday(date) {
+  var day = date.getDay();
+  if (day === 0 || day === 6) return false;
+  var key = dateToKey(date);
+  if (HK_HOLIDAYS.has(key)) return false;
+  return true;
+}
+
+function dateToKey(date) {
+  var y = date.getFullYear();
+  var m = String(date.getMonth()+1).padStart(2,'0');
+  var d = String(date.getDate()).padStart(2,'0');
+  return y+'-'+m+'-'+d;
+}
+
+function addCalendarMonths(startDate, months) {
+  var d = new Date(startDate);
+  d.setMonth(d.getMonth() + months);
+  return d;
+}
+
+function subtractCalendarMonths(endDate, months) {
+  var d = new Date(endDate);
+  d.setMonth(d.getMonth() - months);
+  return d;
+}
+
+function addCalendarDays(startDate, days) {
+  var d = new Date(startDate);
+  d.setDate(d.getDate() + days);
+  return d;
+}
+
+function subtractCalendarDays(endDate, days) {
+  var d = new Date(endDate);
+  d.setDate(d.getDate() - days);
+  return d;
+}
+
+function countHolidaysBetween(start, end) {
+  var d = new Date(start);
+  d.setHours(0,0,0,0);
+  var endD = new Date(end);
+  endD.setHours(0,0,0,0);
+  var holidays = [];
+  while (d <= endD) {
+    var key = dateToKey(d);
+    if (HK_HOLIDAYS.has(key)) {
+      holidays.push({ key: key, name: HK_HOLIDAY_NAMES[key] || '' });
+    }
+    d.setDate(d.getDate() + 1);
+  }
+  return holidays;
+}
+
+function getDays() {
+  var sel = document.getElementById(npMode === 'a' ? 'np-days-a' : 'np-days-b').value;
+  if (sel === '1m') return { months: 1 };
+  if (sel === '2m') return { months: 2 };
+  if (sel === '3m') return { months: 3 };
+  if (sel === 'custom') {
+    var custom = parseInt(document.getElementById('np-custom-days-' + npMode).value);
+    return isNaN(custom) || custom < 1 ? null : { days: custom };
+  }
+  return null;
+}
+
+function getPeriodLabel(period) {
+  if (!period) return '';
+  if (period.months) return period.months + ' 個月';
+  return period.days + ' 曆日';
+}
+
+function calcNotice() {
+  var period = getDays();
+  if (!period) return;
+
+  var fmt = function(d) {
+    return d.toLocaleDateString('zh-HK', { year:'numeric', month:'long', day:'numeric', weekday:'short' });
+  };
+
+  if (npMode === 'a') {
+    var startVal = document.getElementById('np-start-date').value;
+    if (!startVal) return;
+    var start = new Date(startVal + 'T00:00:00');
+    // Notice starts from resignation day itself
+    var effective = period.months ? addCalendarMonths(start, period.months) : addCalendarDays(start, period.days);
+    // Last working day = day before effective date
+    var lastDay = new Date(effective);
+    lastDay.setDate(lastDay.getDate() - 1);
+    npStartDate = start;
+    npEndDate = lastDay;
+
+    var holidays = countHolidaysBetween(start, lastDay);
+    var hdList = holidays.slice(0,3).map(function(h){ return h.name; }).join('、');
+    if (holidays.length > 3) hdList += '等';
+
+    document.getElementById('np-result-label').textContent = '最後上班日';
+    document.getElementById('np-result-date').textContent = fmt(lastDay);
+    document.getElementById('np-result-detail').innerHTML =
+      '遞信日：<strong>' + fmt(start) + '</strong><br>' +
+      '通知期：<strong>' + getPeriodLabel(period) + '</strong><br>' +
+      '期間公眾假期：<strong>' + holidays.length + ' 日</strong><br>' +
+      (holidays.length > 0 ? '<span style="font-size:11px;opacity:0.8">' + holidays.map(function(h){ return h.key.substring(5) + ' ' + h.name; }).join('、') + '</span><br>' : '') +
+      '<span style="opacity:0.7;font-size:11px;">⚠️ 曆日計算，假期不影響到期日，僅供參考</span>';
+
+  } else {
+    var endVal = document.getElementById('np-end-date').value;
+    if (!endVal) return;
+    var end2 = new Date(endVal + 'T00:00:00');
+    // last day = target, effective = last day + 1
+    var effective2 = new Date(end2);
+    effective2.setDate(effective2.getDate() + 1);
+    // resignation day = effective2 - period (notice starts on resign day)
+    var resignDay = period.months ? subtractCalendarMonths(effective2, period.months) : subtractCalendarDays(effective2, period.days);
+    npStartDate = resignDay;
+    npEndDate = end2;
+
+    var holidays2 = countHolidaysBetween(resignDay, end2);
+    var hdList2 = holidays2.slice(0,3).map(function(h){ return h.name; }).join('、');
+    if (holidays2.length > 3) hdList2 += '等';
+
+    document.getElementById('np-result-label').textContent = '最遲遞信日';
+    document.getElementById('np-result-date').textContent = fmt(resignDay);
+    document.getElementById('np-result-detail').innerHTML =
+      '目標最後上班日：<strong>' + fmt(end2) + '</strong><br>' +
+      '通知期：<strong>' + getPeriodLabel(period) + '</strong><br>' +
+      '期間公眾假期：<strong>' + holidays2.length + ' 日</strong><br>' +
+      (holidays2.length > 0 ? '<span style="font-size:11px;opacity:0.8">' + holidays2.map(function(h){ return h.key.substring(5) + ' ' + h.name; }).join('、') + '</span><br>' : '') +
+      '<span style="opacity:0.7;font-size:11px;">⚠️ 曆日計算，假期不影響到期日，僅供參考</span>';
+  }
+
+  document.getElementById('np-result').classList.add('show');
+  npCalYear = npStartDate.getFullYear();
+  npCalMonth = npStartDate.getMonth();
+  renderNpCalendar();
+  hideStatus('np-status');
+}
+
+function renderNpCalendar() {
+  var monthNames = ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'];
+  document.getElementById('np-cal-title').textContent = npCalYear + '年 ' + monthNames[npCalMonth];
+
+  var grid = document.getElementById('np-cal-grid');
+  grid.innerHTML = '';
+
+  var days = ['日','一','二','三','四','五','六'];
+  days.forEach(function(d) {
+    var el = document.createElement('div');
+    el.className = 'np-cal-day-label';
+    el.textContent = d;
+    grid.appendChild(el);
+  });
+
+  var firstDay = new Date(npCalYear, npCalMonth, 1).getDay();
+  for (var i = 0; i < firstDay; i++) {
+    var empty = document.createElement('div');
+    empty.className = 'np-cal-cell empty';
+    grid.appendChild(empty);
+  }
+
+  var daysInMonth = new Date(npCalYear, npCalMonth+1, 0).getDate();
+  var today = new Date();
+  today.setHours(0,0,0,0);
+
+  for (var day = 1; day <= daysInMonth; day++) {
+    var cellDate = new Date(npCalYear, npCalMonth, day);
+    cellDate.setHours(0,0,0,0);
+    var key = dateToKey(cellDate);
+    var cell = document.createElement('div');
+    cell.className = 'np-cal-cell';
+
+    var classes = [];
+    if (cellDate.getTime() === today.getTime()) classes.push('today');
+    if (cellDate.getDay() === 0 || cellDate.getDay() === 6) classes.push('weekend');
+    if (HK_HOLIDAYS.has(key)) classes.push('holiday');
+    if (npStartDate && cellDate.getTime() === npStartDate.getTime()) classes.push('start-day');
+    else if (npEndDate && cellDate.getTime() === npEndDate.getTime()) classes.push('end-day');
+    else if (npStartDate && npEndDate && cellDate > npStartDate && cellDate < npEndDate) classes.push('in-range');
+
+    cell.className = 'np-cal-cell ' + classes.join(' ');
+
+    var label = day.toString();
+    if (HK_HOLIDAYS.has(key)) {
+      var hname = HK_HOLIDAY_NAMES[key] || '';
+      cell.title = hname;
+      cell.style.cursor = 'help';
+    }
+    cell.textContent = label;
+    grid.appendChild(cell);
+  }
+}
+
+function npCalPrev() {
+  npCalMonth--;
+  if (npCalMonth < 0) { npCalMonth = 11; npCalYear--; }
+  renderNpCalendar();
+}
+
+function npCalNext() {
+  npCalMonth++;
+  if (npCalMonth > 11) { npCalMonth = 0; npCalYear++; }
+  renderNpCalendar();
+}
+
+// Show/hide custom input
+['a','b'].forEach(function(m) {
+  document.addEventListener('DOMContentLoaded', function() {
+    var sel = document.getElementById('np-days-' + m);
+    if (sel) {
+      sel.addEventListener('change', function() {
+        document.getElementById('np-custom-wrap-' + m).style.display =
+          this.value === 'custom' ? 'block' : 'none';
+      });
+    }
+    // Set default date to today
+    var today = new Date();
+    var pad = function(n){ return String(n).padStart(2,'0'); };
+    var todayStr = today.getFullYear()+'-'+pad(today.getMonth()+1)+'-'+pad(today.getDate());
+    var startEl = document.getElementById('np-start-date');
+    if (startEl) startEl.value = todayStr;
+  });
+});
+
+
+function toggleNpHolidays() {
+  var list = document.getElementById('np-holiday-list');
+  var icon = document.getElementById('np-hol-icon');
+  var isOpen = list.classList.contains('show');
+  list.classList.toggle('show', !isOpen);
+  icon.classList.toggle('open', !isOpen);
+}
+
 // ── PWA SERVICE WORKER ────────────────────────────
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
@@ -4521,6 +5018,133 @@ if ('serviceWorker' in navigator) {
   <span id="mq-fs-text"></span>
   <button id="mq-fs-close" onclick="closeMqFullscreen()">✕ 關閉</button>
   <span id="mq-fs-tap-hint">點擊任意位置關閉</span>
+</div>
+
+
+<!-- ════════════════════════════════
+     NOTICE PERIOD CALCULATOR
+════════════════════════════════ -->
+<div class="page" id="page-noticeperiod">
+  <div class="tool-page">
+    <div class="tool-header">
+      <div class="tool-icon mint" style="background:#F6EBC8">📋</div>
+      <div class="tool-header-text">
+        <h1>通知期計算</h1>
+        <p>以曆日計算，標示香港公眾假期</p>
+      </div>
+    </div>
+
+    <div class="np-mode-tabs">
+      <button class="np-tab active" id="np-tab-a" onclick="setNpMode('a')">今日遞信<br>幾時最後一日？</button>
+      <button class="np-tab" id="np-tab-b" onclick="setNpMode('b')">想某日離職<br>最遲幾時遞？</button>
+    </div>
+
+    <div id="np-mode-a">
+      <div class="input-group">
+        <label>遞信日期</label>
+        <input type="date" id="np-start-date" onchange="calcNotice()">
+      </div>
+      <div class="input-group">
+        <label>通知期</label>
+        <select class="currency-select" id="np-days-a" onchange="calcNotice()">
+          <option value="1m">1 個月</option>
+          <option value="2m">2 個月</option>
+          <option value="3m">3 個月</option>
+          <option value="custom">自訂曆日...</option>
+        </select>
+      </div>
+      <div class="input-group" id="np-custom-wrap-a" style="display:none">
+        <label>自訂曆日數</label>
+        <input type="text" id="np-custom-days-a" placeholder="例如 14" inputmode="numeric" oninput="calcNotice()">
+      </div>
+    </div>
+
+    <div id="np-mode-b" style="display:none">
+      <div class="input-group">
+        <label>目標離職日</label>
+        <input type="date" id="np-end-date" onchange="calcNotice()">
+      </div>
+      <div class="input-group">
+        <label>通知期</label>
+        <select class="currency-select" id="np-days-b" onchange="calcNotice()">
+          <option value="1m">1 個月</option>
+          <option value="2m">2 個月</option>
+          <option value="3m">3 個月</option>
+          <option value="custom">自訂曆日...</option>
+        </select>
+      </div>
+      <div class="input-group" id="np-custom-wrap-b" style="display:none">
+        <label>自訂曆日數</label>
+        <input type="text" id="np-custom-days-b" placeholder="例如 14" inputmode="numeric" oninput="calcNotice()">
+      </div>
+    </div>
+
+    <div class="np-result-card" id="np-result">
+      <div class="np-result-label" id="np-result-label">最後工作日</div>
+      <div class="np-result-date" id="np-result-date">—</div>
+      <div class="np-result-detail" id="np-result-detail"></div>
+
+      <div class="np-calendar" id="np-calendar">
+        <div class="np-cal-header">
+          <button class="np-cal-nav" onclick="npCalPrev()">‹</button>
+          <div class="np-cal-title" id="np-cal-title"></div>
+          <button class="np-cal-nav" onclick="npCalNext()">›</button>
+        </div>
+        <div class="np-cal-grid" id="np-cal-grid"></div>
+        <div class="np-legend">
+          <div class="np-legend-item"><div class="np-legend-dot" style="background:#C5DEC8;border:1px solid #C5DEC8"></div>遞信日</div>
+          <div class="np-legend-item"><div class="np-legend-dot" style="background:#F6EBC8;border:1px solid #F6EBC8"></div>最後上班日</div>
+          <div class="np-legend-item"><div class="np-legend-dot" style="background:transparent;border:1px solid #C27D52"></div><span style="color:#C27D52">公眾假期</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="status-msg" id="np-status"></div>
+
+    <div class="np-holiday-toggle" onclick="toggleNpHolidays()">
+      <span>📅 查看 2026–2027 香港公眾假期</span>
+      <span class="np-holiday-toggle-icon" id="np-hol-icon">▼</span>
+    </div>
+    <div class="np-holiday-list" id="np-holiday-list">
+      <div class="np-holiday-year">2026</div>
+      <div class="np-holiday-item"><span class="np-holiday-date">1月1日 週四</span><span class="np-holiday-name">元旦</span></div>
+      <div class="np-holiday-item"><span class="np-holiday-date">2月17日 週二</span><span class="np-holiday-name">農曆年初一</span></div>
+      <div class="np-holiday-item"><span class="np-holiday-date">2月18日 週三</span><span class="np-holiday-name">農曆年初二</span></div>
+      <div class="np-holiday-item"><span class="np-holiday-date">2月19日 週四</span><span class="np-holiday-name">農曆年初三</span></div>
+      <div class="np-holiday-item"><span class="np-holiday-date">4月3日 週五</span><span class="np-holiday-name">耶穌受難節</span></div>
+      <div class="np-holiday-item"><span class="np-holiday-date">4月4日 週六</span><span class="np-holiday-name">受難節翌日</span></div>
+      <div class="np-holiday-item"><span class="np-holiday-date">4月5日 週日</span><span class="np-holiday-name">清明節</span></div>
+      <div class="np-holiday-item"><span class="np-holiday-date">4月6日 週一</span><span class="np-holiday-name">復活節星期一</span></div>
+      <div class="np-holiday-item"><span class="np-holiday-date">5月1日 週五</span><span class="np-holiday-name">勞動節</span></div>
+      <div class="np-holiday-item"><span class="np-holiday-date">5月21日 週四</span><span class="np-holiday-name">佛誕</span></div>
+      <div class="np-holiday-item"><span class="np-holiday-date">6月19日 週五</span><span class="np-holiday-name">端午節</span></div>
+      <div class="np-holiday-item"><span class="np-holiday-date">7月1日 週三</span><span class="np-holiday-name">香港回歸紀念日</span></div>
+      <div class="np-holiday-item"><span class="np-holiday-date">9月24日 週四</span><span class="np-holiday-name">中秋節翌日</span></div>
+      <div class="np-holiday-item"><span class="np-holiday-date">10月1日 週四</span><span class="np-holiday-name">國慶日</span></div>
+      <div class="np-holiday-item"><span class="np-holiday-date">10月16日 週五</span><span class="np-holiday-name">重陽節</span></div>
+      <div class="np-holiday-item"><span class="np-holiday-date">12月25日 週五</span><span class="np-holiday-name">聖誕節</span></div>
+      <div class="np-holiday-item"><span class="np-holiday-date">12月26日 週六</span><span class="np-holiday-name">聖誕節後假</span></div>
+      <div class="np-holiday-year">2027 <span class="np-holiday-note">（預估，以政府憲報為準）</span></div>
+      <div class="np-holiday-item"><span class="np-holiday-date">1月1日 週五</span><span class="np-holiday-name">元旦</span></div>
+      <div class="np-holiday-item"><span class="np-holiday-date">2月6日 週六</span><span class="np-holiday-name">農曆年初一</span></div>
+      <div class="np-holiday-item"><span class="np-holiday-date">2月8日 週一</span><span class="np-holiday-name">農曆年初二</span></div>
+      <div class="np-holiday-item"><span class="np-holiday-date">2月9日 週二</span><span class="np-holiday-name">農曆年初三</span></div>
+      <div class="np-holiday-item"><span class="np-holiday-date">3月26日 週五</span><span class="np-holiday-name">耶穌受難節</span></div>
+      <div class="np-holiday-item"><span class="np-holiday-date">3月27日 週六</span><span class="np-holiday-name">受難節翌日</span></div>
+      <div class="np-holiday-item"><span class="np-holiday-date">3月29日 週一</span><span class="np-holiday-name">復活節星期一</span></div>
+      <div class="np-holiday-item"><span class="np-holiday-date">4月5日 週一</span><span class="np-holiday-name">清明節</span></div>
+      <div class="np-holiday-item"><span class="np-holiday-date">5月1日 週六</span><span class="np-holiday-name">勞動節</span></div>
+      <div class="np-holiday-item"><span class="np-holiday-date">5月13日 週四</span><span class="np-holiday-name">佛誕</span></div>
+      <div class="np-holiday-item"><span class="np-holiday-date">6月9日 週三</span><span class="np-holiday-name">端午節</span></div>
+      <div class="np-holiday-item"><span class="np-holiday-date">7月1日 週四</span><span class="np-holiday-name">香港回歸紀念日</span></div>
+      <div class="np-holiday-item"><span class="np-holiday-date">9月16日 週四</span><span class="np-holiday-name">中秋節翌日</span></div>
+      <div class="np-holiday-item"><span class="np-holiday-date">10月1日 週五</span><span class="np-holiday-name">國慶日</span></div>
+      <div class="np-holiday-item"><span class="np-holiday-date">10月8日 週五</span><span class="np-holiday-name">重陽節</span></div>
+      <div class="np-holiday-item"><span class="np-holiday-date">12月25日 週六</span><span class="np-holiday-name">聖誕節</span></div>
+      <div class="np-holiday-item"><span class="np-holiday-date">12月27日 週一</span><span class="np-holiday-name">聖誕節後補假</span></div>
+    </div>
+    <div class="np-remark">以曆日計算通知期（一個月 = 同月同日）。公眾假期不影響到期日，但會在日曆上標示。結果僅供參考，實際通知期以僱傭合約為準。2027年假期為預估日期，以政府憲報為準。</div>
+  </div>
 </div>
 
 
