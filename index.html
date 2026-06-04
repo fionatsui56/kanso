@@ -1014,6 +1014,7 @@
     .cat-productivity .cat-label::before { background: #D4B84A; }
     .cat-filecontent .cat-label::before  { background: #6FAF90; }
     .cat-converters .cat-label::before   { background: #6899B8; }
+    .cat-fun .cat-label::before        { background: #C27D52; }
     .cat-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -1282,7 +1283,7 @@
       cursor: pointer;
       border-radius: 10px;
       overflow: hidden;
-      border: 1px solid transparent;
+      border: 1px solid var(--border);
       transition: all 0.2s;
       position: relative;
     }
@@ -1294,6 +1295,7 @@
     .ci-swatch-color {
       height: 64px;
       width: 100%;
+      border-bottom: 1px solid rgba(46,43,38,0.08);
     }
     .ci-swatch-info {
       background: var(--surface);
@@ -1541,6 +1543,264 @@
       line-height: 1.6;
     }
 
+    /* ── SPIN WHEEL ── */
+    .wheel-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 8px 0 24px;
+    }
+    .wheel-pointer {
+      width: 0;
+      height: 0;
+      border-left: 12px solid transparent;
+      border-right: 12px solid transparent;
+      border-top: 24px solid var(--ink);
+      margin-bottom: -4px;
+      z-index: 2;
+      position: relative;
+      filter: drop-shadow(0 2px 4px rgba(46,43,38,0.2));
+    }
+    #wheel-canvas {
+      border-radius: 50%;
+      box-shadow: 0 4px 24px rgba(46,43,38,0.15);
+      cursor: pointer;
+    }
+    .wheel-result {
+      margin-top: 20px;
+      background: var(--ink);
+      color: var(--surface);
+      border-radius: 14px;
+      padding: 16px 24px;
+      text-align: center;
+      display: none;
+      animation: fadeIn 0.4s ease;
+      width: 100%;
+    }
+    .wheel-result.show { display: block; }
+    .wheel-result-label {
+      font-size: 11px;
+      opacity: 0.65;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .wheel-result-val {
+      font-size: 22px;
+      font-weight: 700;
+      font-family: var(--font-display);
+      letter-spacing: -0.5px;
+    }
+    .wheel-input-hint {
+      font-size: 11px;
+      color: var(--subtle);
+      margin-top: 6px;
+    }
+    .wheel-controls {
+      display: flex;
+      gap: 10px;
+      margin-top: 16px;
+    }
+    .wheel-controls .btn { flex: 1; }
+
+    /* ── WHEEL SAVED LISTS ── */
+    .wheel-saved-section {
+      margin-bottom: 20px;
+    }
+    .wheel-saved-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    .wheel-saved-title {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--subtle);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .wheel-save-btn {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--ink);
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 4px 12px;
+      cursor: pointer;
+      font-family: var(--font);
+      transition: all 0.2s;
+    }
+    .wheel-save-btn:hover { background: var(--surface2); }
+    .wheel-saved-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .wheel-saved-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 6px 12px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .wheel-saved-item:hover { border-color: var(--ink); background: var(--surface2); }
+    .wheel-saved-del {
+      color: var(--subtle);
+      font-size: 14px;
+      line-height: 1;
+      padding: 0 2px;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    .wheel-saved-del:hover { color: var(--error); }
+    .wheel-saved-empty {
+      font-size: 12px;
+      color: var(--subtle);
+      opacity: 0.7;
+    }
+
+    /* ── MARQUEE ── */
+    .mq-preview-wrap {
+      position: relative;
+      background: var(--text);
+      border-radius: 14px;
+      overflow: hidden;
+      margin-bottom: 20px;
+      cursor: pointer;
+    }
+    .mq-preview-wrap.light-bg { background: var(--surface); border: 1px solid var(--border); }
+    .mq-preview {
+      padding: 20px 0;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+    .mq-text {
+      display: inline-block;
+      animation: mq-scroll linear infinite;
+      padding-left: 100%;
+      font-family: var(--font-display);
+      font-weight: 600;
+      color: var(--surface);
+    }
+    .mq-preview-wrap.light-bg .mq-text { color: var(--text); }
+    @keyframes mq-scroll {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-100%); }
+    }
+    .mq-controls-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .mq-control-item label {
+      text-transform: uppercase;
+      font-size: 10px;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+    .mq-slider-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .mq-slider-val {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text);
+      min-width: 36px;
+      text-align: right;
+    }
+    .mq-bg-btns {
+      display: flex;
+      gap: 8px;
+    }
+    .mq-bg-btn {
+      flex: 1;
+      padding: 8px;
+      border-radius: 8px;
+      border: 2px solid transparent;
+      cursor: pointer;
+      font-family: var(--font);
+      font-size: 12px;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .mq-bg-btn.dark  { background: var(--text); color: var(--surface); }
+    .mq-bg-btn.light { background: var(--surface); border-color: var(--border); color: var(--text); }
+    .mq-bg-btn.active { border-color: var(--ink) !important; box-shadow: 0 0 0 2px rgba(63,74,60,0.2); }
+    .mq-fullscreen-btn {
+      width: 100%;
+      padding: 14px;
+      background: var(--text);
+      color: var(--surface);
+      border: none;
+      border-radius: 12px;
+      font-family: var(--font-display);
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-bottom: 10px;
+    }
+    .mq-fullscreen-btn:hover { opacity: 0.88; }
+    /* Fullscreen overlay */
+    #mq-fullscreen {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    #mq-fullscreen.show { display: flex; }
+    #mq-fs-text {
+      white-space: nowrap;
+      animation: mq-scroll linear infinite;
+      padding-left: 100vw;
+      font-family: var(--font-display);
+      font-weight: 700;
+      position: absolute;
+      width: max-content;
+    }
+    #mq-fs-close {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: rgba(255,255,255,0.15);
+      border: none;
+      color: inherit;
+      font-size: 16px;
+      font-weight: 600;
+      padding: 8px 16px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-family: var(--font);
+      z-index: 10000;
+      transition: background 0.2s;
+    }
+    #mq-fs-close:hover { background: rgba(255,255,255,0.25); }
+    #mq-fs-tap-hint {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 12px;
+      opacity: 0.45;
+      font-family: var(--font);
+      pointer-events: none;
+    }
+
     /* ── RESPONSIVE ── */
     @media (max-width: 380px) {
       .tools-grid { grid-template-columns: 1fr; }
@@ -1668,7 +1928,7 @@
   </div>
 
   <!-- CONVERTERS -->
-  <div class="cat-section cat-converters" id="cat-converters" style="padding-bottom: 40px;">
+  <div class="cat-section cat-converters" id="cat-converters" style="padding-bottom:0;">
     <div class="cat-label">🔢 換算工具 Converters</div>
     <div class="cat-grid">
       <div class="tool-card" onclick="showTool('fx')">
@@ -1690,6 +1950,23 @@
         <div class="tool-icon purple" style="background:#D4E2EC">⚖️</div>
         <div class="tool-name">重量換算</div>
         <div class="tool-desc">kg、lb、g、oz 即時換算</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FUN -->
+  <div class="cat-section cat-fun" id="cat-fun" style="padding-bottom:40px;">
+    <div class="cat-label">🎲 輕鬆一下 Just for Fun</div>
+    <div class="cat-grid">
+      <div class="tool-card" onclick="showTool('wheel')">
+        <div class="tool-icon orange" style="background:#EDD5C8">🎡</div>
+        <div class="tool-name">隨機決策</div>
+        <div class="tool-desc">輸入選項，轉動輪盤決定</div>
+      </div>
+      <div class="tool-card" onclick="showTool('marquee')">
+        <div class="tool-icon mint" style="background:#C8DDD0">📺</div>
+        <div class="tool-name">跑馬燈</div>
+        <div class="tool-desc">全螢幕滾動文字，演講提示</div>
       </div>
     </div>
   </div>
@@ -3343,6 +3620,331 @@ document.addEventListener('DOMContentLoaded', () => {
   buildConverterFields(WEIGHT_UNITS, 'weight-fields', 'weight');
 });
 
+
+// ── SPIN WHEEL ───────────────────────────────────
+// Powdered Pastels + Atmospheric + Light & Shadow
+const WHEEL_COLORS = [
+  '#F6EBC8', // Lemon Icing (Powdered Pastels)
+  '#A8BCCF', // Nantucket Breeze (Atmospheric)
+  '#F0EEE9', // Cloud Dancer (Light & Shadow)
+  '#D5D5D8', // Nimbus Cloud (Powdered Pastels)
+  '#7FB2D0', // Alaskan Blue (Atmospheric)
+  '#C5DEC8', // Veiled Vista (Light & Shadow)
+  '#F2E4E1', // Raindrops on Roses (Powdered Pastels)
+  '#ABABC8', // Cosmic Sky (Atmospheric)
+  '#7BB2D4', // Baltic Sea (Light & Shadow)
+  '#BDD7E7', // Ice Melt (Powdered Pastels)
+  '#8FAAAA', // Aqua Gray (Atmospheric)
+  '#D5CD94', // Golden Mist (Light & Shadow)
+  '#EDD5C8', // Peach Dust (Powdered Pastels)
+  '#3D6B9E', // Regatta (Atmospheric)
+  '#A693AC', // Quiet Violet (Light & Shadow)
+  '#DBD2DB', // Orchid Tint (Powdered Pastels)
+  '#8EC8C0', // Rinsing Rivulet (Atmospheric)
+  '#A89C94', // Cloud Cover (Light & Shadow)
+];
+const WHEEL_TEXT = [
+  '#5A4A1A','#1A3A5A','#3A3A3A','#3A3A3A',
+  '#1A2A4A','#2A3A2A','#4A2A2A','#2A2A3A',
+  '#1A3060','#2A4A3A','#2A3A3A','#4A4A1A',
+  '#4A2A1A','#F0EEE9','#3A2A4A','#3A2A3A',
+  '#1A3A38','#3A3030',
+];
+
+let wheelSegments = [];
+let wheelAngle = 0;
+let wheelSpinning = false;
+let wheelAnimFrame = null;
+let wheelVelocity = 0;
+
+function buildWheel() {
+  const raw = document.getElementById('wheel-input').value;
+  const lines = raw.split('\n').map(function(l){ return l.trim(); }).filter(function(l){ return l.length > 0; });
+  wheelSegments = lines.filter(function(v, i, a){ return a.indexOf(v) === i; });
+  const btn = document.getElementById('wheel-spin-btn');
+  const hint = document.getElementById('wheel-hint');
+  if (wheelSegments.length < 2) {
+    hint.textContent = '輸入至少 2 個選項';
+    btn.disabled = true;
+  } else {
+    hint.textContent = wheelSegments.length + ' 個選項';
+    btn.disabled = false;
+  }
+  document.getElementById('wheel-result').classList.remove('show');
+  drawWheel(wheelAngle);
+}
+
+function drawWheel(angle) {
+  var canvas = document.getElementById('wheel-canvas');
+  if (!canvas) return;
+  var ctx = canvas.getContext('2d');
+  var cx = canvas.width / 2;
+  var cy = canvas.height / 2;
+  var r = cx - 4;
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  if (wheelSegments.length === 0) {
+    ctx.beginPath();
+    ctx.arc(cx, cy, r, 0, Math.PI * 2);
+    ctx.fillStyle = '#EAE5DE';
+    ctx.fill();
+    ctx.fillStyle = '#7A7368';
+    ctx.font = '14px DM Sans, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('輸入選項', cx, cy);
+    return;
+  }
+
+  var n = wheelSegments.length;
+  var arcSize = (Math.PI * 2) / n;
+
+  for (var i = 0; i < n; i++) {
+    var startAngle = angle + i * arcSize - Math.PI / 2;
+    var endAngle = startAngle + arcSize;
+    var color = WHEEL_COLORS[i % WHEEL_COLORS.length];
+    var textColor = WHEEL_TEXT[i % WHEEL_TEXT.length];
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.arc(cx, cy, r, startAngle, endAngle);
+    ctx.closePath();
+    ctx.fillStyle = color;
+    ctx.fill();
+    ctx.strokeStyle = 'rgba(255,255,255,0.7)';
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+    ctx.save();
+    ctx.translate(cx, cy);
+    ctx.rotate(startAngle + arcSize / 2);
+    ctx.textAlign = 'right';
+    ctx.fillStyle = textColor;
+    var fontSize = n > 8 ? 11 : n > 5 ? 13 : 15;
+    ctx.font = '600 ' + fontSize + 'px DM Sans, sans-serif';
+    var seg = wheelSegments[i];
+    var label = seg.length > 10 ? seg.substring(0, 10) + '…' : seg;
+    ctx.fillText(label, r - 12, fontSize / 3);
+    ctx.restore();
+  }
+
+  ctx.beginPath();
+  ctx.arc(cx, cy, 18, 0, Math.PI * 2);
+  ctx.fillStyle = '#3F4A3C';
+  ctx.fill();
+  ctx.fillStyle = '#FAF8F5';
+  ctx.font = 'bold 12px DM Sans, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText('GO', cx, cy);
+}
+
+function spinWheel() {
+  if (wheelSpinning || wheelSegments.length < 2) return;
+  wheelSpinning = true;
+  document.getElementById('wheel-spin-btn').disabled = true;
+  document.getElementById('wheel-result').classList.remove('show');
+  wheelVelocity = (Math.random() * 10 + 15) * 0.08;
+  var deceleration = 0.985;
+
+  function animate() {
+    wheelAngle += wheelVelocity;
+    wheelVelocity *= deceleration;
+    drawWheel(wheelAngle);
+    if (wheelVelocity > 0.003) {
+      wheelAnimFrame = requestAnimationFrame(animate);
+    } else {
+      wheelSpinning = false;
+      document.getElementById('wheel-spin-btn').disabled = false;
+      var n = wheelSegments.length;
+      var arcSize = (Math.PI * 2) / n;
+      var normalized = (((-wheelAngle + Math.PI / 2) % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2);
+      var idx = Math.floor(normalized / arcSize) % n;
+      document.getElementById('wheel-result-val').textContent = wheelSegments[idx];
+      document.getElementById('wheel-result').classList.add('show');
+    }
+  }
+  wheelAnimFrame = requestAnimationFrame(animate);
+}
+
+function resetWheel() {
+  if (wheelAnimFrame) cancelAnimationFrame(wheelAnimFrame);
+  wheelSpinning = false;
+  wheelAngle = 0;
+  wheelVelocity = 0;
+  document.getElementById('wheel-input').value = '';
+  document.getElementById('wheel-result').classList.remove('show');
+  document.getElementById('wheel-hint').textContent = '輸入至少 2 個選項';
+  document.getElementById('wheel-spin-btn').disabled = true;
+  wheelSegments = [];
+  drawWheel(0);
+}
+
+document.addEventListener('DOMContentLoaded', function(){ drawWheel(0); renderWheelSaved(); });
+// ── WHEEL SAVED LISTS ────────────────────────────
+function loadWheelSaved() {
+  try {
+    return JSON.parse(localStorage.getItem('kanso-wheel-lists') || '[]');
+  } catch(e) { return []; }
+}
+
+function saveWheelList() {
+  const raw = document.getElementById('wheel-input').value.trim();
+  if (!raw) return showCiToast('請先輸入選項');
+  const lines = raw.split('\n').map(function(l){ return l.trim(); }).filter(function(l){ return l; });
+  if (lines.length < 2) return showCiToast('至少需要 2 個選項');
+
+  const name = prompt('為這個清單命名：', lines.slice(0,2).join('、') + '...');
+  if (!name) return;
+
+  const lists = loadWheelSaved();
+  if (lists.length >= 5) {
+    showCiToast('最多儲存 5 個清單，請先刪除舊的');
+    return;
+  }
+
+  lists.push({ name: name.trim(), items: lines });
+  localStorage.setItem('kanso-wheel-lists', JSON.stringify(lists));
+  renderWheelSaved();
+  showCiToast('已儲存：' + name.trim());
+}
+
+function loadWheelList(idx) {
+  const lists = loadWheelSaved();
+  if (!lists[idx]) return;
+  document.getElementById('wheel-input').value = lists[idx].items.join('\n');
+  buildWheel();
+  showCiToast('已載入：' + lists[idx].name);
+}
+
+function deleteWheelList(idx) {
+  const lists = loadWheelSaved();
+  lists.splice(idx, 1);
+  localStorage.setItem('kanso-wheel-lists', JSON.stringify(lists));
+  renderWheelSaved();
+  showCiToast('已刪除');
+}
+
+function renderWheelSaved() {
+  const wrap = document.getElementById('wheel-saved-list');
+  if (!wrap) return;
+  const lists = loadWheelSaved();
+  if (lists.length === 0) {
+    wrap.innerHTML = '<span class="wheel-saved-empty">尚未儲存任何清單</span>';
+    return;
+  }
+  wrap.innerHTML = '';
+  lists.forEach(function(list, i) {
+    var div = document.createElement('div');
+    div.className = 'wheel-saved-item';
+    div.innerHTML = '<span onclick="loadWheelList(' + i + ')">' + list.name + '</span>' +
+      '<span class="wheel-saved-del" onclick="deleteWheelList(' + i + ')">×</span>';
+    wrap.appendChild(div);
+  });
+}
+
+document.addEventListener('DOMContentLoaded', renderWheelSaved);
+
+
+
+// ── MARQUEE ──────────────────────────────────────
+var mqPaused = false;
+var mqBg = 'dark';
+
+function updateMarquee() {
+  var text = document.getElementById('mq-input').value || '輸入你的文字...';
+  var size = document.getElementById('mq-size').value;
+  var speed = document.getElementById('mq-speed').value;
+
+  document.getElementById('mq-size-val').textContent = size + 'px';
+
+  var speedLabel = speed < 60 ? '慢' : speed < 120 ? '中' : '快';
+  document.getElementById('mq-speed-val').textContent = speedLabel;
+
+  var el = document.getElementById('mq-preview-text');
+  el.textContent = text;
+  el.style.fontSize = Math.min(parseInt(size), 48) + 'px';
+
+  // Duration: higher speed = shorter duration
+  var duration = Math.round(20000 / (parseInt(speed) / 80));
+  el.style.animationDuration = duration + 'ms';
+  el.style.animationPlayState = mqPaused ? 'paused' : 'running';
+}
+
+function setMqBg(mode) {
+  mqBg = mode;
+  var wrap = document.getElementById('mq-preview-wrap');
+  if (mode === 'dark') {
+    wrap.classList.remove('light-bg');
+    document.getElementById('mq-btn-dark').classList.add('active');
+    document.getElementById('mq-btn-light').classList.remove('active');
+  } else {
+    wrap.classList.add('light-bg');
+    document.getElementById('mq-btn-light').classList.add('active');
+    document.getElementById('mq-btn-dark').classList.remove('active');
+  }
+}
+
+function toggleMqPause() {
+  mqPaused = !mqPaused;
+  var el = document.getElementById('mq-preview-text');
+  var fsEl = document.getElementById('mq-fs-text');
+  var btn = document.getElementById('mq-pause-btn');
+  el.style.animationPlayState = mqPaused ? 'paused' : 'running';
+  fsEl.style.animationPlayState = mqPaused ? 'paused' : 'running';
+  btn.textContent = mqPaused ? '繼續' : '暫停';
+}
+
+function openMqFullscreen() {
+  var text = document.getElementById('mq-input').value || '輸入你的文字...';
+  var size = document.getElementById('mq-size').value;
+  var speed = document.getElementById('mq-speed').value;
+
+  var fs = document.getElementById('mq-fullscreen');
+  var fsText = document.getElementById('mq-fs-text');
+
+  // Background
+  if (mqBg === 'dark') {
+    fs.style.background = '#2E2B26';
+    fsText.style.color = '#FAF8F5';
+    document.getElementById('mq-fs-close').style.color = '#FAF8F5';
+    document.getElementById('mq-fs-tap-hint').style.color = '#FAF8F5';
+  } else {
+    fs.style.background = '#F0EEE9';
+    fsText.style.color = '#2E2B26';
+    document.getElementById('mq-fs-close').style.color = '#2E2B26';
+    document.getElementById('mq-fs-tap-hint').style.color = '#2E2B26';
+  }
+
+  fsText.textContent = text;
+  fsText.style.fontSize = size + 'px';
+  var duration = Math.round(20000 / (parseInt(speed) / 80));
+  fsText.style.animationDuration = duration + 'ms';
+  fsText.style.animationPlayState = mqPaused ? 'paused' : 'running';
+
+  fs.classList.add('show');
+
+  // Request fullscreen API if available
+  if (fs.requestFullscreen) fs.requestFullscreen();
+  else if (fs.webkitRequestFullscreen) fs.webkitRequestFullscreen();
+
+  // Tap to close
+  fs.onclick = function(e) {
+    if (e.target !== document.getElementById('mq-fs-close')) {
+      closeMqFullscreen();
+    }
+  };
+}
+
+function closeMqFullscreen() {
+  document.getElementById('mq-fullscreen').classList.remove('show');
+  if (document.exitFullscreen) document.exitFullscreen().catch(function(){});
+  else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+}
+
+// ESC key closes fullscreen
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeMqFullscreen();
+});
+
 // ── PWA SERVICE WORKER ────────────────────────────
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
@@ -3693,6 +4295,124 @@ if ('serviceWorker' in navigator) {
 
     <div class="status-msg" id="sym-status"></div>
   </div>
+</div>
+
+
+<!-- ════════════════════════
+     SPIN WHEEL
+════════════════════════════ -->
+<div class="page" id="page-wheel">
+  <div class="tool-page">
+    <div class="tool-header">
+      <div class="tool-icon orange" style="background:#EDD5C8">🎡</div>
+      <div class="tool-header-text">
+        <h1>隨機決策</h1>
+        <p>輸入選項，轉動輪盤，交給命運</p>
+      </div>
+    </div>
+
+    <!-- Saved lists -->
+    <div class="wheel-saved-section">
+      <div class="wheel-saved-header">
+        <span class="wheel-saved-title">已儲存清單</span>
+        <button class="wheel-save-btn" onclick="saveWheelList()">+ 儲存目前清單</button>
+      </div>
+      <div class="wheel-saved-list" id="wheel-saved-list">
+        <span class="wheel-saved-empty">尚未儲存任何清單</span>
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label>輸入選項（每行一個）</label>
+      <textarea id="wheel-input" class="wc-textarea" style="height:120px"
+        placeholder="食火鍋&#10;食壽司&#10;食串燒&#10;食泰國菜"
+        oninput="buildWheel()"></textarea>
+      <div class="wheel-input-hint" id="wheel-hint">輸入至少 2 個選項</div>
+    </div>
+
+    <div class="wheel-wrap">
+      <div class="wheel-pointer"></div>
+      <canvas id="wheel-canvas" width="300" height="300"></canvas>
+      <div class="wheel-result" id="wheel-result">
+        <div class="wheel-result-label">🎯 結果</div>
+        <div class="wheel-result-val" id="wheel-result-val">—</div>
+      </div>
+    </div>
+
+    <div class="wheel-controls">
+      <button class="btn btn-primary" id="wheel-spin-btn" onclick="spinWheel()" disabled>轉動！</button>
+      <button class="btn btn-secondary" onclick="resetWheel()">重設</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════
+     MARQUEE / TEXT SCROLLER
+════════════════════════════ -->
+<div class="page" id="page-marquee">
+  <div class="tool-page">
+    <div class="tool-header">
+      <div class="tool-icon mint" style="background:#C8DDD0">📺</div>
+      <div class="tool-header-text">
+        <h1>跑馬燈</h1>
+        <p>全螢幕滾動文字，演講提示神器</p>
+      </div>
+    </div>
+
+    <!-- Preview -->
+    <div class="mq-preview-wrap" id="mq-preview-wrap">
+      <div class="mq-preview">
+        <span class="mq-text" id="mq-preview-text">輸入你的文字...</span>
+      </div>
+    </div>
+
+    <!-- Input -->
+    <div class="input-group" style="margin-bottom:16px">
+      <label>滾動文字</label>
+      <textarea id="mq-input" class="wc-textarea" style="height:80px"
+        placeholder="輸入演講提示、標語或任何文字..."
+        oninput="updateMarquee()"></textarea>
+    </div>
+
+    <!-- Controls -->
+    <div class="mq-controls-grid">
+      <div class="mq-control-item">
+        <label>字體大小</label>
+        <div class="mq-slider-row">
+          <input type="range" id="mq-size" min="20" max="120" value="48"
+            oninput="updateMarquee()">
+          <span class="mq-slider-val" id="mq-size-val">48px</span>
+        </div>
+      </div>
+      <div class="mq-control-item">
+        <label>滾動速度</label>
+        <div class="mq-slider-row">
+          <input type="range" id="mq-speed" min="20" max="200" value="80"
+            oninput="updateMarquee()">
+          <span class="mq-slider-val" id="mq-speed-val">中</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="mq-control-item" style="margin-bottom:16px">
+      <label>背景顏色</label>
+      <div class="mq-bg-btns">
+        <button class="mq-bg-btn dark active" id="mq-btn-dark" onclick="setMqBg('dark')">深色</button>
+        <button class="mq-bg-btn light" id="mq-btn-light" onclick="setMqBg('light')">淺色</button>
+      </div>
+    </div>
+
+    <button class="mq-fullscreen-btn" onclick="openMqFullscreen()">⛶ 全螢幕</button>
+    <button class="btn btn-secondary" onclick="toggleMqPause()" id="mq-pause-btn">暫停</button>
+  </div>
+</div>
+
+<!-- Fullscreen overlay -->
+<div id="mq-fullscreen">
+  <span id="mq-fs-text"></span>
+  <button id="mq-fs-close" onclick="closeMqFullscreen()">✕ 關閉</button>
+  <span id="mq-fs-tap-hint">點擊任意位置關閉</span>
 </div>
 
 
