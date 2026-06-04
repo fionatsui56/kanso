@@ -2,7 +2,7 @@
 <html lang="zh-HK">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="theme-color" content="#F0EEE9">
   <meta name="description" content="Kanso 簡素 — Small tools. Quietly useful.">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -41,6 +41,9 @@
       color: var(--text);
       min-height: 100vh;
       -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      width: 100%;
+      position: relative;
     }
 
     /* ── NAV ── */
@@ -1819,15 +1822,23 @@
       .tools-grid { grid-template-columns: 1fr; }
     }
   </style>
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-LJ651XQ84L"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-LJ651XQ84L');
+  </script>
 </head>
 <body>
 
 <!-- NAV -->
 <nav>
   <a class="nav-logo" href="#" onclick="showHome(); return false;">
-    <img src="icon-192.png" alt="Kanso" style="height:32px;width:32px;border-radius:8px;object-fit:cover;">
+    <img src="icon-nav.png" alt="Kanso" style="height:36px;width:36px;border-radius:8px;object-fit:cover;">
     <div>
-      <div class="nav-title">Kanso 簡素</div>
+      <div class="nav-title">Kanso <span style="color:#5A6050;font-weight:400;">簡素</span></div>
     </div>
   </a>
   <button class="nav-back" id="nav-back" onclick="showHome()">← 返回</button>
@@ -1977,7 +1988,7 @@
         <div class="tool-desc">輸入選項，轉動輪盤決定</div>
       </div>
       <div class="tool-card" onclick="showTool('marquee')">
-        <div class="tool-icon mint" style="background:#C8DDD0">📺</div>
+        <div class="tool-icon orange" style="background:#EDD5C8">📺</div>
         <div class="tool-name">跑馬燈</div>
         <div class="tool-desc">全螢幕滾動文字，演講提示</div>
       </div>
@@ -4450,7 +4461,7 @@ if ('serviceWorker' in navigator) {
 <div class="page" id="page-marquee">
   <div class="tool-page">
     <div class="tool-header">
-      <div class="tool-icon mint" style="background:#C8DDD0">📺</div>
+      <div class="tool-icon orange" style="background:#EDD5C8">📺</div>
       <div class="tool-header-text">
         <h1>跑馬燈</h1>
         <p>全螢幕滾動文字，演講提示神器</p>
