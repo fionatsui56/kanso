@@ -1,0 +1,24 @@
+{
+  "name": "Kanso 簡素",
+  "short_name": "Kanso",
+  "description": "Small tools. Quietly useful.",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#F0EEE9",
+  "theme_color": "#F0EEE9",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
