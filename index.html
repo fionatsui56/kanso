@@ -2289,6 +2289,108 @@
       text-align: center;
     }
 
+    /* ── CHEQUE CONVERTER ── */
+    .cq-amount-wrap {
+      position: relative;
+      margin-bottom: 16px;
+    }
+    .cq-currency-prefix {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--subtle);
+      pointer-events: none;
+    }
+    .cq-amount-input {
+      width: 100%;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 14px 14px 28px;
+      font-family: var(--font);
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--text);
+      outline: none;
+      transition: all 0.2s;
+      box-shadow: 0 1px 2px rgba(46,43,38,0.04);
+    }
+    .cq-amount-input:focus { border-color: var(--ink); box-shadow: 0 0 0 3px rgba(63,74,60,0.08); }
+    .cq-quick-btns {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+    .cq-quick-btn {
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-family: var(--font);
+      font-size: 12px;
+      font-weight: 600;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--subtle);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .cq-quick-btn:hover { border-color: var(--ink); color: var(--text); background: var(--surface2); }
+    .cq-result-section {
+      margin-bottom: 14px;
+    }
+    .cq-result-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--subtle);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+    }
+    .cq-result-box {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      min-height: 52px;
+    }
+    .cq-result-text {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.5;
+      flex: 1;
+    }
+    .cq-result-text.placeholder { color: var(--subtle); font-weight: 400; font-size: 13px; }
+    .cq-copy-btn {
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--subtle);
+      font-family: var(--font);
+      font-size: 11px;
+      font-weight: 600;
+      padding: 6px 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .cq-copy-btn:hover { border-color: var(--ink); color: var(--ink); }
+    .cq-note {
+      font-size: 11px;
+      color: var(--subtle);
+      margin-top: 16px;
+      line-height: 1.6;
+      opacity: 0.8;
+    }
+
     /* ── RESPONSIVE ── */
     @media (max-width: 380px) {
       .tools-grid { grid-template-columns: 1fr; }
@@ -2424,6 +2526,11 @@
         <div class="tool-icon mint" style="background:#C8DDD0">✦</div>
         <div class="tool-name">符號複製</div>
         <div class="tool-desc">分隔線、箭頭、標點、常用符號</div>
+      </div>
+      <div class="tool-card" onclick="showTool('cheque')">
+        <div class="tool-icon blue" style="background:#D8E8E0">🏦</div>
+        <div class="tool-name">支票金額轉換</div>
+        <div class="tool-desc">數字轉中文大寫及英文大寫</div>
       </div>
     </div>
   </div>
@@ -5085,6 +5192,148 @@ document.addEventListener('DOMContentLoaded', function() {
   renderSlang();
 });
 
+
+// ── CHEQUE CONVERTER ─────────────────────────────
+
+// ── Chinese uppercase ──
+const CQ_ZH_DIGITS = ['零','壹','貳','叄','肆','伍','陸','柒','捌','玖'];
+const CQ_ZH_UNITS  = ['','拾','佰','仟'];
+const CQ_ZH_GROUPS = ['','萬','億'];
+
+function numToZh(n) {
+  if (n === 0) return '零';
+  let result = '';
+  let groupIdx = 0;
+  // Split into groups of 4
+  const groups = [];
+  let tmp = Math.floor(n);
+  while (tmp > 0) {
+    groups.push(tmp % 10000);
+    tmp = Math.floor(tmp / 10000);
+  }
+  for (let i = groups.length - 1; i >= 0; i--) {
+    const g = groups[i];
+    if (g === 0) {
+      if (result && !result.endsWith('零')) result += '零';
+      continue;
+    }
+    let gStr = '';
+    const thousands = Math.floor(g / 1000);
+    const hundreds  = Math.floor((g % 1000) / 100);
+    const tens      = Math.floor((g % 100) / 10);
+    const ones      = g % 10;
+    if (thousands) gStr += CQ_ZH_DIGITS[thousands] + '仟';
+    if (hundreds)  { if (thousands && !hundreds) gStr += '零'; gStr += CQ_ZH_DIGITS[hundreds] + '佰'; }
+    else if (thousands) gStr += '零';
+    if (tens) { if (!hundreds && (thousands || i < groups.length - 1)) gStr += '零'; gStr += CQ_ZH_DIGITS[tens] + '拾'; }
+    else if (hundreds || thousands) gStr += '零';
+    if (ones) { if (!tens && (hundreds || thousands)) gStr += '零'; gStr += CQ_ZH_DIGITS[ones]; }
+    // Clean up trailing 零
+    gStr = gStr.replace(/零+$/, '');
+    result += gStr + CQ_ZH_GROUPS[i];
+  }
+  // Clean up multiple 零
+  result = result.replace(/零+/g, '零').replace(/零([萬億])/g, '$1').replace(/^零/, '');
+  return result;
+}
+
+function convertToZh(amount) {
+  const parts = amount.toFixed(2).split('.');
+  const intPart = parseInt(parts[0]);
+  const decPart = parts[1];
+  const jiao = parseInt(decPart[0]);
+  const fen  = parseInt(decPart[1]);
+
+  let result = '港幣';
+  if (intPart > 0) result += numToZh(intPart) + '圓';
+
+  if (jiao === 0 && fen === 0) {
+    result += '正';
+  } else if (jiao === 0) {
+    result += '零' + CQ_ZH_DIGITS[fen] + '分';
+  } else {
+    result += CQ_ZH_DIGITS[jiao] + '角';
+    if (fen > 0) result += CQ_ZH_DIGITS[fen] + '分';
+    else result += '正';
+  }
+  return result;
+}
+
+// ── English uppercase ──
+const CQ_EN_ONES = ['','One','Two','Three','Four','Five','Six','Seven','Eight','Nine',
+  'Ten','Eleven','Twelve','Thirteen','Fourteen','Fifteen','Sixteen','Seventeen','Eighteen','Nineteen'];
+const CQ_EN_TENS = ['','','Twenty','Thirty','Forty','Fifty','Sixty','Seventy','Eighty','Ninety'];
+
+function numToEn(n) {
+  if (n === 0) return 'Zero';
+  if (n < 20) return CQ_EN_ONES[n];
+  if (n < 100) return CQ_EN_TENS[Math.floor(n/10)] + (n%10 ? '-' + CQ_EN_ONES[n%10] : '');
+  if (n < 1000) return CQ_EN_ONES[Math.floor(n/100)] + ' Hundred' + (n%100 ? ' ' + numToEn(n%100) : '');
+  if (n < 1000000) return numToEn(Math.floor(n/1000)) + ' Thousand' + (n%1000 ? ' ' + numToEn(n%1000) : '');
+  if (n < 1000000000) return numToEn(Math.floor(n/1000000)) + ' Million' + (n%1000000 ? ' ' + numToEn(n%1000000) : '');
+  return numToEn(Math.floor(n/1000000000)) + ' Billion' + (n%1000000000 ? ' ' + numToEn(n%1000000000) : '');
+}
+
+function convertToEn(amount) {
+  const parts = amount.toFixed(2).split('.');
+  const intPart = parseInt(parts[0]);
+  const cents   = parseInt(parts[1]);
+  let result = 'HKD ';
+  if (intPart > 0) result += numToEn(intPart) + ' Dollar' + (intPart !== 1 ? 's' : '');
+  if (cents > 0) {
+    if (intPart > 0) result += ' And ';
+    result += numToEn(cents) + ' Cent' + (cents !== 1 ? 's' : '');
+  }
+  result += ' Only';
+  return result;
+}
+
+function convertCheque() {
+  const raw = document.getElementById('cq-input').value.replace(/,/g, '');
+  const zhEl = document.getElementById('cq-zh');
+  const enEl = document.getElementById('cq-en');
+
+  if (!raw || raw === '.' ) {
+    zhEl.textContent = '請輸入金額';
+    zhEl.className = 'cq-result-text placeholder';
+    enEl.textContent = 'Please enter amount';
+    enEl.className = 'cq-result-text placeholder';
+    return;
+  }
+
+  const amount = parseFloat(raw);
+  if (isNaN(amount) || amount < 0) {
+    showStatus('cq-status', '請輸入有效金額', 'error');
+    return;
+  }
+  if (amount > 999999999.99) {
+    showStatus('cq-status', '金額上限為 $999,999,999.99', 'error');
+    return;
+  }
+  hideStatus('cq-status');
+
+  const zh = convertToZh(amount);
+  const en = convertToEn(amount);
+
+  zhEl.textContent = zh;
+  zhEl.className = 'cq-result-text';
+  enEl.textContent = en;
+  enEl.className = 'cq-result-text';
+}
+
+function setCqAmount(amount) {
+  document.getElementById('cq-input').value = amount.toLocaleString();
+  convertCheque();
+}
+
+function copyCq(id) {
+  const text = document.getElementById(id).textContent;
+  if (!text || text === '請輸入金額' || text === 'Please enter amount') return;
+  navigator.clipboard.writeText(text).then(() => {
+    showCiToast('已複製：' + text.substring(0, 20) + (text.length > 20 ? '...' : ''));
+  });
+}
+
 // ── PWA SERVICE WORKER ────────────────────────────
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
@@ -6042,6 +6291,57 @@ if ('serviceWorker' in navigator) {
     <div class="sl-count" id="sl-count"></div>
     <div class="sl-grid" id="sl-grid"></div>
     <div class="sl-updated">最後更新：2026年6月 · 有新潮語？歡迎 email hello@flux-strategy.com</div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════
+     CHEQUE CONVERTER
+════════════════════════════════ -->
+<div class="page" id="page-cheque">
+  <div class="tool-page">
+    <div class="tool-header">
+      <div class="tool-icon blue" style="background:#D8E8E0">🏦</div>
+      <div class="tool-header-text">
+        <h1>支票金額轉換</h1>
+        <p>數字轉中文大寫及英文大寫</p>
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label>輸入金額（$）</label>
+      <input type="text" id="cq-input" style="font-size:20px;font-weight:600;"
+        placeholder="例如：12345.67" inputmode="decimal"
+        oninput="convertCheque()">
+    </div>
+
+    <div class="cq-quick-btns">
+      <button class="cq-quick-btn" onclick="setCqAmount(1000)">$1,000</button>
+      <button class="cq-quick-btn" onclick="setCqAmount(2000)">$2,000</button>
+      <button class="cq-quick-btn" onclick="setCqAmount(5000)">$5,000</button>
+      <button class="cq-quick-btn" onclick="setCqAmount(10000)">$10,000</button>
+      <button class="cq-quick-btn" onclick="setCqAmount(50000)">$50,000</button>
+      <button class="cq-quick-btn" onclick="setCqAmount(100000)">$100,000</button>
+    </div>
+
+    <div class="cq-result-section">
+      <div class="cq-result-label">中文大寫</div>
+      <div class="cq-result-box">
+        <div class="cq-result-text placeholder" id="cq-zh">請輸入金額</div>
+        <button class="cq-copy-btn" onclick="copyCq('cq-zh')">複製</button>
+      </div>
+    </div>
+
+    <div class="cq-result-section">
+      <div class="cq-result-label">英文大寫</div>
+      <div class="cq-result-box">
+        <div class="cq-result-text placeholder" id="cq-en">Please enter amount</div>
+        <button class="cq-copy-btn" onclick="copyCq('cq-en')">Copy</button>
+      </div>
+    </div>
+
+    <div class="status-msg" id="cq-status"></div>
+    <div class="cq-note">⚠️ 本工具僅供參考，填寫支票前請向銀行確認正確格式。</div>
   </div>
 </div>
 
