@@ -4987,9 +4987,9 @@ convertUnit = function(type, fromKey) {
       if (u.key === fromKey) return;
       const result = u.fromBase(baseVal);
       const el = document.getElementById('area-' + u.key);
-      if (result === 0) { el.value = '0'; return; }
+      if (result === 0) { el.value = '0.00'; return; }
       if (Math.abs(result) >= 0.001 && Math.abs(result) < 10000000) {
-        el.value = parseFloat(result.toPrecision(7)).toString();
+        el.value = parseFloat(result.toFixed(2)).toString();
       } else {
         el.value = result.toExponential(4);
       }
