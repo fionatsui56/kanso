@@ -1983,6 +1983,185 @@
     .np-holiday-name { color: var(--text); font-weight: 500; }
     .np-holiday-note { font-size: 10px; color: var(--subtle); opacity: 0.7; font-style: italic; }
 
+    /* ── LEAVE PLANNER ── */
+    .lp-hero {
+      background: var(--ink);
+      border-radius: 14px;
+      padding: 20px;
+      margin-bottom: 24px;
+      text-align: center;
+      color: var(--surface);
+    }
+    .lp-hero-title {
+      font-size: 22px;
+      font-weight: 700;
+      font-family: var(--font-display);
+      margin-bottom: 4px;
+    }
+    .lp-hero-sub {
+      font-size: 12px;
+      opacity: 0.65;
+    }
+    .lp-hero-pills {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+    .lp-hero-pill {
+      background: rgba(255,255,255,0.12);
+      border-radius: 999px;
+      padding: 4px 12px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .lp-section-title {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--subtle);
+      margin: 24px 0 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .lp-section-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+    .lp-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 12px;
+      box-shadow: 0 1px 3px rgba(46,43,38,0.05);
+    }
+    .lp-card-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 14px;
+      gap: 12px;
+    }
+    .lp-card-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text);
+      font-family: var(--font-display);
+      margin-bottom: 3px;
+    }
+    .lp-card-date {
+      font-size: 11px;
+      color: var(--subtle);
+    }
+    .lp-badge {
+      background: var(--ink);
+      color: var(--surface);
+      border-radius: 10px;
+      padding: 6px 12px;
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+      text-align: center;
+      flex-shrink: 0;
+    }
+    .lp-badge span {
+      display: block;
+      font-size: 10px;
+      font-weight: 400;
+      opacity: 0.7;
+      margin-bottom: 1px;
+    }
+    .lp-mini-cal {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-bottom: 12px;
+    }
+    .lp-day {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 600;
+      line-height: 1.2;
+    }
+    .lp-day-num { font-size: 13px; font-weight: 700; }
+    .lp-day-label { font-size: 9px; opacity: 0.7; }
+    .lp-day.holiday { background: #D4857A; color: white; }
+    .lp-day.al      { background: #C5DEC8; color: #2E2B26; }
+    .lp-day.weekend { background: var(--surface2); color: var(--subtle); }
+    .lp-day.off     { background: var(--surface2); color: var(--subtle); opacity: 0.4; }
+    .lp-day.gap     { width: 4px; background: transparent; }
+    .lp-legend {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .lp-legend-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 10px;
+      color: var(--subtle);
+    }
+    .lp-legend-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 3px;
+    }
+    .lp-detail {
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+      font-size: 12px;
+      color: var(--subtle);
+      line-height: 1.8;
+    }
+    .lp-detail strong { color: var(--text); }
+    .lp-small-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .lp-small-left { flex: 1; }
+    .lp-small-title { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 3px; }
+    .lp-small-desc { font-size: 11px; color: var(--subtle); }
+    .lp-small-badge {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 5px 10px;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--ink);
+      white-space: nowrap;
+      text-align: center;
+      flex-shrink: 0;
+    }
+    .lp-remark {
+      font-size: 11px;
+      color: var(--subtle);
+      margin-top: 20px;
+      line-height: 1.6;
+      opacity: 0.7;
+    }
+
     /* ── RESPONSIVE ── */
     @media (max-width: 380px) {
       .tools-grid { grid-template-columns: 1fr; }
@@ -2146,6 +2325,16 @@
         <div class="tool-name">重量換算</div>
         <div class="tool-desc">kg、lb、g、oz 即時換算</div>
       </div>
+      <div class="tool-card" onclick="showTool('area')">
+        <div class="tool-icon mint" style="background:#BBCFE8">📐</div>
+        <div class="tool-name">面積換算</div>
+        <div class="tool-desc">平方呎 ↔ 平方米，買樓必備</div>
+      </div>
+      <div class="tool-card" onclick="showTool('temp')">
+        <div class="tool-icon blue" style="background:#D4E2EC">🌡️</div>
+        <div class="tool-name">溫度換算</div>
+        <div class="tool-desc">°C ↔ °F ↔ K 即時換算</div>
+      </div>
     </div>
   </div>
 
@@ -2162,6 +2351,11 @@
         <div class="tool-icon orange" style="background:#EDD5C8">📺</div>
         <div class="tool-name">跑馬燈</div>
         <div class="tool-desc">全螢幕滾動文字，演講提示</div>
+      </div>
+      <div class="tool-card" onclick="showTool('leaveplanner')">
+        <div class="tool-icon mint" style="background:#EDD5C8">✈️</div>
+        <div class="tool-name">請假攻略 2027</div>
+        <div class="tool-desc">請最少假，放最長假</div>
       </div>
     </div>
   </div>
@@ -3180,43 +3374,63 @@ function updateTz() {
 
   if (!dateVal || !timeVal) return;
 
-  // Parse input as base timezone datetime
   const [y,m,d] = dateVal.split('-').map(Number);
   const [h,min] = timeVal.split(':').map(Number);
 
-  // Create a UTC timestamp from the base timezone
-  const baseFormatter = new Intl.DateTimeFormat('en-CA', {
-    timeZone: baseTz,
-    year:'numeric', month:'2-digit', day:'2-digit',
-    hour:'2-digit', minute:'2-digit', second:'2-digit', hour12: false
-  });
-
-  // Find the UTC offset of base tz at given moment (approximate)
-  const approxDate = new Date(y, m-1, d, h, min, 0);
-  const baseOffset = getUtcOffsetMinutes(baseTz, approxDate);
-  const utcMs = approxDate.getTime() - baseOffset * 60000;
+  // Most reliable method: use Intl to find what UTC time corresponds to
+  // the given local time in baseTz.
+  // Strategy: binary search / iteration to find UTC that maps to given local time.
+  const utcMs = localTimeToUtc(baseTz, y, m, d, h, min);
   const utcDate = new Date(utcMs);
 
   renderTzGrid(utcDate, baseTz);
-  // Scroll results into view so user sees them immediately
   const wrap = document.getElementById('tz-result-wrap');
   if (wrap && document.getElementById('page-timezone').classList.contains('active')) {
     setTimeout(() => wrap.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 80);
   }
 }
 
-function getUtcOffsetMinutes(tz, date) {
+function localTimeToUtc(tz, y, mo, d, h, min) {
+  // Use Intl.DateTimeFormat to find offset at approximate time, then correct.
+  // Step 1: estimate UTC assuming offset = 0
+  const approxUtc = Date.UTC(y, mo-1, d, h, min, 0);
+  // Step 2: find what local time that UTC gives in tz
+  const offset1 = getTzOffsetMs(tz, new Date(approxUtc));
+  // Step 3: correct UTC = local - offset
+  const correctedUtc = approxUtc - offset1;
+  // Step 4: verify and correct for DST boundary edge cases
+  const offset2 = getTzOffsetMs(tz, new Date(correctedUtc));
+  return approxUtc - offset2;
+}
+
+function getTzOffsetMs(tz, date) {
+  // Returns offset in ms: localTime = UTC + offset
   try {
-    const utcStr = date.toLocaleString('en-CA', { timeZone: 'UTC', hour12: false });
-    const localStr = date.toLocaleString('en-CA', { timeZone: tz, hour12: false });
-    const toMs = s => {
-      const [datePart, timePart] = s.split(', ');
-      const [yr,mo,da] = datePart.split('-').map(Number);
-      const [hh,mm,ss] = timePart.split(':').map(Number);
-      return Date.UTC(yr,mo-1,da,hh,mm,ss);
+    // Format both UTC and local as ISO-like strings
+    const utcParts = new Intl.DateTimeFormat('en-US', {
+      timeZone: 'UTC',
+      year:'numeric', month:'2-digit', day:'2-digit',
+      hour:'2-digit', minute:'2-digit', second:'2-digit',
+      hour12: false
+    }).formatToParts(date);
+
+    const localParts = new Intl.DateTimeFormat('en-US', {
+      timeZone: tz,
+      year:'numeric', month:'2-digit', day:'2-digit',
+      hour:'2-digit', minute:'2-digit', second:'2-digit',
+      hour12: false
+    }).formatToParts(date);
+
+    const toMs = parts => {
+      const get = type => parseInt(parts.find(p => p.type === type).value);
+      const hr = get('hour') === 24 ? 0 : get('hour');
+      return Date.UTC(get('year'), get('month')-1, get('day'), hr, get('minute'), get('second'));
     };
-    return (toMs(localStr) - toMs(utcStr)) / 60000;
-  } catch { return 0; }
+
+    return toMs(localParts) - toMs(utcParts);
+  } catch(e) {
+    return 0;
+  }
 }
 
 function renderTzGrid(utcDate, baseTz) {
@@ -3908,7 +4122,7 @@ function drawWheel(angle) {
     ctx.fillStyle = '#EAE5DE';
     ctx.fill();
     ctx.fillStyle = '#7A7368';
-    ctx.font = '14px DM Sans, sans-serif';
+    ctx.font = '14px -apple-system, Helvetica Neue, Arial, sans-serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.fillText('輸入選項', cx, cy);
@@ -3936,12 +4150,17 @@ function drawWheel(angle) {
     ctx.translate(cx, cy);
     ctx.rotate(startAngle + arcSize / 2);
     ctx.textAlign = 'right';
+    ctx.textBaseline = 'middle';
     ctx.fillStyle = textColor;
-    var fontSize = n > 8 ? 11 : n > 5 ? 13 : 15;
-    ctx.font = '600 ' + fontSize + 'px DM Sans, sans-serif';
+    var fontSize = n > 8 ? 12 : n > 5 ? 14 : 16;
+    ctx.font = 'bold ' + fontSize + 'px -apple-system, Helvetica Neue, Arial, sans-serif';
+    ctx.shadowColor = 'rgba(255,255,255,0.4)';
+    ctx.shadowBlur = 2;
     var seg = wheelSegments[i];
-    var label = seg.length > 10 ? seg.substring(0, 10) + '…' : seg;
-    ctx.fillText(label, r - 12, fontSize / 3);
+    var maxChars = n > 8 ? 6 : 8;
+    var label = seg.length > maxChars ? seg.substring(0, maxChars) + '…' : seg;
+    ctx.fillText(label, r - 10, 0);
+    ctx.shadowBlur = 0;
     ctx.restore();
   }
 
@@ -3950,7 +4169,7 @@ function drawWheel(angle) {
   ctx.fillStyle = '#3F4A3C';
   ctx.fill();
   ctx.fillStyle = '#FAF8F5';
-  ctx.font = 'bold 12px DM Sans, sans-serif';
+  ctx.font = 'bold 13px -apple-system, Helvetica Neue, Arial, sans-serif';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
   ctx.fillText('GO', cx, cy);
@@ -3975,8 +4194,15 @@ function spinWheel() {
       document.getElementById('wheel-spin-btn').disabled = false;
       var n = wheelSegments.length;
       var arcSize = (Math.PI * 2) / n;
-      var normalized = (((-wheelAngle + Math.PI / 2) % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2);
-      var idx = Math.floor(normalized / arcSize) % n;
+      // Pointer is at top. Segments start at wheelAngle - PI/2.
+      // Find which segment is under the pointer (top = -PI/2 offset).
+      // Normalize the wheel rotation to find which segment aligns with top.
+      // Segments drawn: segment i starts at (wheelAngle + i*arcSize - PI/2)
+      // Pointer at top = canvas -PI/2
+      // Pointer hits segment i where: wheelAngle + i*arcSize - PI/2 <= -PI/2
+      // => i*arcSize <= -wheelAngle => i = floor(-wheelAngle / arcSize) mod n
+      var raw = ((-wheelAngle) % (Math.PI * 2) + Math.PI * 2) % (Math.PI * 2);
+      var idx = Math.floor(raw / arcSize) % n;
       document.getElementById('wheel-result-val').textContent = wheelSegments[idx];
       document.getElementById('wheel-result').classList.add('show');
     }
@@ -4186,11 +4412,11 @@ const HK_HOLIDAYS = new Set([
   '2026-10-16', // 重陽節
   '2026-12-25', // 聖誕節
   '2026-12-26', // 聖誕節後第一個平日
-  // 2027 (estimated)
+  // 2027 (官方憲報 2026年5月15日公布)
   '2027-01-01', // 元旦
-  '2027-02-06', // 農曆年初一
-  '2027-02-08', // 農曆年初二
-  '2027-02-09', // 農曆年初三
+  '2027-02-06', // 農曆年初一（星期六）
+  '2027-02-08', // 農曆年初三（星期一）
+  '2027-02-09', // 農曆年初四（補假，因初二為星期日）
   '2027-03-26', // 耶穌受難節
   '2027-03-27', // 受難節翌日
   '2027-03-29', // 復活節星期一
@@ -4198,12 +4424,12 @@ const HK_HOLIDAYS = new Set([
   '2027-05-01', // 勞動節
   '2027-05-13', // 佛誕
   '2027-06-09', // 端午節
-  '2027-07-01', // 香港回歸紀念日
+  '2027-07-01', // 香港特別行政區成立紀念日
   '2027-09-16', // 中秋節翌日
   '2027-10-01', // 國慶日
   '2027-10-08', // 重陽節
   '2027-12-25', // 聖誕節
-  '2027-12-27', // 聖誕節後補假
+  '2027-12-27', // 聖誕節後第一個周日
 ]);
 
 const HK_HOLIDAY_NAMES = {
@@ -4226,21 +4452,21 @@ const HK_HOLIDAY_NAMES = {
   '2026-12-26': '聖誕後假',
   '2027-01-01': '元旦',
   '2027-02-06': '農曆年初一',
-  '2027-02-08': '農曆年初二',
-  '2027-02-09': '農曆年初三',
+  '2027-02-08': '農曆年初三',
+  '2027-02-09': '農曆年初四（補假）',
   '2027-03-26': '耶穌受難節',
   '2027-03-27': '受難節翌日',
-  '2027-03-29': '復活節',
+  '2027-03-29': '復活節星期一',
   '2027-04-05': '清明節',
   '2027-05-01': '勞動節',
   '2027-05-13': '佛誕',
   '2027-06-09': '端午節',
-  '2027-07-01': '回歸紀念日',
+  '2027-07-01': '成立紀念日',
   '2027-09-16': '中秋節翌日',
   '2027-10-01': '國慶日',
   '2027-10-08': '重陽節',
   '2027-12-25': '聖誕節',
-  '2027-12-27': '聖誕後補假',
+  '2027-12-27': '聖誕節後補假',
 };
 
 var npMode = 'a';
@@ -4488,6 +4714,85 @@ function toggleNpHolidays() {
   var isOpen = list.classList.contains('show');
   list.classList.toggle('show', !isOpen);
   icon.classList.toggle('open', !isOpen);
+}
+
+
+// ── AREA CONVERTER ───────────────────────────────
+const AREA_UNITS = [
+  { key: 'sqft',  label: '平方呎 (sq ft)',   toBase: v => v * 0.092903,  fromBase: v => v / 0.092903 },
+  { key: 'sqm',   label: '平方米 (m²)',       toBase: v => v,              fromBase: v => v },
+  { key: 'sqyd',  label: '平方碼 (sq yd)',    toBase: v => v * 0.836127,  fromBase: v => v / 0.836127 },
+  { key: 'acre',  label: '英畝 (acre)',        toBase: v => v * 4046.86,   fromBase: v => v / 4046.86 },
+  { key: 'ha',    label: '公頃 (ha)',          toBase: v => v * 10000,     fromBase: v => v / 10000 },
+  { key: 'sqkm',  label: '平方公里 (km²)',     toBase: v => v * 1e6,       fromBase: v => v / 1e6 },
+];
+
+document.addEventListener('DOMContentLoaded', function() {
+  buildConverterFields(AREA_UNITS, 'area-fields', 'area');
+});
+
+// Patch convertUnit to handle area
+const _origConvertUnit = convertUnit;
+convertUnit = function(type, fromKey) {
+  if (type === 'area') {
+    const units = AREA_UNITS;
+    const fromUnit = units.find(u => u.key === fromKey);
+    const inputEl = document.getElementById('area-' + fromKey);
+    const val = parseFloat(inputEl.value);
+    if (isNaN(val) || inputEl.value.trim() === '') {
+      units.forEach(u => { if (u.key !== fromKey) document.getElementById('area-' + u.key).value = ''; });
+      return;
+    }
+    const baseVal = fromUnit.toBase(val);
+    units.forEach(u => {
+      if (u.key === fromKey) return;
+      const result = u.fromBase(baseVal);
+      const el = document.getElementById('area-' + u.key);
+      if (result === 0) { el.value = '0'; return; }
+      if (Math.abs(result) >= 0.001 && Math.abs(result) < 10000000) {
+        el.value = parseFloat(result.toPrecision(7)).toString();
+      } else {
+        el.value = result.toExponential(4);
+      }
+    });
+  } else {
+    _origConvertUnit(type, fromKey);
+  }
+};
+
+// ── TEMPERATURE CONVERTER ─────────────────────────
+function convertTemp(from) {
+  var cEl = document.getElementById('temp-c');
+  var fEl = document.getElementById('temp-f');
+  var kEl = document.getElementById('temp-k');
+  var val = parseFloat(document.getElementById('temp-' + from).value);
+
+  if (isNaN(val)) {
+    if (from !== 'c') cEl.value = '';
+    if (from !== 'f') fEl.value = '';
+    if (from !== 'k') kEl.value = '';
+    return;
+  }
+
+  var c, f, k;
+  if (from === 'c') {
+    c = val;
+    f = c * 9/5 + 32;
+    k = c + 273.15;
+  } else if (from === 'f') {
+    f = val;
+    c = (f - 32) * 5/9;
+    k = c + 273.15;
+  } else {
+    k = val;
+    c = k - 273.15;
+    f = c * 9/5 + 32;
+  }
+
+  var fmt = function(n) { return parseFloat(n.toFixed(4)).toString(); };
+  if (from !== 'c') cEl.value = fmt(c);
+  if (from !== 'f') fEl.value = fmt(f);
+  if (from !== 'k') kEl.value = fmt(k);
 }
 
 // ── PWA SERVICE WORKER ────────────────────────────
@@ -5124,11 +5429,11 @@ if ('serviceWorker' in navigator) {
       <div class="np-holiday-item"><span class="np-holiday-date">10月16日 週五</span><span class="np-holiday-name">重陽節</span></div>
       <div class="np-holiday-item"><span class="np-holiday-date">12月25日 週五</span><span class="np-holiday-name">聖誕節</span></div>
       <div class="np-holiday-item"><span class="np-holiday-date">12月26日 週六</span><span class="np-holiday-name">聖誕節後假</span></div>
-      <div class="np-holiday-year">2027 <span class="np-holiday-note">（預估，以政府憲報為準）</span></div>
+      <div class="np-holiday-year">2027 <span class="np-holiday-note">（憲報公布 2026年5月15日）</span></div>
       <div class="np-holiday-item"><span class="np-holiday-date">1月1日 週五</span><span class="np-holiday-name">元旦</span></div>
       <div class="np-holiday-item"><span class="np-holiday-date">2月6日 週六</span><span class="np-holiday-name">農曆年初一</span></div>
-      <div class="np-holiday-item"><span class="np-holiday-date">2月8日 週一</span><span class="np-holiday-name">農曆年初二</span></div>
-      <div class="np-holiday-item"><span class="np-holiday-date">2月9日 週二</span><span class="np-holiday-name">農曆年初三</span></div>
+      <div class="np-holiday-item"><span class="np-holiday-date">2月8日 週一</span><span class="np-holiday-name">農曆年初三</span></div>
+      <div class="np-holiday-item"><span class="np-holiday-date">2月9日 週二</span><span class="np-holiday-name">農曆年初四（補假）</span></div>
       <div class="np-holiday-item"><span class="np-holiday-date">3月26日 週五</span><span class="np-holiday-name">耶穌受難節</span></div>
       <div class="np-holiday-item"><span class="np-holiday-date">3月27日 週六</span><span class="np-holiday-name">受難節翌日</span></div>
       <div class="np-holiday-item"><span class="np-holiday-date">3月29日 週一</span><span class="np-holiday-name">復活節星期一</span></div>
@@ -5143,7 +5448,275 @@ if ('serviceWorker' in navigator) {
       <div class="np-holiday-item"><span class="np-holiday-date">12月25日 週六</span><span class="np-holiday-name">聖誕節</span></div>
       <div class="np-holiday-item"><span class="np-holiday-date">12月27日 週一</span><span class="np-holiday-name">聖誕節後補假</span></div>
     </div>
-    <div class="np-remark">以曆日計算通知期（一個月 = 同月同日）。公眾假期不影響到期日，但會在日曆上標示。結果僅供參考，實際通知期以僱傭合約為準。2027年假期為預估日期，以政府憲報為準。</div>
+    <div class="np-remark">以曆日計算通知期（一個月 = 同月同日）。公眾假期不影響到期日，但會在日曆上標示。結果僅供參考，實際通知期以僱傭合約為準。2027年假期已按政府憲報（2026年5月15日）更新。</div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════
+     AREA CONVERTER
+════════════════════════════════ -->
+<div class="page" id="page-area">
+  <div class="tool-page">
+    <div class="tool-header">
+      <div class="tool-icon mint" style="background:#BBCFE8">📐</div>
+      <div class="tool-header-text">
+        <h1>面積換算</h1>
+        <p>輸入任一單位，即時換算所有</p>
+      </div>
+    </div>
+    <div id="area-fields"></div>
+    <div class="status-msg" id="area-status"></div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════
+     TEMPERATURE CONVERTER
+════════════════════════════════ -->
+<div class="page" id="page-temp">
+  <div class="tool-page">
+    <div class="tool-header">
+      <div class="tool-icon blue" style="background:#D4E2EC">🌡️</div>
+      <div class="tool-header-text">
+        <h1>溫度換算</h1>
+        <p>°C ↔ °F ↔ K 即時換算</p>
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label>攝氏 °C</label>
+      <input type="text" id="temp-c" placeholder="0" inputmode="decimal" oninput="convertTemp('c')">
+    </div>
+    <div class="input-group">
+      <label>華氏 °F</label>
+      <input type="text" id="temp-f" placeholder="32" inputmode="decimal" oninput="convertTemp('f')">
+    </div>
+    <div class="input-group">
+      <label>開爾文 K</label>
+      <input type="text" id="temp-k" placeholder="273.15" inputmode="decimal" oninput="convertTemp('k')">
+    </div>
+
+    <div class="result-box show" style="margin-top:8px">
+      <div class="result-label">常用參考</div>
+      <div style="font-size:12px;color:var(--subtle);line-height:2;">
+        🧊 冰點：0°C = 32°F<br>
+        🙂 室溫：25°C = 77°F<br>
+        🤒 發燒：38°C = 100.4°F<br>
+        💧 沸點：100°C = 212°F
+      </div>
+    </div>
+
+    <div class="status-msg" id="temp-status"></div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════
+     LEAVE PLANNER 2027
+════════════════════════════════ -->
+<div class="page" id="page-leaveplanner">
+  <div class="tool-page">
+    <div class="tool-header">
+      <div class="tool-icon mint" style="background:#EDD5C8">✈️</div>
+      <div class="tool-header-text">
+        <h1>請假攻略 2027</h1>
+        <p>請最少假，放最長假</p>
+      </div>
+    </div>
+
+    <div class="lp-hero">
+      <div class="lp-hero-title">2027 年共有 17 個公眾假期</div>
+      <div class="lp-hero-sub">善用以下攻略，最少請 AL 製造最長假期</div>
+      <div class="lp-hero-pills">
+        <div class="lp-hero-pill">請4放11 🏆</div>
+        <div class="lp-hero-pill">請4放10</div>
+        <div class="lp-hero-pill">請3放9</div>
+        <div class="lp-hero-pill">請4放9</div>
+      </div>
+    </div>
+
+    <!-- SECTION: 超級長假 -->
+    <div class="lp-section-title">🏆 超級長假（請4日或以上）</div>
+
+    <!-- 1. 復活節+清明 -->
+    <div class="lp-card">
+      <div class="lp-card-header">
+        <div>
+          <div class="lp-card-title">復活節 + 清明節</div>
+          <div class="lp-card-date">3月26日 — 4月5日</div>
+        </div>
+        <div class="lp-badge"><span>請4日</span>放11日</div>
+      </div>
+      <div class="lp-mini-cal">
+        <!-- Mar 26 Fri 受難節 -->
+        <div class="lp-day holiday"><div class="lp-day-num">26</div><div class="lp-day-label">五</div></div>
+        <!-- Mar 27 Sat 受難節翌日 -->
+        <div class="lp-day holiday"><div class="lp-day-num">27</div><div class="lp-day-label">六</div></div>
+        <!-- Mar 28 Sun -->
+        <div class="lp-day weekend"><div class="lp-day-num">28</div><div class="lp-day-label">日</div></div>
+        <!-- Mar 29 Mon 復活節 -->
+        <div class="lp-day holiday"><div class="lp-day-num">29</div><div class="lp-day-label">一</div></div>
+        <!-- Mar 30 Tue AL -->
+        <div class="lp-day al"><div class="lp-day-num">30</div><div class="lp-day-label">AL</div></div>
+        <!-- Mar 31 Wed AL -->
+        <div class="lp-day al"><div class="lp-day-num">31</div><div class="lp-day-label">AL</div></div>
+        <!-- Apr 1 Thu AL -->
+        <div class="lp-day al"><div class="lp-day-num">1/4</div><div class="lp-day-label">AL</div></div>
+        <!-- Apr 2 Fri AL -->
+        <div class="lp-day al"><div class="lp-day-num">2</div><div class="lp-day-label">AL</div></div>
+        <!-- Apr 3 Sat -->
+        <div class="lp-day weekend"><div class="lp-day-num">3</div><div class="lp-day-label">六</div></div>
+        <!-- Apr 4 Sun -->
+        <div class="lp-day weekend"><div class="lp-day-num">4</div><div class="lp-day-label">日</div></div>
+        <!-- Apr 5 Mon 清明 -->
+        <div class="lp-day holiday"><div class="lp-day-num">5</div><div class="lp-day-label">清明</div></div>
+      </div>
+      <div class="lp-legend">
+        <div class="lp-legend-item"><div class="lp-legend-dot" style="background:#D4857A"></div>公眾假期</div>
+        <div class="lp-legend-item"><div class="lp-legend-dot" style="background:#C5DEC8"></div>請假 AL</div>
+        <div class="lp-legend-item"><div class="lp-legend-dot" style="background:var(--surface2)"></div>週末</div>
+      </div>
+      <div class="lp-detail">
+        <strong>公眾假期：</strong>3月26日（受難節）、27日（受難節翌日）、29日（復活節一）、4月5日（清明節）<br>
+        <strong>請假日子：</strong>3月30日至4月2日（週二至五，請4日）<br>
+        <strong>連放日期：</strong>3月26日至4月5日，共11日 🏆 年度最長
+      </div>
+    </div>
+
+    <!-- 2. 國慶+重陽 -->
+    <div class="lp-card">
+      <div class="lp-card-header">
+        <div>
+          <div class="lp-card-title">國慶日 + 重陽節</div>
+          <div class="lp-card-date">10月1日 — 10月10日</div>
+        </div>
+        <div class="lp-badge"><span>請4日</span>放10日</div>
+      </div>
+      <div class="lp-mini-cal">
+        <div class="lp-day holiday"><div class="lp-day-num">1</div><div class="lp-day-label">國慶</div></div>
+        <div class="lp-day weekend"><div class="lp-day-num">2</div><div class="lp-day-label">六</div></div>
+        <div class="lp-day weekend"><div class="lp-day-num">3</div><div class="lp-day-label">日</div></div>
+        <div class="lp-day al"><div class="lp-day-num">4</div><div class="lp-day-label">AL</div></div>
+        <div class="lp-day al"><div class="lp-day-num">5</div><div class="lp-day-label">AL</div></div>
+        <div class="lp-day al"><div class="lp-day-num">6</div><div class="lp-day-label">AL</div></div>
+        <div class="lp-day al"><div class="lp-day-num">7</div><div class="lp-day-label">AL</div></div>
+        <div class="lp-day holiday"><div class="lp-day-num">8</div><div class="lp-day-label">重陽</div></div>
+        <div class="lp-day weekend"><div class="lp-day-num">9</div><div class="lp-day-label">六</div></div>
+        <div class="lp-day weekend"><div class="lp-day-num">10</div><div class="lp-day-label">日</div></div>
+      </div>
+      <div class="lp-legend">
+        <div class="lp-legend-item"><div class="lp-legend-dot" style="background:#D4857A"></div>公眾假期</div>
+        <div class="lp-legend-item"><div class="lp-legend-dot" style="background:#C5DEC8"></div>請假 AL</div>
+        <div class="lp-legend-item"><div class="lp-legend-dot" style="background:var(--surface2)"></div>週末</div>
+      </div>
+      <div class="lp-detail">
+        <strong>公眾假期：</strong>10月1日（國慶）、10月8日（重陽節）<br>
+        <strong>請假日子：</strong>10月4日至7日（週一至四，請4日）<br>
+        <strong>連放日期：</strong>10月1日至10日，共10日
+      </div>
+    </div>
+
+    <!-- 3. 農曆新年 -->
+    <div class="lp-card">
+      <div class="lp-card-header">
+        <div>
+          <div class="lp-card-title">農曆新年</div>
+          <div class="lp-card-date">2月6日 — 2月14日</div>
+        </div>
+        <div class="lp-badge"><span>請3日</span>放9日</div>
+      </div>
+      <div class="lp-mini-cal">
+        <div class="lp-day holiday"><div class="lp-day-num">6</div><div class="lp-day-label">初一</div></div>
+        <div class="lp-day weekend"><div class="lp-day-num">7</div><div class="lp-day-label">初二</div></div>
+        <div class="lp-day holiday"><div class="lp-day-num">8</div><div class="lp-day-label">初三</div></div>
+        <div class="lp-day holiday"><div class="lp-day-num">9</div><div class="lp-day-label">初四</div></div>
+        <div class="lp-day al"><div class="lp-day-num">10</div><div class="lp-day-label">AL</div></div>
+        <div class="lp-day al"><div class="lp-day-num">11</div><div class="lp-day-label">AL</div></div>
+        <div class="lp-day al"><div class="lp-day-num">12</div><div class="lp-day-label">AL</div></div>
+        <div class="lp-day weekend"><div class="lp-day-num">13</div><div class="lp-day-label">六</div></div>
+        <div class="lp-day weekend"><div class="lp-day-num">14</div><div class="lp-day-label">日</div></div>
+      </div>
+      <div class="lp-legend">
+        <div class="lp-legend-item"><div class="lp-legend-dot" style="background:#D4857A"></div>公眾假期</div>
+        <div class="lp-legend-item"><div class="lp-legend-dot" style="background:#C5DEC8"></div>請假 AL</div>
+        <div class="lp-legend-item"><div class="lp-legend-dot" style="background:var(--surface2)"></div>週末</div>
+      </div>
+      <div class="lp-detail">
+        <strong>公眾假期：</strong>2月6日（初一）、8日（初三）、9日（初四補假）<br>
+        <strong>請假日子：</strong>2月10日至12日（週三至五，請3日）<br>
+        <strong>連放日期：</strong>2月6日至14日，共9日
+      </div>
+    </div>
+
+    <!-- 4. 聖誕跨年 -->
+    <div class="lp-card">
+      <div class="lp-card-header">
+        <div>
+          <div class="lp-card-title">聖誕節 + 跨年</div>
+          <div class="lp-card-date">12月25日 — 1月2日</div>
+        </div>
+        <div class="lp-badge"><span>請4日</span>放9日</div>
+      </div>
+      <div class="lp-mini-cal">
+        <div class="lp-day holiday"><div class="lp-day-num">25</div><div class="lp-day-label">聖誕</div></div>
+        <div class="lp-day weekend"><div class="lp-day-num">26</div><div class="lp-day-label">六</div></div>
+        <div class="lp-day holiday"><div class="lp-day-num">27</div><div class="lp-day-label">補假</div></div>
+        <div class="lp-day al"><div class="lp-day-num">28</div><div class="lp-day-label">AL</div></div>
+        <div class="lp-day al"><div class="lp-day-num">29</div><div class="lp-day-label">AL</div></div>
+        <div class="lp-day al"><div class="lp-day-num">30</div><div class="lp-day-label">AL</div></div>
+        <div class="lp-day al"><div class="lp-day-num">31</div><div class="lp-day-label">AL</div></div>
+        <div class="lp-day holiday"><div class="lp-day-num">1/1</div><div class="lp-day-label">元旦</div></div>
+        <div class="lp-day weekend"><div class="lp-day-num">2</div><div class="lp-day-label">六</div></div>
+      </div>
+      <div class="lp-legend">
+        <div class="lp-legend-item"><div class="lp-legend-dot" style="background:#D4857A"></div>公眾假期</div>
+        <div class="lp-legend-item"><div class="lp-legend-dot" style="background:#C5DEC8"></div>請假 AL</div>
+        <div class="lp-legend-item"><div class="lp-legend-dot" style="background:var(--surface2)"></div>週末</div>
+      </div>
+      <div class="lp-detail">
+        <strong>公眾假期：</strong>12月25日（聖誕）、27日（補假）、1月1日（元旦）<br>
+        <strong>請假日子：</strong>12月28日至31日（週二至五，請4日）<br>
+        <strong>連放日期：</strong>12月25日至1月2日，共9日
+      </div>
+    </div>
+
+    <!-- SECTION: 短途快閃 -->
+    <div class="lp-section-title">✈️ 短途快閃（請1-2日放4-5日）</div>
+
+    <div class="lp-small-card">
+      <div class="lp-small-left">
+        <div class="lp-small-title">🙏 佛誕</div>
+        <div class="lp-small-desc">5月13日（四）紅日，請14日（五）→ 連放4日（5月13-16日）</div>
+      </div>
+      <div class="lp-small-badge"><span style="font-size:9px;opacity:0.7">請1日</span>放4日</div>
+    </div>
+
+    <div class="lp-small-card">
+      <div class="lp-small-left">
+        <div class="lp-small-title">🐉 端午節</div>
+        <div class="lp-small-desc">6月9日（三）紅日，請10-11日（四五，2日）→ 連放5日（6月9-13日）</div>
+      </div>
+      <div class="lp-small-badge"><span style="font-size:9px;opacity:0.7">請2日</span>放5日</div>
+    </div>
+
+    <div class="lp-small-card">
+      <div class="lp-small-left">
+        <div class="lp-small-title">🎆 回歸紀念日</div>
+        <div class="lp-small-desc">7月1日（四）紅日，請2日（五）→ 連放4日（7月1-4日）</div>
+      </div>
+      <div class="lp-small-badge"><span style="font-size:9px;opacity:0.7">請1日</span>放4日</div>
+    </div>
+
+    <div class="lp-small-card">
+      <div class="lp-small-left">
+        <div class="lp-small-title">🌕 中秋節翌日</div>
+        <div class="lp-small-desc">9月16日（四）紅日，請17日（五）→ 連放4日（9月16-19日）</div>
+      </div>
+      <div class="lp-small-badge"><span style="font-size:9px;opacity:0.7">請1日</span>放4日</div>
+    </div>
+
+    <div class="lp-remark">以五天工作制為準。實際假期視乎個人僱傭合約及公司政策而定。</div>
   </div>
 </div>
 
