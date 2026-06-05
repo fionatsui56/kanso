@@ -2162,6 +2162,133 @@
       opacity: 0.7;
     }
 
+    /* ── SLANG DICT ── */
+    .sl-search-wrap {
+      position: relative;
+      margin-bottom: 20px;
+    }
+    .sl-search {
+      width: 100%;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 11px 14px 11px 38px;
+      font-family: var(--font);
+      font-size: 14px;
+      color: var(--text);
+      outline: none;
+      transition: all 0.2s;
+      box-shadow: 0 1px 2px rgba(46,43,38,0.04);
+    }
+    .sl-search:focus { border-color: var(--ink); box-shadow: 0 0 0 3px rgba(63,74,60,0.08); }
+    .sl-search-icon {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 16px;
+      pointer-events: none;
+    }
+    .sl-filter-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+    .sl-filter-btn {
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-family: var(--font);
+      font-size: 12px;
+      font-weight: 600;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--subtle);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .sl-filter-btn.active {
+      background: var(--ink);
+      color: var(--surface);
+      border-color: var(--ink);
+    }
+    .sl-filter-btn:hover:not(.active) { border-color: var(--ink); color: var(--text); }
+    .sl-count {
+      font-size: 11px;
+      color: var(--subtle);
+      margin-bottom: 14px;
+    }
+    .sl-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    @media (max-width: 480px) { .sl-grid { grid-template-columns: 1fr; } }
+    .sl-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px;
+      box-shadow: 0 1px 3px rgba(46,43,38,0.05);
+      transition: all 0.2s;
+    }
+    .sl-card:hover { border-color: var(--ink); transform: translateY(-1px); box-shadow: 0 3px 10px rgba(46,43,38,0.08); }
+    .sl-card-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      gap: 8px;
+    }
+    .sl-word {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text);
+      font-family: var(--font-display);
+      line-height: 1.2;
+    }
+    .sl-tag {
+      font-size: 10px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-weight: 600;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .sl-tag-fun     { background: #F6EBC8; color: #5A4A1A; }
+    .sl-tag-chat    { background: #C8DDD0; color: #1A4A2A; }
+    .sl-tag-love    { background: #DBD2DB; color: #3A2A3A; }
+    .sl-tag-eng     { background: #BDD7E7; color: #1A3A5A; }
+    .sl-tag-vibe    { background: #EDD5C8; color: #4A2A1A; }
+    .sl-desc {
+      font-size: 12px;
+      color: var(--subtle);
+      line-height: 1.6;
+    }
+    .sl-example {
+      margin-top: 8px;
+      font-size: 11px;
+      color: var(--subtle);
+      font-style: italic;
+      border-left: 2px solid var(--border);
+      padding-left: 8px;
+      opacity: 0.8;
+    }
+    .sl-empty {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--subtle);
+      font-size: 14px;
+      grid-column: 1 / -1;
+    }
+    .sl-updated {
+      font-size: 10px;
+      color: var(--subtle);
+      opacity: 0.6;
+      margin-top: 20px;
+      text-align: center;
+    }
+
     /* ── RESPONSIVE ── */
     @media (max-width: 380px) {
       .tools-grid { grid-template-columns: 1fr; }
@@ -2356,6 +2483,11 @@
         <div class="tool-icon mint" style="background:#EDD5C8">✈️</div>
         <div class="tool-name">請假攻略 2027</div>
         <div class="tool-desc">請最少假，放最長假</div>
+      </div>
+      <div class="tool-card" onclick="showTool('slang')">
+        <div class="tool-icon blue" style="background:#EDD5C8">💬</div>
+        <div class="tool-name">GenZ 潮語表</div>
+        <div class="tool-desc">唔識就即查，拒絕老海鮮</div>
       </div>
     </div>
   </div>
@@ -4795,6 +4927,164 @@ function convertTemp(from) {
   if (from !== 'k') kEl.value = fmt(k);
 }
 
+
+// ── GENZ SLANG DICTIONARY ────────────────────────
+const SLANG_DATA = [
+  // 😂 搞笑
+  { word: 'SLDPK', cat: 'fun', tag: '😂 搞笑',
+    desc: '「笑X到X街」廣東話縮寫，形容非常搞笑。有時食字成「少年的拼勁」或「成龍打保齡」。',
+    example: '佢講嗰個笑話真係SLDPK！' },
+  { word: 'OJ', cat: 'fun', tag: '😂 搞笑',
+    desc: '即係「OK」。鍵盤上 J 喺 K 旁邊，打 OK 時意外打成 OJ，後來反而成為潮語。',
+    example: '聽日見？OJ！' },
+  { word: '影到我 plz del', cat: 'fun', tag: '😂 搞笑',
+    desc: '原用來諷刺偷拍，後演變成幽默說法，指自己出現在照片中，希望對方刪除。',
+    example: '你個IG post影到我，plz del 🙏' },
+  { word: '67', cat: 'fun', tag: '😂 搞笑',
+    desc: 'Alpha 世代萬用語，幾乎冇明確定義，可表示「還好」、「隨便」或純粹搞氣氛。',
+    example: '今日點？67囉。' },
+  { word: '跌嘢唔好搵', cat: 'fun', tag: '😂 搞笑',
+    desc: '源自MC $oHo & KidNey同名歌曲。意指遺失嘅嘢唔用急找，不找自然會出現。',
+    example: '你個銀包唔見咗？跌嘢唔好搵，等佢自己出返嚟。' },
+
+  // 💬 日常對話
+  { word: 'KS', cat: 'chat', tag: '💬 日常',
+    desc: '「其實」嘅粵語拼音縮寫，短訊中出於方便而用。',
+    example: 'KS我唔係好想去。' },
+  { word: 'MM7', cat: 'chat', tag: '💬 日常',
+    desc: '「正」嘅速成碼，表示肯定讚賞。源自MIRROR成員柳應廷（阿Jer）直播時粉絲留言。',
+    example: '佢今日嘅表演mm7！' },
+  { word: '世一', cat: 'chat', tag: '💬 日常',
+    desc: '「世界第一」縮寫，讚賞某人或某事物係最好嘅，常見於追星文化。',
+    example: '我個世一今日出新歌喇！' },
+  { word: '0尊', cat: 'chat', tag: '💬 日常',
+    desc: '「零尊重」，對某人或某事完全不尊重。「0」可搭配其他字，如「0興」（冇興趣）、「0 firm」（唔確定）。',
+    example: '佢對人0尊，真係好差。' },
+  { word: 'Fam J', cat: 'chat', tag: '💬 日常',
+    desc: '「Famous JJ」縮寫，指社交平台上有名氣嘅人，多指 KOL。',
+    example: '你有冇follow呢個fam J？' },
+  { word: 'MNYY', cat: 'chat', tag: '💬 日常',
+    desc: '「Must Need 要有」首字母縮寫，指生活中絕對不能缺少嘅事物。',
+    example: '去旅行帶個好耳機係MNYY。' },
+  { word: '感建分', cat: 'chat', tag: '💬 日常',
+    desc: '「感情的問題一律建議分手」縮寫。網絡上對感情問題嘅標準幽默回應。',
+    example: '佢又問點算？感建分囉！' },
+  { word: '張中和', cat: 'chat', tag: '💬 日常',
+    desc: '「尊重我」嘅普通話諧音，希望別人尊重自己。',
+    example: '我唔喜歡你咁講嘢，張中和好嗎？' },
+
+  // 💕 感情
+  { word: 'Crush', cat: 'love', tag: '💕 感情',
+    desc: '暗戀對象或心動嘅感覺，源自英文「have a crush on someone」。',
+    example: '我有個crush，唔知點開口。' },
+  { word: 'FWB', cat: 'love', tag: '💕 感情',
+    desc: '「Friends with Benefits」縮寫，即炮友關係，只為滿足需求而冇感情承諾。',
+    example: '佢哋唔係拍拖，係FWB。' },
+  { word: 'Simp', cat: 'love', tag: '💕 感情',
+    desc: '形容為心儀對象無條件付出嘅人，即「觀音兵」，不管對方有冇回應都全力討好。',
+    example: '佢真係simp到不行，成日幫佢做嘢。' },
+  { word: 'Beige Flag', cat: 'love', tag: '💕 感情',
+    desc: '介乎Red Flag（危險信號）同Green Flag（正面特質）之間，指對方有點奇怪但無傷大雅嘅小怪癖。',
+    example: '佢鍾意收集橡皮擦，beige flag但係幾可愛。' },
+
+  // 🌐 英文潮語
+  { word: 'PUA', cat: 'eng', tag: '🌐 英文',
+    desc: '原為「Pick-Up Artist」縮寫，現多指情感操控、情緒勒索行為。',
+    example: '佢成日令我懷疑自己，係PUA手段。' },
+  { word: 'Rizz', cat: 'eng', tag: '🌐 英文',
+    desc: '取自「Charisma」中間音節，形容追求異性時展現嘅自信魅力與吸引力。',
+    example: '佢同邊個講嘢都好自然，真係有rizz。' },
+  { word: 'Ate (and left no crumbs)', cat: 'eng', tag: '🌐 英文',
+    desc: '指某人表現出色到「把全場吃掉」，驚艷眾人。「Left no crumbs」代表無可挑剔。',
+    example: '佢今次表演真係ate and left no crumbs！' },
+  { word: 'Let him cook', cat: 'eng', tag: '🌐 英文',
+    desc: '相信對方實力，放手讓佢自由發揮。反之「Im cooked」即事情搞砸、玩完。',
+    example: '唔好打擾佢，let him cook，等結果先。' },
+  { word: 'Rage Bait', cat: 'eng', tag: '🌐 英文',
+    desc: '刻意發布極具爭議嘅內容引起激烈反應，目的係騙取流量互動。',
+    example: '呢個post明係rage bait，唔好上當留言。' },
+  { word: 'Performative', cat: 'eng', tag: '🌐 英文',
+    desc: '形容某人嘅行為「只係在演戲」、「做秀」，並非真心，目的係建立形象。',
+    example: '佢嗰啲公益活動係performative，係博曝光。' },
+  { word: 'Nonchalant', cat: 'eng', tag: '🌐 英文',
+    desc: 'GenZ理想態度，形容面對任何情況都表現得「無所謂、不在乎」，淡淡定。',
+    example: '佢失戀但表現得好nonchalant，唔知係唔係裝嘅。' },
+  { word: 'Chill Guy', cat: 'eng', tag: '🌐 英文',
+    desc: '源自狗狗迷因，代表凡事不強求、隨遇而安嘅佛系態度，天塌下來當被蓋。',
+    example: '佢真係chill guy，咩都唔緊張。' },
+
+  // 🧠 態度／價值觀
+  { word: 'Emo', cat: 'vibe', tag: '🧠 態度',
+    desc: '源自「Emotional Hardcore」音樂，現用來形容情緒低落、傷痛、頹廢嘅狀態。',
+    example: '今日好emo，唔想出門。' },
+  { word: 'Kam', cat: 'vibe', tag: '🧠 態度',
+    desc: '形容奇怪或令人尷尬嘅人或事。「Kam4」即「尷尬死」，4與「死」廣東話發音相近。',
+    example: '佢喺人哋面前咁做，好kam喎。' },
+  { word: 'Firm', cat: 'vibe', tag: '🧠 態度',
+    desc: '形容事情正面、穩陣、有把握，類似「掂過碌蔗」。讚人表現出色時用。',
+    example: '佢今次個presentation超firm！' },
+  { word: 'Polly Shum', cat: 'vibe', tag: '🧠 態度',
+    desc: '「玻璃心」諧音，形容人非常敏感脆弱，容易因他人言語而受傷。',
+    example: '你唔好咁Polly Shum啦，佢只係開玩笑。' },
+  { word: '老Best', cat: 'vibe', tag: '🧠 態度',
+    desc: '結合「老友」同「Best Friend」，形容關係非常親密嘅摯友。',
+    example: '佢係我老Best，認識咗十幾年。' },
+];
+
+let slangCat = 'all';
+let slangQuery = '';
+
+function setSlangCat(cat, el) {
+  slangCat = cat;
+  document.querySelectorAll('.sl-filter-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  renderSlang();
+}
+
+function filterSlang() {
+  slangQuery = document.getElementById('sl-search').value.trim().toLowerCase();
+  renderSlang();
+}
+
+function renderSlang() {
+  const grid = document.getElementById('sl-grid');
+  const countEl = document.getElementById('sl-count');
+  if (!grid) return;
+
+  let filtered = SLANG_DATA.filter(s => {
+    const catMatch = slangCat === 'all' || s.cat === slangCat;
+    const qMatch = !slangQuery ||
+      s.word.toLowerCase().includes(slangQuery) ||
+      s.desc.toLowerCase().includes(slangQuery);
+    return catMatch && qMatch;
+  });
+
+  countEl.textContent = '共 ' + filtered.length + ' 個潮語';
+
+  if (filtered.length === 0) {
+    grid.innerHTML = '<div class="sl-empty">冇搵到「' + slangQuery + '」<br><span style="font-size:12px">試下搜尋其他關鍵詞</span></div>';
+    return;
+  }
+
+  grid.innerHTML = '';
+  filtered.forEach(s => {
+    const card = document.createElement('div');
+    card.className = 'sl-card';
+    card.innerHTML =
+      '<div class="sl-card-top">' +
+        '<div class="sl-word">' + s.word + '</div>' +
+        '<div class="sl-tag sl-tag-' + s.cat + '">' + s.tag + '</div>' +
+      '</div>' +
+      '<div class="sl-desc">' + s.desc + '</div>' +
+      (s.example ? '<div class="sl-example">' + s.example + '</div>' : '');
+    grid.appendChild(card);
+  });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  renderSlang();
+});
+
 // ── PWA SERVICE WORKER ────────────────────────────
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
@@ -5717,6 +6007,41 @@ if ('serviceWorker' in navigator) {
     </div>
 
     <div class="lp-remark">以五天工作制為準。實際假期視乎個人僱傭合約及公司政策而定。</div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════
+     GENZ SLANG DICTIONARY
+════════════════════════════════ -->
+<div class="page" id="page-slang">
+  <div class="tool-page">
+    <div class="tool-header">
+      <div class="tool-icon blue" style="background:#EDD5C8">💬</div>
+      <div class="tool-header-text">
+        <h1>GenZ 潮語表</h1>
+        <p>唔識就即查，拒絕做老海鮮</p>
+      </div>
+    </div>
+
+    <div class="sl-search-wrap">
+      <span class="sl-search-icon">🔍</span>
+      <input class="sl-search" type="text" id="sl-search"
+        placeholder="搜尋潮語..." oninput="filterSlang()">
+    </div>
+
+    <div class="sl-filter-row">
+      <button class="sl-filter-btn active" onclick="setSlangCat('all', this)">全部</button>
+      <button class="sl-filter-btn" onclick="setSlangCat('fun', this)">😂 搞笑</button>
+      <button class="sl-filter-btn" onclick="setSlangCat('chat', this)">💬 日常</button>
+      <button class="sl-filter-btn" onclick="setSlangCat('love', this)">💕 感情</button>
+      <button class="sl-filter-btn" onclick="setSlangCat('eng', this)">🌐 英文</button>
+      <button class="sl-filter-btn" onclick="setSlangCat('vibe', this)">🧠 態度</button>
+    </div>
+
+    <div class="sl-count" id="sl-count"></div>
+    <div class="sl-grid" id="sl-grid"></div>
+    <div class="sl-updated">最後更新：2026年6月 · 有新潮語？歡迎 email hello@flux-strategy.com</div>
   </div>
 </div>
 
