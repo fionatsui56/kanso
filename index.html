@@ -2672,6 +2672,339 @@
     .tb-daily-amount { font-weight: 600; color: var(--text); }
     .tb-daily-amount.max { color: #B76E62; }
 
+    /* ── DAILY CARD ── */
+    .dc-intro {
+      text-align: center;
+      padding: 8px 0 32px;
+    }
+    .dc-intro-title {
+      font-size: 20px;
+      font-weight: 700;
+      font-family: var(--font-display);
+      color: var(--text);
+      margin-bottom: 10px;
+      letter-spacing: -0.3px;
+    }
+    .dc-intro-desc {
+      font-size: 13px;
+      color: var(--subtle);
+      line-height: 1.8;
+      margin-bottom: 32px;
+    }
+    .dc-draw-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--ink);
+      color: var(--surface);
+      border: none;
+      border-radius: 16px;
+      padding: 18px 36px;
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 600;
+      cursor: pointer;
+      position: relative;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 20px rgba(63,74,60,0.25), inset 0 1px 0 rgba(255,255,255,0.1);
+      letter-spacing: 0.5px;
+    }
+    .dc-draw-btn::before {
+      content: '';
+      position: absolute;
+      inset: -2px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, #B89B72, #E8D5A0, #B89B72, #9A7B55);
+      z-index: -1;
+    }
+    .dc-draw-btn::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 16px;
+      background: linear-gradient(135deg, rgba(184,155,114,0.15), transparent, rgba(184,155,114,0.1));
+      pointer-events: none;
+    }
+    .dc-draw-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px rgba(63,74,60,0.35), inset 0 1px 0 rgba(255,255,255,0.15);
+    }
+    .dc-draw-btn:active { transform: translateY(-1px); }
+    .dc-draw-icon { font-size: 22px; }
+    .dc-count {
+      font-size: 11px;
+      color: var(--subtle);
+      margin-top: 16px;
+      opacity: 0.6;
+    }
+    /* Card flip */
+    .dc-card-scene {
+      perspective: 1000px;
+      width: 100%;
+      max-width: 360px;
+      height: 220px;
+      margin: 0 auto 24px;
+      display: none;
+    }
+    .dc-card-scene.show { display: block; animation: fadeIn 0.3s ease; }
+    .dc-card-inner {
+      width: 100%; height: 100%;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .dc-card-inner.flipped { transform: rotateY(180deg); }
+    .dc-card-front, .dc-card-back {
+      position: absolute;
+      inset: 0;
+      border-radius: 18px;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .dc-card-back { transform: rotateY(180deg); }
+    .dc-card-border {
+      position: absolute;
+      inset: 0;
+      border-radius: 18px;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .dc-card-front {
+      background: var(--ink);
+      box-shadow: 0 8px 32px rgba(46,43,38,0.2);
+    }
+    .dc-card-front-logo {
+      font-size: 32px;
+      margin-bottom: 10px;
+      font-family: var(--font-display);
+      font-weight: 300;
+      font-style: italic;
+      color: rgba(255,255,255,0.9);
+      letter-spacing: 2px;
+    }
+    .dc-card-front-sub {
+      font-size: 11px;
+      color: rgba(255,255,255,0.4);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+    .dc-card-quote {
+      font-size: 15px;
+      font-weight: 600;
+      font-family: var(--font-display);
+      text-align: center;
+      line-height: 1.6;
+      letter-spacing: 0.2px;
+      position: relative;
+      z-index: 2;
+    }
+    .dc-card-source {
+      font-size: 11px;
+      opacity: 0.65;
+      margin-top: 14px;
+      letter-spacing: 0.5px;
+      position: relative;
+      z-index: 2;
+    }
+    .dc-again-btn {
+      display: block;
+      width: 100%;
+      max-width: 360px;
+      margin: 0 auto;
+      padding: 13px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      font-family: var(--font);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--subtle);
+      cursor: pointer;
+      transition: all 0.2s;
+      display: none;
+    }
+    .dc-again-btn.show { display: block; }
+    .dc-again-btn:hover { border-color: var(--ink); color: var(--ink); }
+    .dc-share-row {
+      display: flex;
+      gap: 10px;
+      max-width: 360px;
+      margin: 10px auto 0;
+      display: none;
+    }
+    .dc-share-row.show { display: flex; }
+
+    /* ── DAILY DRAW ── */
+    .dd-intro {
+      text-align: center;
+      padding: 12px 0 28px;
+    }
+    .dd-intro-title {
+      font-size: 20px;
+      font-weight: 700;
+      font-family: var(--font-display);
+      color: var(--ink);
+      margin-bottom: 12px;
+      line-height: 1.4;
+    }
+    .dd-intro-desc {
+      font-size: 13px;
+      color: var(--subtle);
+      line-height: 1.8;
+      margin-bottom: 28px;
+    }
+    .dd-draw-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: #3F4A3C;
+      color: #F0EEE9;
+      border: 2px solid #B89B72;
+      border-radius: 16px;
+      padding: 18px 40px;
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 600;
+      cursor: pointer;
+      letter-spacing: 1px;
+      transition: all 0.3s;
+      box-shadow: 0 4px 20px rgba(63,74,60,0.2), inset 0 1px 0 rgba(184,155,114,0.3);
+      position: relative;
+      overflow: hidden;
+    }
+    .dd-draw-btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(184,155,114,0.15) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .dd-draw-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(63,74,60,0.3), 0 0 20px rgba(184,155,114,0.2), inset 0 1px 0 rgba(184,155,114,0.4);
+      border-color: #D4B87A;
+    }
+    .dd-draw-btn:active { transform: translateY(0); }
+    .dd-counter {
+      font-size: 11px;
+      color: var(--subtle);
+      margin-top: 12px;
+      opacity: 0.6;
+    }
+    /* Card flip */
+    .dd-card-scene {
+      perspective: 800px;
+      width: 100%;
+      max-width: 340px;
+      margin: 0 auto 24px;
+      display: none;
+    }
+    .dd-card-scene.show { display: block; }
+    .dd-card {
+      width: 100%;
+      aspect-ratio: 3/4;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+    }
+    .dd-card.flipped { transform: rotateY(180deg); }
+    .dd-card-face {
+      position: absolute;
+      inset: 0;
+      border-radius: 20px;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 28px;
+    }
+    .dd-card-back {
+      background: #3F4A3C;
+      border: 2px solid #B89B72;
+      box-shadow: 0 8px 32px rgba(46,43,38,0.2);
+    }
+    .dd-card-back-inner {
+      text-align: center;
+      color: #B89B72;
+    }
+    .dd-card-back-symbol {
+      font-size: 48px;
+      margin-bottom: 12px;
+      opacity: 0.8;
+    }
+    .dd-card-back-text {
+      font-size: 13px;
+      letter-spacing: 2px;
+      opacity: 0.7;
+      font-family: var(--font-display);
+    }
+    .dd-card-front {
+      transform: rotateY(180deg);
+      box-shadow: 0 8px 32px rgba(46,43,38,0.15);
+    }
+    .dd-quote {
+      font-size: clamp(15px, 4.5vw, 19px);
+      font-weight: 600;
+      font-family: var(--font-display);
+      line-height: 1.7;
+      text-align: center;
+      margin-bottom: 20px;
+      flex: 1;
+      display: flex;
+      align-items: center;
+    }
+    .dd-source {
+      font-size: 11px;
+      opacity: 0.6;
+      letter-spacing: 0.5px;
+      text-align: center;
+    }
+    .dd-card-actions {
+      display: flex;
+      gap: 10px;
+      max-width: 340px;
+      margin: 0 auto;
+      display: none;
+    }
+    .dd-card-actions.show { display: flex; }
+    .dd-again-btn {
+      flex: 1;
+      padding: 13px;
+      background: #3F4A3C;
+      color: #F0EEE9;
+      border: 1px solid #B89B72;
+      border-radius: 12px;
+      font-family: var(--font);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .dd-again-btn:hover { opacity: 0.85; }
+    .dd-share-btn {
+      flex: 1;
+      padding: 13px;
+      background: var(--surface);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      font-family: var(--font);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .dd-share-btn:hover { border-color: var(--ink); }
+
     /* ── RESPONSIVE ── */
     @media (max-width: 380px) {
       .tools-grid { grid-template-columns: 1fr; }
@@ -2876,6 +3209,16 @@
         <div class="tool-icon mint" style="background:#EDD5C8">✈️</div>
         <div class="tool-name">請假攻略 2027</div>
         <div class="tool-desc">請最少假，放最長假</div>
+      </div>
+      <div class="tool-card" onclick="showTool('dailydraw')">
+        <div class="tool-icon mint" style="background:#F6EBC8">✦</div>
+        <div class="tool-name">每日一抽</div>
+        <div class="tool-desc">100 張正能量卡，為自己充電</div>
+      </div>
+      <div class="tool-card" onclick="showTool('dailycard')">
+        <div class="tool-icon mint" style="background:#F6EBC8">✦</div>
+        <div class="tool-name">每日一抽</div>
+        <div class="tool-desc">100 張正能量卡，為自己充電</div>
       </div>
       <div class="tool-card" onclick="showTool('slang')">
         <div class="tool-icon blue" style="background:#EDD5C8">💬</div>
@@ -6016,6 +6359,458 @@ function tbRenderDaily() {
   });
 }
 
+
+// ── DAILY CARD ───────────────────────────────────
+// Pantone 2026 palette card backgrounds
+const DC_PALETTES = [
+  { bg: '#F6EBC8', text: '#3A2A0A', border: 'gold' },   // Lemon Icing
+  { bg: '#C5DEC8', text: '#1A3A1A', border: 'gold' },   // Veiled Vista
+  { bg: '#BDD7E7', text: '#0A2A3A', border: 'silver' }, // Ice Melt
+  { bg: '#DBD2DB', text: '#2A1A2A', border: 'silver' }, // Orchid Tint
+  { bg: '#D5CD94', text: '#3A3A0A', border: 'gold' },   // Golden Mist
+  { bg: '#EDD5C8', text: '#3A1A0A', border: 'gold' },   // Peach Dust
+  { bg: '#A693AC', text: '#FAF8F5', border: 'silver' }, // Quiet Violet
+  { bg: '#7BB2D4', text: '#FAF8F5', border: 'gold' },   // Baltic Sea
+  { bg: '#A89C94', text: '#FAF8F5', border: 'silver' }, // Cloud Cover
+  { bg: '#3D6B9E', text: '#FAF8F5', border: 'silver' }, // Regatta
+  { bg: '#8EC8C0', text: '#0A2A28', border: 'gold' },   // Rinsing Rivulet
+  { bg: '#D9B99B', text: '#2A1A0A', border: 'gold' },   // Shifting Sand
+  { bg: '#7A7D7A', text: '#FAF8F5', border: 'silver' }, // Hematite
+  { bg: '#5B7A99', text: '#FAF8F5', border: 'gold' },   // Blue Fusion
+];
+
+const DC_CARDS = [
+  // ── 禪語錄 (20) ──
+  { q: '一期一會\n此刻，是唯一的此刻', src: '日本禪語', p: 0 },
+  { q: '知足者富\n懂得知足，便是富有', src: '老子', p: 1 },
+  { q: '間\n留白，是力量的開始', src: '日本美學', p: 2 },
+  { q: '侘寂\n不完美中，藏著最真實的美', src: '日本禪意', p: 3 },
+  { q: '萬物並作，吾以觀復', src: '老子·道德經', p: 4 },
+  { q: '不爭，天下莫能與之爭', src: '老子', p: 5 },
+  { q: '上善若水\n水利萬物而不爭', src: '老子·道德經', p: 6 },
+  { q: '慢慢走\n才能看見路邊的花', src: '禪意小語', p: 7 },
+  { q: '此刻的你，已經足夠了', src: '禪語', p: 8 },
+  { q: '花開有時\n靜待，是一種智慧', src: '日本禪語', p: 9 },
+  { q: '放下執念\n輕裝前行', src: '禪語', p: 10 },
+  { q: '呼吸，就是當下最好的禮物', src: '正念智慧', p: 11 },
+  { q: '簡單，不是貧乏\n是一種選擇', src: '禪意', p: 12 },
+  { q: '心靜，萬物皆靜', src: '禪語', p: 0 },
+  { q: '今日的努力\n是明日的從容', src: '禪意小語', p: 1 },
+  { q: '無為而無不為', src: '老子·道德經', p: 2 },
+  { q: '月亮不與太陽爭輝\n各自美麗', src: '禪語', p: 3 },
+  { q: '順流而行\n但不隨波逐流', src: '禪意', p: 4 },
+  { q: '每一天都是全新的開始', src: '禪語', p: 5 },
+  { q: '靜下來\n才能聽見自己的聲音', src: '正念', p: 6 },
+
+  // ── 廣東話正能量 (20) ──
+  { q: '捱得過，就係你嘅', src: '香港智慧', p: 7 },
+  { q: '今日辛苦\n係為咗明日嘅自己', src: '香港心聲', p: 8 },
+  { q: '唔係輸唔起\n係仲未贏到', src: '香港精神', p: 9 },
+  { q: '做好當下\n就係對未來最好嘅投資', src: '香港智慧', p: 10 },
+  { q: '你已經盡力\n而家休息係應該嘅', src: '給自己', p: 11 },
+  { q: '慢慢嚟\n係人都有唔順嘅時候', src: '香港心聲', p: 12 },
+  { q: '記住你有幾遠\n就知你有幾叻', src: '香港智慧', p: 0 },
+  { q: '唔好睇小自己\n你比你想像中更強', src: '給自己', p: 1 },
+  { q: '今日嘅難關\n係明日嘅故事', src: '香港精神', p: 2 },
+  { q: '人生唔係只有一條路\n轉個彎先', src: '香港智慧', p: 3 },
+  { q: '你嘅努力\n有人睇見', src: '給自己', p: 4 },
+  { q: '唔需要完美\n只需要繼續', src: '香港心聲', p: 5 },
+  { q: '係人都有軟弱嘅時候\n允許自己歇一歇', src: '給自己', p: 6 },
+  { q: '每一步\n都係在接近目標', src: '香港精神', p: 7 },
+  { q: '勇敢唔係唔驚\n係驚住都繼續行', src: '香港智慧', p: 8 },
+  { q: '你值得被善待\n由自己開始', src: '給自己', p: 9 },
+  { q: '比較少一啲\n欣賞多一啲', src: '香港心聲', p: 10 },
+  { q: '最難嗰關過咗\n剩下的都係bonus', src: '香港精神', p: 11 },
+  { q: '照顧好自己\n係你能做到最重要嘅事', src: '給自己', p: 12 },
+  { q: '唔需要人人都明你\n只要自己清楚', src: '香港智慧', p: 0 },
+
+  // ── Stoic 英文 (20) ──
+  { q: 'You have power over your mind,\nnot outside events.', src: 'Marcus Aurelius', p: 1 },
+  { q: 'The obstacle is the way.', src: 'Marcus Aurelius', p: 2 },
+  { q: 'Waste no more time arguing\nwhat a good person should be. Be one.', src: 'Marcus Aurelius', p: 3 },
+  { q: 'Begin at once to live,\nand count each day as a separate life.', src: 'Seneca', p: 4 },
+  { q: 'It is not that we have a short time,\nbut that we waste a great deal of it.', src: 'Seneca', p: 5 },
+  { q: 'Difficulties strengthen the mind,\nas labor does the body.', src: 'Seneca', p: 6 },
+  { q: 'Make the best use\nof what is in your power.', src: 'Epictetus', p: 7 },
+  { q: 'He who fears death\nwill never do anything worthy of a living man.', src: 'Seneca', p: 8 },
+  { q: 'No man is free\nwho is not master of himself.', src: 'Epictetus', p: 9 },
+  { q: 'First say what you would be,\nthen do what you have to do.', src: 'Epictetus', p: 10 },
+  { q: 'Very little is needed\nto make a happy life.', src: 'Marcus Aurelius', p: 11 },
+  { q: 'Luck is what happens\nwhen preparation meets opportunity.', src: 'Seneca', p: 12 },
+  { q: 'Do not dwell in the past,\ndo not dream of the future.\nConcentrate the mind on the present.', src: 'Marcus Aurelius', p: 0 },
+  { q: 'What we achieve inwardly\nwill change outer reality.', src: 'Plutarch', p: 1 },
+  { q: 'You are today\nwhere your thoughts have brought you.', src: 'James Allen', p: 2 },
+  { q: 'Storms make trees\ntake deeper roots.', src: 'Dolly Parton', p: 3 },
+  { q: 'One day or day one.\nYou decide.', src: 'Paulo Coelho', p: 4 },
+  { q: 'Fall seven times,\nstand up eight.', src: '日本諺語', p: 5 },
+  { q: 'Small steps every day\nlead to big changes.', src: 'Stoic wisdom', p: 6 },
+  { q: 'You are enough,\njust as you are.', src: 'Stoic wisdom', p: 7 },
+
+  // ── 宮崎駿／村上春樹 (20) ──
+  { q: '不管前方的路有多苦\只要走的方向正確，不管多崎嶇，都比站在原地更接近幸福', src: '宮崎駿', p: 8 },
+  { q: '你要記住\大雨中為你撐傘的人', src: '宮崎駿', p: 9 },
+  { q: '勇氣有時不是大聲喊叫\而是靜靜地說「明天再試一次」', src: '宮崎駿', p: 10 },
+  { q: '每個人的心裡都有一片\只屬於自己的森林', src: '宮崎駿', p: 11 },
+  { q: '風從哪裡來\就讓它吹向哪裡去', src: '宮崎駿', p: 12 },
+  { q: '那些你以為忘記了的事情\將你塑造成現在的樣子', src: '村上春樹', p: 0 },
+  { q: '在最深的失望裡\種下希望', src: '村上春樹', p: 1 },
+  { q: '不要同情自己\同情自己是卑鄙懦夫做的事', src: '村上春樹', p: 2 },
+  { q: '如果你只讀大家都在讀的書\你只能想大家都在想的事', src: '村上春樹', p: 3 },
+  { q: '哪怕是一個人\也要好好吃飯', src: '村上春樹', p: 4 },
+  { q: '我不是在等待什麼\我只是在好好地活著', src: '村上春樹', p: 5 },
+  { q: '每一次失去\都是一次重新開始', src: '村上春樹', p: 6 },
+  { q: '你必須做你認為自己做不到的事', src: '宮崎駿', p: 7 },
+  { q: '人生需要準備的\只有一樣：善意', src: '宮崎駿', p: 8 },
+  { q: '把每一個今天\活成你不後悔的樣子', src: '村上春樹', p: 9 },
+  { q: '痛苦是成長的代價\不是懲罰', src: '村上春樹', p: 10 },
+  { q: '總有一天\你現在的努力會有答案', src: '宮崎駿', p: 11 },
+  { q: '保持善良\這個世界需要更多的光', src: '宮崎駿', p: 12 },
+  { q: '走自己的路\讓別人說去吧', src: '村上春樹', p: 0 },
+  { q: '你不需要為你的存在道歉', src: '村上春樹', p: 1 },
+
+  // ── 台灣作家小語 (20) ──
+  { q: '愛是一種練習\不是一種完成', src: '張曼娟', p: 2 },
+  { q: '活著，就要讓自己發光', src: '張曼娟', p: 3 },
+  { q: '美，不一定要驚天動地\細水長流，也是一種美', src: '蔣勳', p: 4 },
+  { q: '把生命活得像一首詩', src: '蔣勳', p: 5 },
+  { q: '慢下來\才能看見生命的細節', src: '蔣勳', p: 6 },
+  { q: '你最好的年華\不是過去，而是現在', src: '吳若權', p: 7 },
+  { q: '學會與自己相處\是一生最重要的功課', src: '吳若權', p: 8 },
+  { q: '放過自己\也是一種勇敢', src: '吳若權', p: 9 },
+  { q: '不必羨慕別人的光\你自有你的亮', src: '台灣智慧', p: 10 },
+  { q: '有些路\必須一個人走\才能走得更遠', src: '張曼娟', p: 11 },
+  { q: '溫柔是一種力量', src: '蔣勳', p: 12 },
+  { q: '把每一天都活成值得紀念的一天', src: '吳若權', p: 0 },
+  { q: '比較是快樂的敵人\感恩是快樂的朋友', src: '台灣智慧', p: 1 },
+  { q: '你的存在\本身就是意義', src: '張曼娟', p: 2 },
+  { q: '接受不完美的自己\才能欣賞不完美的世界', src: '蔣勳', p: 3 },
+  { q: '每一個傷口\都是一扇窗', src: '台灣作家', p: 4 },
+  { q: '給自己多一點耐心\你正在努力', src: '吳若權', p: 5 },
+  { q: '心中有愛\腳下有路', src: '台灣智慧', p: 6 },
+  { q: '不要讓昨天的遺憾\佔去今天的喜悅', src: '吳若權', p: 7 },
+  { q: '你值得一切美好', src: '台灣心語', p: 8 },
+];
+
+let dcShuffled = [];
+let dcIndex = 0;
+let dcDrawn = 0;
+
+function dcShuffle(arr) {
+  var a = arr.slice();
+  for (var i = a.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var tmp = a[i]; a[i] = a[j]; a[j] = tmp;
+  }
+  return a;
+}
+
+function dcInit() {
+  dcShuffled = dcShuffle(DC_CARDS);
+  dcIndex = 0;
+  dcDrawn = parseInt(localStorage.getItem('kanso-dc-drawn') || '0');
+  updateDcCount();
+}
+
+function updateDcCount() {
+  var el = document.getElementById('dc-count');
+  if (el) el.textContent = dcDrawn > 0 ? '你已抽過 ' + dcDrawn + ' 張卡' : '';
+}
+
+function drawCard() {
+  if (dcIndex >= dcShuffled.length) {
+    dcShuffled = dcShuffle(DC_CARDS);
+    dcIndex = 0;
+  }
+  var card = dcShuffled[dcIndex++];
+  var palette = DC_PALETTES[card.p % DC_PALETTES.length];
+
+  // Setup card back
+  var back = document.getElementById('dc-card-back');
+  back.style.background = palette.bg;
+  back.style.boxShadow = '0 8px 32px rgba(46,43,38,0.2)';
+
+  // Border color
+  var goldStop = palette.border === 'silver' ? '#C0C0C0' : '#B89B72';
+  var goldMid  = palette.border === 'silver' ? '#E8E8E8' : '#E8D5A0';
+  var svgNS = 'http://www.w3.org/2000/svg';
+  var svg = document.getElementById('dc-border-svg');
+  if (svg) {
+    var stops = svg.querySelectorAll('stop');
+    if (stops[0]) stops[0].setAttribute('stop-color', goldStop);
+    if (stops[1]) stops[1].setAttribute('stop-color', goldMid);
+    if (stops[2]) stops[2].setAttribute('stop-color', goldStop.replace('B8','9A').replace('C0','A0'));
+  }
+
+  // Quote text
+  var quoteEl = document.getElementById('dc-quote');
+  quoteEl.style.color = palette.text;
+  quoteEl.innerHTML = card.q.replace(/\n/g, '<br>');
+
+  var srcEl = document.getElementById('dc-source');
+  srcEl.style.color = palette.text;
+  srcEl.textContent = '— ' + card.src;
+
+  // Show card + flip
+  var scene = document.getElementById('dc-card-scene');
+  var inner = document.getElementById('dc-card-inner');
+  scene.classList.add('show');
+  inner.classList.remove('flipped');
+
+  // Hide intro, show again btn
+  document.getElementById('dc-intro').style.display = 'none';
+
+  // Flip after brief delay
+  setTimeout(function() {
+    inner.classList.add('flipped');
+  }, 100);
+
+  // Show again button
+  setTimeout(function() {
+    var btn = document.getElementById('dc-again-btn');
+    btn.classList.add('show');
+  }, 700);
+
+  // Update count
+  dcDrawn++;
+  localStorage.setItem('kanso-dc-drawn', dcDrawn);
+  updateDcCount();
+}
+
+function drawAgain() {
+  var inner = document.getElementById('dc-card-inner');
+  inner.classList.remove('flipped');
+  setTimeout(drawCard, 400);
+}
+
+document.addEventListener('DOMContentLoaded', dcInit);
+
+
+// ── DAILY DRAW ────────────────────────────────────
+
+// Pantone 2026 palettes for card backgrounds
+const DD_CARD_STYLES = [
+  // Powdered Pastels
+  { bg: '#F6EBC8', text: '#3F2A1A', border: '#B89B72' }, // Lemon Icing → gold
+  { bg: '#D5D5D8', text: '#2A2A3A', border: '#B89B72' }, // Nimbus Cloud → gold
+  { bg: '#F2E4E1', text: '#3A2A2A', border: '#B89B72' }, // Raindrops on Roses → gold
+  { bg: '#F0EEE9', text: '#3A3A30', border: '#9A9688' }, // Cloud Dancer → silver
+  { bg: '#BDD7E7', text: '#1A3A5A', border: '#B89B72' }, // Ice Melt → gold
+  { bg: '#EDD5C8', text: '#4A2A1A', border: '#B89B72' }, // Peach Dust → gold
+  { bg: '#DBD2DB', text: '#3A2A3A', border: '#9A9688' }, // Orchid Tint → silver
+  // Atmospheric
+  { bg: '#7BB2D4', text: '#FAF8F5', border: '#E8D5A0' }, // Baltic Sea → light gold
+  { bg: '#3D6B9E', text: '#FAF8F5', border: '#E8D5A0' }, // Regatta → light gold
+  { bg: '#ABABC8', text: '#FAF8F5', border: '#E0E0E8' }, // Cosmic Sky → silver
+  // Light & Shadow
+  { bg: '#C5DEC8', text: '#1A3A2A', border: '#B89B72' }, // Veiled Vista → gold
+  { bg: '#D5CD94', text: '#3A3A1A', border: '#B89B72' }, // Golden Mist → gold
+  { bg: '#A693AC', text: '#FAF8F5', border: '#E0E0E8' }, // Quiet Violet → silver
+  { bg: '#3F4A3C', text: '#FAF8F5', border: '#B89B72' }, // Deep Olive → gold
+  { bg: '#A89C94', text: '#FAF8F5', border: '#E8D5A0' }, // Cloud Cover → light gold
+];
+
+const DD_CARDS = [
+  // ── 禪語錄 (20) ──────────────────────────────────
+  { quote: '一期一會。\n此刻相遇，珍而重之。', source: '日本茶道禪語' },
+  { quote: '知足者富。', source: '老子《道德經》' },
+  { quote: '不要與昨天比較，\n只問今天做了什麼。', source: '禪宗語錄' },
+  { quote: '花開花落，\n皆是自然。\n人生起伏，亦然。', source: '禪意小語' },
+  { quote: '靜水流深。', source: '日本禪語' },
+  { quote: '間——留白，\n才有空間盛載新事物。', source: '日本美學「間」' },
+  { quote: '侘寂之美：\n不完美，才真實。', source: '日本美學「侘寂」' },
+  { quote: '萬物並作，\n吾以觀復。', source: '老子《道德經》' },
+  { quote: '每一個當下，\n都是你擁有的全部。', source: '禪宗語錄' },
+  { quote: '少即是多。\n簡單，是深刻的另一種形式。', source: '禪意小語' },
+  { quote: '放下，\n不是放棄，\n是放輕鬆。', source: '禪宗語錄' },
+  { quote: '行到水窮處，\n坐看雲起時。', source: '王維《終南別業》' },
+  { quote: '心靜，\n則萬物皆靜。', source: '禪意小語' },
+  { quote: '不急，\n花自然會開。', source: '日本禪語' },
+  { quote: '今日之事，\n盡力而為。\n明日之事，\n交給明日。', source: '禪宗語錄' },
+  { quote: '竹因虛心而有節，\n人因謙遜而成長。', source: '禪意小語' },
+  { quote: '呼吸，\n就是一種練習。', source: '正念禪語' },
+  { quote: '山不移，\n我移向山。', source: '禪宗語錄' },
+  { quote: '此刻你所在之處，\n就是你該在之處。', source: '禪意小語' },
+  { quote: '慢下來，\n才看得見沿途的風景。', source: '禪宗語錄' },
+
+  // ── 廣東話正能量 (20) ─────────────────────────────
+  { quote: '捱得過，\n就係你嘅。', source: '香港人智慧' },
+  { quote: '唔係唔得，\n係未試過。', source: '香港人智慧' },
+  { quote: '跌低咗，\n爬返起身就好。', source: '香港人智慧' },
+  { quote: '今日辛苦，\n係為咗明日輕鬆。', source: '香港人智慧' },
+  { quote: '做得幾多得幾多，\n但記住要做。', source: '香港人智慧' },
+  { quote: '好人有好報，\n信。', source: '香港人智慧' },
+  { quote: '你嘅努力，\n唔會白費。', source: '香港人智慧' },
+  { quote: '唔需要人人都鐘意你，\n但你要鐘意自己。', source: '香港人智慧' },
+  { quote: '風雨過後，\n見彩虹。', source: '香港人智慧' },
+  { quote: '行得慢，\n都係行緊。', source: '香港人智慧' },
+  { quote: '自己揀嘅路，\n跪着都要行完。\n但要記得，可以休息。', source: '香港人智慧' },
+  { quote: '有時候，\n唔出聲係最大嘅力量。', source: '香港人智慧' },
+  { quote: '今日過得幾好，\n取決於你點睇佢。', source: '香港人智慧' },
+  { quote: '做自己最難，\n但最值得。', source: '香港人智慧' },
+  { quote: '係人就有軟弱，\n承認，係勇氣。', source: '香港人智慧' },
+  { quote: '你唔係一個人。', source: '香港人智慧' },
+  { quote: '每日進步一少少，\n已經好犀利。', source: '香港人智慧' },
+  { quote: '唔使完美，\n但要真實。', source: '香港人智慧' },
+  { quote: '有啲嘢，\n放低咗先，\n先拎得起其他。', source: '香港人智慧' },
+  { quote: '你已經盡力，\n呢個就足夠。', source: '香港人智慧' },
+
+  // ── Stoic Quotes (20) ─────────────────────────────
+  { quote: 'You have power over your mind, not outside events.\nRealise this, and you will find strength.', source: 'Marcus Aurelius' },
+  { quote: 'The impediment to action\nadvances action.\nWhat stands in the way\nbecomes the way.', source: 'Marcus Aurelius' },
+  { quote: 'Do not indulge in expectations\nof what you cannot control.\nFocus on what you can.', source: 'Epictetus' },
+  { quote: 'It is not things that disturb us,\nbut our judgement about things.', source: 'Epictetus' },
+  { quote: 'Begin at once to live,\nand count each separate day\nas a separate life.', source: 'Seneca' },
+  { quote: 'We suffer more often in imagination\nthan in reality.', source: 'Seneca' },
+  { quote: 'Waste no more time arguing\nwhat a good person should be.\nBe one.', source: 'Marcus Aurelius' },
+  { quote: 'He who fears death will never do\nanything worthy of a man who is alive.', source: 'Seneca' },
+  { quote: 'The best revenge is\nnot to be like your enemy.', source: 'Marcus Aurelius' },
+  { quote: 'Make the best use of what is in your power,\nand take the rest as it happens.', source: 'Epictetus' },
+  { quote: 'No person has the power to have everything\nthey want, but it is in their power\nnot to want what they don\'t have.', source: 'Seneca' },
+  { quote: 'Accept the things to which fate binds you.\nLove the people with whom fate brings you together.', source: 'Marcus Aurelius' },
+  { quote: 'You are not what you think you are.\nBut what you think, you are.', source: 'Stoic wisdom' },
+  { quote: 'Act. Do not merely think.', source: 'Epictetus' },
+  { quote: 'Difficulties strengthen the mind,\nas labour does the body.', source: 'Seneca' },
+  { quote: 'He is a wise man who does not grieve\nfor the things which he has not,\nbut rejoices for those which he has.', source: 'Epictetus' },
+  { quote: 'If it is not right, do not do it.\nIf it is not true, do not say it.', source: 'Marcus Aurelius' },
+  { quote: 'Progress, not perfection.', source: 'Stoic wisdom' },
+  { quote: 'Today I escaped anxiety.\nOr no, I discarded it.\nBecause it was within me,\nin my own perceptions.', source: 'Marcus Aurelius' },
+  { quote: 'Wherever you go,\ngo with all your heart.', source: 'Stoic wisdom' },
+
+  // ── 宮崎駿 / 村上春樹 (20) ───────────────────────
+  { quote: '你只管向前走，\n路自然會出現。', source: '宮崎駿《風之谷》' },
+  { quote: '每個人心裡，\n都有一片森林。\n也許我們不曾迷失，\n只是在尋找。', source: '村上春樹' },
+  { quote: '無論多艱難，\n生命依然美麗。', source: '宮崎駿語錄' },
+  { quote: '如果你不去冒險，\n就無法創造未來。', source: '宮崎駿《風起了》' },
+  { quote: '每一個人，\n都有屬於自己的森林，\n也許我們從未走進去，\n但它一直在那裡。', source: '村上春樹' },
+  { quote: '死並非生的對立，\n而是潛伏在生之中。', source: '村上春樹《挪威的森林》' },
+  { quote: '我不想失去你，\n但我更不想因為害怕失去\n而從未擁有你。', source: '村上春樹' },
+  { quote: '不管全世界所有人\n怎麼說，\n我都認為自己的感受才是正確的。', source: '宮崎駿語錄' },
+  { quote: '人生就像騎單車。\n要保持平衡，\n你必須前進。', source: '村上春樹語錄' },
+  { quote: '生きる。\n好好活著，已是答案。', source: '宮崎駿語錄' },
+  { quote: '我只是一個普通人，\n只是比別人\n多堅持了一會。', source: '村上春樹' },
+  { quote: '即使是最黑暗的夜，\n也會有結束的時候。', source: '宮崎駿語錄' },
+  { quote: '痛苦有時候是必要的。\n它是成長的代價。', source: '村上春樹' },
+  { quote: '風起了，\n唯有努力生存。', source: '宮崎駿《風起了》' },
+  { quote: '不論走到哪裡，\n你永遠帶著自己。', source: '村上春樹語錄' },
+  { quote: '今天的你，\n比昨天的你更勇敢。', source: '宮崎駿語錄' },
+  { quote: '在最深的絕望裡，\n藏著最強的力量。', source: '村上春樹' },
+  { quote: '每一個相遇，\n都是命運的安排。', source: '宮崎駿語錄' },
+  { quote: '閱讀，是與另一個靈魂相遇。', source: '村上春樹語錄' },
+  { quote: '夢想，\n不是你睡覺時夢到的，\n而是讓你無法入睡的那個。', source: '村上春樹語錄' },
+
+  // ── 台灣作家小語 (20) ─────────────────────────────
+  { quote: '愛是一種選擇，\n每天都要重新選擇一次。', source: '張曼娟' },
+  { quote: '生命中最重要的，\n不是你站在哪裡，\n而是你朝哪個方向移動。', source: '蔣勳' },
+  { quote: '慢下來，\n才能看清楚。', source: '蔣勳《慢讀秋天》' },
+  { quote: '你值得被善待。\n包括被自己善待。', source: '吳若權' },
+  { quote: '有些門，\n只有你自己能打開。', source: '張曼娟語錄' },
+  { quote: '美，\n是需要時間的。', source: '蔣勳《美的覺醒》' },
+  { quote: '不是所有事都需要解釋。\n有些，只需要接受。', source: '吳若權語錄' },
+  { quote: '溫柔是一種力量，\n不是軟弱。', source: '張曼娟語錄' },
+  { quote: '你以為的終點，\n往往是另一個起點。', source: '吳若權語錄' },
+  { quote: '讓自己快樂，\n是一生的功課。', source: '蔣勳語錄' },
+  { quote: '有時候，\n離開是最深的愛。', source: '張曼娟語錄' },
+  { quote: '接受自己的不完美，\n是成熟的開始。', source: '吳若權語錄' },
+  { quote: '每一個當下，\n都是最好的安排。', source: '蔣勳語錄' },
+  { quote: '不要害怕孤獨。\n那是你和自己在一起的時間。', source: '張曼娟語錄' },
+  { quote: '真正的勇敢，\n是帶著恐懼繼續前行。', source: '吳若權語錄' },
+  { quote: '身體知道答案，\n只是心還沒準備好。', source: '蔣勳語錄' },
+  { quote: '愛自己，\n不是自私，\n是必要。', source: '張曼娟語錄' },
+  { quote: '有些話不需要說，\n做到，比說到更有力量。', source: '吳若權語錄' },
+  { quote: '你不需要比任何人更好，\n只需要比昨天的自己更好。', source: '台灣作家小語' },
+  { quote: '生命的厚度，\n不在於長短，\n而在於深度。', source: '蔣勳語錄' },
+];
+
+let ddDrawnToday = 0;
+let ddLastCard = -1;
+let ddShuffled = [];
+
+function ddInit() {
+  // Load counter
+  const today = new Date().toDateString();
+  const saved = JSON.parse(localStorage.getItem('kanso-dd') || '{"date":"","count":0}');
+  if (saved.date === today) {
+    ddDrawnToday = saved.count;
+  } else {
+    ddDrawnToday = 0;
+    localStorage.setItem('kanso-dd', JSON.stringify({ date: today, count: 0 }));
+  }
+  // Shuffle deck
+  ddShuffled = DD_CARDS.map(function(c,i){ return i; });
+  for (var i = ddShuffled.length-1; i > 0; i--) {
+    var j = Math.floor(Math.random()*(i+1));
+    var tmp = ddShuffled[i]; ddShuffled[i] = ddShuffled[j]; ddShuffled[j] = tmp;
+  }
+  ddUpdateCounter();
+}
+
+function ddUpdateCounter() {
+  var el = document.getElementById('dd-counter');
+  if (el) el.textContent = '今日已抽 ' + ddDrawnToday + ' 張 · 共 100 張卡';
+}
+
+function ddDraw() {
+  // Pick random card (avoid immediate repeat)
+  var idx;
+  do { idx = ddShuffled[Math.floor(Math.random()*ddShuffled.length)]; }
+  while (idx === ddLastCard && DD_CARDS.length > 1);
+  ddLastCard = idx;
+
+  var card = DD_CARDS[idx];
+  var style = DD_CARD_STYLES[idx % DD_CARD_STYLES.length];
+
+  // Set card front
+  var front = document.getElementById('dd-card-front');
+  front.style.background = style.bg;
+  front.style.border = '2px solid ' + style.border;
+  front.style.boxShadow = '0 8px 32px rgba(46,43,38,0.15)';
+  front.style.color = style.text;
+
+  document.getElementById('dd-quote').textContent = card.quote;
+  document.getElementById('dd-source').textContent = '— ' + card.source;
+  document.getElementById('dd-source').style.color = style.text;
+
+  // Show card (back side first)
+  var cardEl = document.getElementById('dd-card');
+  cardEl.classList.remove('flipped');
+  document.getElementById('dd-card-scene').classList.add('show');
+  document.getElementById('dd-intro').style.display = 'none';
+  document.getElementById('dd-card-actions').classList.remove('show');
+
+  // Auto flip after short delay
+  setTimeout(function() {
+    cardEl.classList.add('flipped');
+    document.getElementById('dd-card-actions').classList.add('show');
+  }, 400);
+
+  // Update counter
+  ddDrawnToday++;
+  const today = new Date().toDateString();
+  localStorage.setItem('kanso-dd', JSON.stringify({ date: today, count: ddDrawnToday }));
+  ddUpdateCounter();
+}
+
+function ddFlip() {
+  var card = document.getElementById('dd-card');
+  card.classList.toggle('flipped');
+}
+
+function ddDrawAgain() {
+  document.getElementById('dd-card').classList.remove('flipped');
+  document.getElementById('dd-card-actions').classList.remove('show');
+  setTimeout(function() { ddDraw(); }, 300);
+}
+
+function ddCopyQuote() {
+  var quote = document.getElementById('dd-quote').textContent;
+  var source = document.getElementById('dd-source').textContent;
+  navigator.clipboard.writeText(quote + '\n' + source).then(function() {
+    showCiToast('已複製金句 ✦');
+  });
+}
+
+document.addEventListener('DOMContentLoaded', function() { ddInit(); });
+
 // ── PWA SERVICE WORKER ────────────────────────────
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
@@ -7189,6 +7984,125 @@ if ('serviceWorker' in navigator) {
       <button class="btn btn-primary" style="flex:1" onclick="tbCreateTrip()">建立行程</button>
       <button class="btn btn-secondary" style="flex:1" onclick="tbCloseModal()">取消</button>
     </div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════
+     DAILY CARD
+════════════════════════════════ -->
+<div class="page" id="page-dailycard">
+  <div class="tool-page">
+    <div class="tool-header">
+      <div class="tool-icon mint" style="background:#F6EBC8">✦</div>
+      <div class="tool-header-text">
+        <h1>每日一抽</h1>
+        <p>100 張正能量卡 · 為自己充電</p>
+      </div>
+    </div>
+
+    <!-- Card display area -->
+    <div class="dc-card-scene" id="dc-card-scene">
+      <div class="dc-card-inner" id="dc-card-inner">
+        <!-- Front (card back design) -->
+        <div class="dc-card-front">
+          <svg class="dc-card-border" viewBox="0 0 360 220" fill="none">
+            <rect x="4" y="4" width="352" height="212" rx="16" stroke="url(#gold1)" stroke-width="1.5"/>
+            <rect x="10" y="10" width="340" height="200" rx="13" stroke="url(#gold2)" stroke-width="0.5" opacity="0.5"/>
+            <defs>
+              <linearGradient id="gold1" x1="0" y1="0" x2="360" y2="220">
+                <stop offset="0%" stop-color="#B89B72"/>
+                <stop offset="50%" stop-color="#E8D5A0"/>
+                <stop offset="100%" stop-color="#9A7B55"/>
+              </linearGradient>
+              <linearGradient id="gold2" x1="360" y1="0" x2="0" y2="220">
+                <stop offset="0%" stop-color="#E8D5A0"/>
+                <stop offset="100%" stop-color="#B89B72"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          <div class="dc-card-front-logo">Kanso</div>
+          <div class="dc-card-front-sub">簡素 · 每日一抽</div>
+        </div>
+        <!-- Back (quote) -->
+        <div class="dc-card-back" id="dc-card-back">
+          <svg class="dc-card-border" id="dc-border-svg" viewBox="0 0 360 220" fill="none">
+            <rect x="4" y="4" width="352" height="212" rx="16" stroke="url(#gold3)" stroke-width="1.5"/>
+            <defs>
+              <linearGradient id="gold3" x1="0" y1="0" x2="360" y2="220">
+                <stop offset="0%" stop-color="#B89B72"/>
+                <stop offset="50%" stop-color="#E8D5A0"/>
+                <stop offset="100%" stop-color="#9A7B55"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          <div class="dc-card-quote" id="dc-quote">—</div>
+          <div class="dc-card-source" id="dc-source">—</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Intro + draw button -->
+    <div class="dc-intro" id="dc-intro">
+      <div class="dc-intro-title">每日一抽 · 為自己充電</div>
+      <div class="dc-intro-desc">
+        生活有時會令人疲憊。<br>
+        這裡有 100 張卡，來自禪意、哲學、文學與香港智慧。<br>
+        不需要理由，只需要抽一張。
+      </div>
+      <button class="dc-draw-btn" onclick="drawCard()">
+        <span class="dc-draw-icon">✦</span>
+        抽一張
+      </button>
+      <div class="dc-count" id="dc-count"></div>
+    </div>
+
+    <button class="dc-again-btn" id="dc-again-btn" onclick="drawAgain()">↺ 再抽一張</button>
+
+    <div class="status-msg" id="dc-status"></div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════
+     DAILY DRAW
+════════════════════════════════ -->
+<div class="page" id="page-dailydraw">
+  <div class="tool-page">
+
+    <!-- Intro -->
+    <div class="dd-intro" id="dd-intro">
+      <div class="dd-intro-title">每日一抽<br>為自己充電</div>
+      <div class="dd-intro-desc">
+        生活有時會令人疲憊。<br>
+        這裡有 100 張卡，來自禪意、哲學、<br>文學與香港智慧。<br><br>
+        不需要理由，只需要抽一張。
+      </div>
+      <button class="dd-draw-btn" onclick="ddDraw()">✦ 抽一張</button>
+      <div class="dd-counter" id="dd-counter"></div>
+    </div>
+
+    <!-- Card -->
+    <div class="dd-card-scene" id="dd-card-scene">
+      <div class="dd-card" id="dd-card" onclick="ddFlip()">
+        <div class="dd-card-face dd-card-back">
+          <div class="dd-card-back-inner">
+            <div class="dd-card-back-symbol">✦</div>
+            <div class="dd-card-back-text">KANSO 簡素</div>
+          </div>
+        </div>
+        <div class="dd-card-face dd-card-front" id="dd-card-front">
+          <div class="dd-quote" id="dd-quote"></div>
+          <div class="dd-source" id="dd-source"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="dd-card-actions" id="dd-card-actions">
+      <button class="dd-again-btn" onclick="ddDrawAgain()">✦ 再抽一張</button>
+      <button class="dd-share-btn" onclick="ddCopyQuote()">複製金句</button>
+    </div>
+
   </div>
 </div>
 
