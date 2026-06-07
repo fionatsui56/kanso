@@ -3210,6 +3210,103 @@
     }
     .sc-copy-btn:hover { border-color: var(--ink); }
 
+    /* ── DAILY COLOUR ── */
+    .dy-header-card {
+      background: var(--ink);
+      color: var(--surface);
+      border-radius: 14px;
+      padding: 20px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    .dy-element-label {
+      font-size: 11px;
+      opacity: 0.6;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .dy-element-name {
+      font-size: 28px;
+      font-weight: 700;
+      font-family: var(--font-display);
+      letter-spacing: -0.5px;
+      margin-bottom: 6px;
+    }
+    .dy-tagline {
+      font-size: 13px;
+      opacity: 0.75;
+      line-height: 1.6;
+      font-style: italic;
+    }
+    .dy-swatches {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .dy-swatch {
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 1px 3px rgba(46,43,38,0.06);
+    }
+    .dy-swatch:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(46,43,38,0.12); }
+    .dy-swatch-color { height: 80px; width: 100%; }
+    .dy-swatch-info { padding: 8px 10px; background: var(--surface); }
+    .dy-swatch-name { font-size: 11px; font-weight: 600; color: var(--text); margin-bottom: 2px; }
+    .dy-swatch-hex { font-size: 10px; color: var(--subtle); }
+    .dy-info-section {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 12px;
+    }
+    .dy-info-label {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--subtle);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+    .dy-info-text {
+      font-size: 13px;
+      color: var(--text);
+      line-height: 1.7;
+    }
+    .dy-avoid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .dy-avoid-pill {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 4px 12px;
+      font-size: 11px;
+      color: var(--subtle);
+    }
+    .dy-date-line {
+      text-align: center;
+      font-size: 11px;
+      color: var(--subtle);
+      margin-bottom: 16px;
+      opacity: 0.7;
+    }
+    .dy-remark {
+      font-size: 11px;
+      color: var(--subtle);
+      margin-top: 20px;
+      line-height: 1.6;
+      opacity: 0.7;
+      text-align: center;
+    }
+
     /* ── RESPONSIVE ── */
     @media (max-width: 380px) {
       .tools-grid { grid-template-columns: 1fr; }
@@ -3303,6 +3400,11 @@
         <div class="tool-icon mint" style="background:#F6EBC8">📋</div>
         <div class="tool-name">通知期計算</div>
         <div class="tool-desc">計算通知期到期日，扣除公眾假期</div>
+      </div>
+      <div class="tool-card" onclick="showTool('marquee')">
+        <div class="tool-icon blue" style="background:#D4E2EC">📺</div>
+        <div class="tool-name">跑馬燈</div>
+        <div class="tool-desc">全螢幕滾動文字，演講提示</div>
       </div>
     </div>
   </div>
@@ -3405,28 +3507,28 @@
         <div class="tool-name">隨機決策</div>
         <div class="tool-desc">輸入選項，轉動輪盤決定</div>
       </div>
-      <div class="tool-card" onclick="showTool('marquee')">
-        <div class="tool-icon orange" style="background:#EDD5C8">📺</div>
-        <div class="tool-name">跑馬燈</div>
-        <div class="tool-desc">全螢幕滾動文字，演講提示</div>
-      </div>
       <div class="tool-card" onclick="showTool('leaveplanner')">
-        <div class="tool-icon mint" style="background:#EDD5C8">✈️</div>
+        <div class="tool-icon orange" style="background:#EDD5C8">✈️</div>
         <div class="tool-name">請假攻略 2027</div>
         <div class="tool-desc">請最少假，放最長假</div>
       </div>
       <div class="tool-card" onclick="showTool('dailycard')">
-        <div class="tool-icon mint" style="background:#F6EBC8">✦</div>
+        <div class="tool-icon orange" style="background:#EDD5C8">✦</div>
         <div class="tool-name">每日一抽</div>
         <div class="tool-desc">100 張正能量卡，為自己充電</div>
       </div>
+      <div class="tool-card" onclick="showTool('dailycolour')">
+        <div class="tool-icon orange" style="background:#EDD5C8">🌿</div>
+        <div class="tool-name">今日色調</div>
+        <div class="tool-desc">天干五行配色，今日生活色調</div>
+      </div>
       <div class="tool-card" onclick="showTool('soulcard')">
-        <div class="tool-icon mint" style="background:#DBD2DB">🃏</div>
+        <div class="tool-icon orange" style="background:#EDD5C8">🃏</div>
         <div class="tool-name">心靈安慰卡</div>
         <div class="tool-desc">揀場景，抽一張屬於你的卡</div>
       </div>
       <div class="tool-card" onclick="showTool('slang')">
-        <div class="tool-icon blue" style="background:#EDD5C8">💬</div>
+        <div class="tool-icon orange" style="background:#EDD5C8">💬</div>
         <div class="tool-name">潮語速查</div>
         <div class="tool-desc">GenZ · Alpha · 網絡熱詞，唔識即查</div>
       </div>
@@ -3658,6 +3760,9 @@ function showTool(tool) {
   }
   if (tool === 'soulcard') {
     scReset();
+  }
+  if (tool === 'dailycolour') {
+    initDailyColour();
   }
 }
 
@@ -7332,6 +7437,228 @@ function scReset() {
   scCurrentScene = null;
 }
 
+
+// ── DAILY COLOUR ─────────────────────────────────
+
+// 天干 calculation
+// Formula: (year*12 + month*...): use Julian Day Number approach
+// Heavenly Stems cycle: 甲乙丙丁戊己庚辛壬癸 (0-9)
+// Reference: 2024-01-01 = 甲子日 (stem index 0)
+const STEMS = ['甲','乙','丙','丁','戊','己','庚','辛','壬','癸'];
+const STEM_ELEMENTS = ['木','木','火','火','土','土','金','金','水','水'];
+const STEM_NATURE = ['陽','陰','陽','陰','陽','陰','陽','陰','陽','陰'];
+
+// Reference: 2024-01-01 was 甲子日 → stem index 0
+// Calculate days from reference date
+function getDayStem(date) {
+  var ref = new Date(2024, 0, 1); // 2024-01-01
+  var diff = Math.floor((date - ref) / 86400000);
+  var stemIdx = ((diff % 10) + 10) % 10;
+  return stemIdx;
+}
+
+// 30 colour palettes — 3 per stem
+const DY_DATA = {
+  0: { // 甲 木陽 生長
+    name: '甲 · 木 · 生長', element: '木', nature: '陽',
+    taglines: ['今天適合播下新種子，讓想法開始生根。','新的開始，從清醒的一步開始。','今天的行動，是明天的基礎。'],
+    palettes: [
+      [{ name:'Forest Green', hex:'#4A7C59', role:'主色' }, { name:'Warm Ivory', hex:'#F5F0E8', role:'配色' }, { name:'Sage', hex:'#8FAF8A', role:'留白' }],
+      [{ name:'Deep Moss', hex:'#3A5C45', role:'主色' }, { name:'Celadon', hex:'#ACB89A', role:'配色' }, { name:'Linen', hex:'#F0E8D8', role:'留白' }],
+      [{ name:'Jade', hex:'#5A8C6A', role:'主色' }, { name:'Mist White', hex:'#F0EEE9', role:'配色' }, { name:'Pale Gold', hex:'#D4B87A', role:'留白' }],
+      [{ name:'Pine', hex:'#3D6B50', role:'主色' }, { name:'Cream', hex:'#F5F2E8', role:'配色' }, { name:'Warm Beige', hex:'#E0D4BC', role:'留白' }],
+      [{ name:'Olive', hex:'#6B8C5A', role:'主色' }, { name:'Ivory', hex:'#F8F6F0', role:'配色' }, { name:'Sand', hex:'#D8C8A8', role:'留白' }],
+    ],
+    suitable: '開展新項目、學習新事物、整理思緒、安靜創作',
+    avoid: ['大紅', '鮮橙', '高飽和暖色'],
+  },
+  1: { // 乙 木陰 柔韌
+    name: '乙 · 木 · 柔韌', element: '木', nature: '陰',
+    taglines: ['今天適合以柔制剛，用耐心換空間。','溫柔也是一種力量，今天讓自己柔軟一點。','細水長流，今天適合慢慢來。'],
+    palettes: [
+      [{ name:'Celadon', hex:'#ACB89A', role:'主色' }, { name:'Mist White', hex:'#F0EEE9', role:'配色' }, { name:'Pale Gold', hex:'#D4C87A', role:'留白' }],
+      [{ name:'Willow', hex:'#7A9E7E', role:'主色' }, { name:'Ivory', hex:'#F5F2EA', role:'配色' }, { name:'Blush Sage', hex:'#B8C4A8', role:'留白' }],
+      [{ name:'Fern', hex:'#6B9E72', role:'主色' }, { name:'Cloud White', hex:'#F8F6F0', role:'配色' }, { name:'Warm Mint', hex:'#A8C4A8', role:'留白' }],
+      [{ name:'Soft Sage', hex:'#8AAE8A', role:'主色' }, { name:'Pearl', hex:'#F2EDE4', role:'配色' }, { name:'Moss Beige', hex:'#C4C8A8', role:'留白' }],
+      [{ name:'Lichen', hex:'#9AB09A', role:'主色' }, { name:'Warm White', hex:'#F5F3EC', role:'配色' }, { name:'Celadon Grey', hex:'#B4C0B4', role:'留白' }],
+    ],
+    suitable: '溝通協調、細緻工作、建立關係、耐心等待結果',
+    avoid: ['深黑', '重灰', '冷硬色調'],
+  },
+  2: { // 丙 火陽 光明
+    name: '丙 · 火 · 光明', element: '火', nature: '陽',
+    taglines: ['今天能量充沛，適合主動出擊。','光芒是給準備好的人，今天就是你。','今天適合讓自己被看見。'],
+    palettes: [
+      [{ name:'Terracotta', hex:'#C4714F', role:'主色' }, { name:'Warm Gold', hex:'#B89B72', role:'配色' }, { name:'Coral', hex:'#D4856A', role:'留白' }],
+      [{ name:'Burnt Sienna', hex:'#B85C3A', role:'主色' }, { name:'Amber', hex:'#C49A3C', role:'配色' }, { name:'Cream', hex:'#F5E6D0', role:'留白' }],
+      [{ name:'Rust', hex:'#B86040', role:'主色' }, { name:'Honey Gold', hex:'#C8A060', role:'配色' }, { name:'Warm Sand', hex:'#E8D4B0', role:'留白' }],
+      [{ name:'Copper', hex:'#B87050', role:'主色' }, { name:'Golden Oat', hex:'#C8A870', role:'配色' }, { name:'Peach White', hex:'#F5E8D8', role:'留白' }],
+      [{ name:'Clay Red', hex:'#C06848', role:'主色' }, { name:'Warm Amber', hex:'#C09848', role:'配色' }, { name:'Linen', hex:'#F0E8D8', role:'留白' }],
+    ],
+    suitable: '提案、社交、重要對話、主動聯絡、展示成果',
+    avoid: ['冷藍', '冷灰', '深沉暗色'],
+  },
+  3: { // 丁 火陰 溫熱
+    name: '丁 · 火 · 溫熱', element: '火', nature: '陰',
+    taglines: ['今天適合用心感受，讓溫度打動人。','溫暖是最有力量的表達，今天以心連心。','今天的細膩，會讓人記住很久。'],
+    palettes: [
+      [{ name:'Dusty Rose', hex:'#C4918A', role:'主色' }, { name:'Amber', hex:'#C49A3C', role:'配色' }, { name:'Warm Cream', hex:'#F5E6D0', role:'留白' }],
+      [{ name:'Rose Clay', hex:'#C08080', role:'主色' }, { name:'Peach Gold', hex:'#D4A870', role:'配色' }, { name:'Blush', hex:'#F0D8C8', role:'留白' }],
+      [{ name:'Mauve', hex:'#B87878', role:'主色' }, { name:'Warm Amber', hex:'#C89840', role:'配色' }, { name:'Linen', hex:'#F0E8D8', role:'留白' }],
+      [{ name:'Blush Terracotta', hex:'#C07870', role:'主色' }, { name:'Honey', hex:'#C8A050', role:'配色' }, { name:'Peach Mist', hex:'#F5E0D4', role:'留白' }],
+      [{ name:'Rosy Brown', hex:'#B88080', role:'主色' }, { name:'Gold Sand', hex:'#C8A868', role:'配色' }, { name:'Warm White', hex:'#F8F0E8', role:'留白' }],
+    ],
+    suitable: '深度溝通、創意工作、建立情感連結、表達心意',
+    avoid: ['冷色系', '過於正式配色', '深藍深灰'],
+  },
+  4: { // 戊 土陽 厚實
+    name: '戊 · 土 · 厚實', element: '土', nature: '陽',
+    taglines: ['今天適合穩步推進，腳踏實地最有力。','大地的力量在於承載，今天做好每一步。','今天適合鞏固已有的成果。'],
+    palettes: [
+      [{ name:'Warm Sand', hex:'#D4B896', role:'主色' }, { name:'Clay', hex:'#B07850', role:'配色' }, { name:'Oat', hex:'#E8DCC8', role:'留白' }],
+      [{ name:'Desert', hex:'#C8A878', role:'主色' }, { name:'Umber', hex:'#A06840', role:'配色' }, { name:'Wheat', hex:'#E0D0B0', role:'留白' }],
+      [{ name:'Camel', hex:'#C8A060', role:'主色' }, { name:'Sienna', hex:'#A87050', role:'配色' }, { name:'Parchment', hex:'#F0E8D0', role:'留白' }],
+      [{ name:'Biscuit', hex:'#D0B080', role:'主色' }, { name:'Saddle', hex:'#A87848', role:'配色' }, { name:'Cream Linen', hex:'#EEE4D0', role:'留白' }],
+      [{ name:'Golden Sand', hex:'#CCB070', role:'主色' }, { name:'Raw Umber', hex:'#A07040', role:'配色' }, { name:'Pale Wheat', hex:'#EAE0C8', role:'留白' }],
+    ],
+    suitable: '執行計劃、整理工作、鞏固關係、穩定推進',
+    avoid: ['過於鮮豔', '螢光色', '高對比配色'],
+  },
+  5: { // 己 土陰 滋養
+    name: '己 · 土 · 滋養', element: '土', nature: '陰',
+    taglines: ['今天適合照顧自己和身邊的人。','滋養是一種溫柔的力量，今天先好好對待自己。','今天適合慢下來，感受生活的質感。'],
+    palettes: [
+      [{ name:'Linen', hex:'#F0E8D8', role:'主色' }, { name:'Caramel', hex:'#B8845A', role:'配色' }, { name:'Stone', hex:'#9A9688', role:'留白' }],
+      [{ name:'Oat', hex:'#E8DCC8', role:'主色' }, { name:'Hazel', hex:'#A87858', role:'配色' }, { name:'Warm Grey', hex:'#A09890', role:'留白' }],
+      [{ name:'Cream', hex:'#F5F0E0', role:'主色' }, { name:'Toffee', hex:'#B08060', role:'配色' }, { name:'Pebble', hex:'#9A9080', role:'留白' }],
+      [{ name:'Ecru', hex:'#EEE8D8', role:'主色' }, { name:'Tan', hex:'#B88060', role:'配色' }, { name:'Driftwood', hex:'#A09888', role:'留白' }],
+      [{ name:'Flax', hex:'#EAE0C8', role:'主色' }, { name:'Biscuit Brown', hex:'#B07858', role:'配色' }, { name:'Ash Beige', hex:'#A89C90', role:'留白' }],
+    ],
+    suitable: '休養生息、深度思考、情感連結、自我照顧',
+    avoid: ['冷硬色調', '過於強烈對比', '高飽和色'],
+  },
+  6: { // 庚 金陽 決斷
+    name: '庚 · 金 · 決斷', element: '金', nature: '陽',
+    taglines: ['今天思路清晰，是做決定的好時機。','清晰是最好的武器，今天讓自己果斷一點。','今天適合整理優先次序，專注最重要的事。'],
+    palettes: [
+      [{ name:'Soft White', hex:'#F5F5F0', role:'主色' }, { name:'Pale Silver', hex:'#C8C8C0', role:'配色' }, { name:'Cool Stone', hex:'#8A8C8E', role:'留白' }],
+      [{ name:'Pearl', hex:'#F0EBE0', role:'主色' }, { name:'Silver', hex:'#C0C4C8', role:'配色' }, { name:'Slate', hex:'#7A8088', role:'留白' }],
+      [{ name:'Ivory', hex:'#F8F5EE', role:'主色' }, { name:'Platinum', hex:'#C4C8CC', role:'配色' }, { name:'Ash', hex:'#848890', role:'留白' }],
+      [{ name:'White Mist', hex:'#F4F4EE', role:'主色' }, { name:'Chrome', hex:'#C0C4C8', role:'配色' }, { name:'Graphite', hex:'#808488', role:'留白' }],
+      [{ name:'Snow White', hex:'#F6F6F2', role:'主色' }, { name:'Brushed Silver', hex:'#C4C8CA', role:'配色' }, { name:'Steel', hex:'#7E8284', role:'留白' }],
+    ],
+    suitable: '決策、談判、整理優先次序、重要簡報',
+    avoid: ['雜亂花紋', '過多顏色', '高飽和暖色'],
+  },
+  7: { // 辛 金陰 精煉
+    name: '辛 · 金 · 精煉', element: '金', nature: '陰',
+    taglines: ['今天適合打磨細節，讓每件事更精準。','精煉不是挑剔，是對品質的尊重。','今天用心在細節，結果會讓人驚喜。'],
+    palettes: [
+      [{ name:'Pearl', hex:'#F0EBE0', role:'主色' }, { name:'Champagne', hex:'#E8D5A0', role:'配色' }, { name:'Frost', hex:'#DDE4E8', role:'留白' }],
+      [{ name:'Alabaster', hex:'#F2EDE4', role:'主色' }, { name:'Gold Mist', hex:'#E0CC90', role:'配色' }, { name:'Ice Blue', hex:'#D8E4EC', role:'留白' }],
+      [{ name:'Eggshell', hex:'#F5F0E5', role:'主色' }, { name:'Pale Gold', hex:'#D4C07A', role:'配色' }, { name:'Silver Blue', hex:'#D0DCE8', role:'留白' }],
+      [{ name:'Antique White', hex:'#F0EBE2', role:'主色' }, { name:'Warm Gold', hex:'#D8C080', role:'配色' }, { name:'Powder Blue', hex:'#D4DEE8', role:'留白' }],
+      [{ name:'Cream Pearl', hex:'#F2EDE6', role:'主色' }, { name:'Gilded', hex:'#DCC88A', role:'配色' }, { name:'Mist Blue', hex:'#D0D8E4', role:'留白' }],
+    ],
+    suitable: '修改潤色、審視細節、精細工作、品質把關',
+    avoid: ['過於厚重深色', '大面積暗色', '粗獷質感'],
+  },
+  8: { // 壬 水陽 流動
+    name: '壬 · 水 · 流動', element: '水', nature: '陽',
+    taglines: ['今天適合放開執著，讓事情自然流動。','水善利萬物，今天以柔克剛。','今天適合讓創意自由流淌。'],
+    palettes: [
+      [{ name:'Midnight Blue', hex:'#2A3A5A', role:'主色' }, { name:'Silver Mist', hex:'#B0B8C4', role:'配色' }, { name:'Slate', hex:'#6A7A8A', role:'留白' }],
+      [{ name:'Deep Ocean', hex:'#1E3A5A', role:'主色' }, { name:'Steel Blue', hex:'#8A9AAA', role:'配色' }, { name:'Mist', hex:'#C4CCD4', role:'留白' }],
+      [{ name:'Navy', hex:'#243450', role:'主色' }, { name:'Sky Steel', hex:'#90A0B0', role:'配色' }, { name:'Pale Blue', hex:'#C8D4DC', role:'留白' }],
+      [{ name:'Ink Blue', hex:'#223058', role:'主色' }, { name:'Cool Grey', hex:'#8C9CAC', role:'配色' }, { name:'Ice Mist', hex:'#CCD4DC', role:'留白' }],
+      [{ name:'Cobalt Shadow', hex:'#263860', role:'主色' }, { name:'Slate Blue', hex:'#8898A8', role:'配色' }, { name:'Cloud Grey', hex:'#C8D0D8', role:'留白' }],
+    ],
+    suitable: '創作、頭腦風暴、放空充電、靈活應對變化',
+    avoid: ['過於正式配色', '厚重暖色', '大面積紅橙'],
+  },
+  9: { // 癸 水陰 深靜
+    name: '癸 · 水 · 深靜', element: '水', nature: '陰',
+    taglines: ['今天適合向內看，靜中自有答案。','深靜不是空白，是最豐盛的狀態。','今天讓自己安靜下來，聆聽內心。'],
+    palettes: [
+      [{ name:'Deep Navy', hex:'#1A2A4A', role:'主色' }, { name:'Lavender Mist', hex:'#C8C0D4', role:'配色' }, { name:'Pale Grey', hex:'#D0D0D0', role:'留白' }],
+      [{ name:'Ink Blue', hex:'#1E2A48', role:'主色' }, { name:'Soft Lilac', hex:'#C0B8CC', role:'配色' }, { name:'Silver Grey', hex:'#C8C8CC', role:'留白' }],
+      [{ name:'Dusk Navy', hex:'#22304A', role:'主色' }, { name:'Wisteria', hex:'#C4BCD0', role:'配色' }, { name:'Moonstone', hex:'#D4D0D8', role:'留白' }],
+      [{ name:'Twilight', hex:'#1E2840', role:'主色' }, { name:'Thistle', hex:'#C0BAD0', role:'配色' }, { name:'Fog', hex:'#D0CED4', role:'留白' }],
+      [{ name:'Indigo Dusk', hex:'#202C48', role:'主色' }, { name:'Pale Mauve', hex:'#C4BED0', role:'配色' }, { name:'Pearl Grey', hex:'#D4D2D8', role:'留白' }],
+    ],
+    suitable: '靜思、閱讀、自我整理、深度工作、寫作',
+    avoid: ['高飽和暖色', '鮮豔紅橙', '過於活躍配色'],
+  },
+};
+
+function initDailyColour() {
+  var today = new Date();
+  var stemIdx = getDayStem(today);
+  var data = DY_DATA[stemIdx];
+
+  // Date display
+  var dateEl = document.getElementById('dy-date-line');
+  if (dateEl) {
+    var days = ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'];
+    dateEl.textContent = today.toLocaleDateString('zh-HK', { year:'numeric', month:'long', day:'numeric' }) +
+      ' · ' + days[today.getDay()] + ' · 天干「' + STEMS[stemIdx] + '」';
+  }
+
+  // Header card
+  document.getElementById('dy-element-name').textContent = data.name;
+
+  // Pick tagline based on day of month
+  var taglineIdx = today.getDate() % data.taglines.length;
+  document.getElementById('dy-tagline').textContent = data.taglines[taglineIdx];
+
+  // Pick palette based on week of year
+  // Use day of year mod 5 for palette variety
+  var dayOfYear = Math.floor((today - new Date(today.getFullYear(),0,1)) / 86400000);
+  var paletteIdx = dayOfYear % 5;
+  var palette = data.palettes[paletteIdx];
+
+  // Render swatches
+  var swatchWrap = document.getElementById('dy-swatches');
+  swatchWrap.innerHTML = '';
+  palette.forEach(function(swatch) {
+    var div = document.createElement('div');
+    div.className = 'dy-swatch';
+    div.innerHTML =
+      '<div class="dy-swatch-color" style="background:' + swatch.hex + '"></div>' +
+      '<div class="dy-swatch-info">' +
+        '<div class="dy-swatch-name">' + swatch.name + '</div>' +
+        '<div class="dy-swatch-hex">' + swatch.hex + '</div>' +
+        '<div style="font-size:9px;color:var(--subtle);margin-top:2px;opacity:0.7">' + (swatch.role||'') + '</div>' +
+      '</div>';
+    div.addEventListener('click', function() {
+      navigator.clipboard.writeText(swatch.hex).then(function() {
+        showCiToast('已複製 ' + swatch.hex);
+      });
+    });
+    swatchWrap.appendChild(div);
+  });
+
+  // Suitable
+  document.getElementById('dy-suitable').textContent = data.suitable;
+
+  // Avoid
+  var avoidWrap = document.getElementById('dy-avoid');
+  avoidWrap.innerHTML = '';
+  data.avoid.forEach(function(a) {
+    var span = document.createElement('span');
+    span.className = 'dy-avoid-pill';
+    span.textContent = a;
+    avoidWrap.appendChild(span);
+  });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  // Init when page shown
+});
+
+// Override showTool to init daily colour
+const _origShowTool = showTool;
+
 // ── PWA SERVICE WORKER ────────────────────────────
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
@@ -8661,6 +8988,44 @@ if ('serviceWorker' in navigator) {
     </div>
 
     <div class="status-msg" id="sc-status"></div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════
+     DAILY COLOUR
+════════════════════════════════ -->
+<div class="page" id="page-dailycolour">
+  <div class="tool-page">
+    <div class="tool-header">
+      <div class="tool-icon mint" style="background:#C8DDD0">🌿</div>
+      <div class="tool-header-text">
+        <h1>今日色調</h1>
+        <p>天干五行配色，今日生活色調</p>
+      </div>
+    </div>
+
+    <div class="dy-date-line" id="dy-date-line"></div>
+
+    <div class="dy-header-card" id="dy-header-card">
+      <div class="dy-element-label">今日天干五行</div>
+      <div class="dy-element-name" id="dy-element-name">—</div>
+      <div class="dy-tagline" id="dy-tagline">—</div>
+    </div>
+
+    <div class="dy-swatches" id="dy-swatches"></div>
+
+    <div class="dy-info-section">
+      <div class="dy-info-label">✦ 今日適合</div>
+      <div class="dy-info-text" id="dy-suitable">—</div>
+    </div>
+
+    <div class="dy-info-section">
+      <div class="dy-info-label">◇ 今日少用</div>
+      <div class="dy-avoid" id="dy-avoid"></div>
+    </div>
+
+    <div class="dy-remark">今日色調以天干五行為靈感，僅供生活美學參考，不構成命理建議。</div>
   </div>
 </div>
 
