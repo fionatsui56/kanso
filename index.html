@@ -2741,14 +2741,17 @@
     .dc-card-scene {
       perspective: 1000px;
       width: 100%;
-      max-width: 360px;
-      height: 220px;
-      margin: 0 auto 24px;
+      max-width: 320px;
+      margin: 0 auto 20px;
       display: none;
+    }
+    .dc-card-inner {
+      aspect-ratio: 755/1066;
     }
     .dc-card-scene.show { display: block; animation: fadeIn 0.3s ease; }
     .dc-card-inner {
-      width: 100%; height: 100%;
+      width: 100%;
+      aspect-ratio: 3/4;
       position: relative;
       transform-style: preserve-3d;
       transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
@@ -2788,7 +2791,7 @@
       inset: 0;
       width: 100%;
       height: 100%;
-      object-fit: contain;
+      object-fit: fill;
     }
     .dc-card-back-content {
       position: absolute;
@@ -3134,28 +3137,28 @@
     .sc-card-wrap {
       position: relative;
       width: 100%;
-      max-width: 360px;
+      max-width: 320px;
       margin: 0 auto 20px;
       border-radius: 0;
       overflow: hidden;
       box-shadow: 0 8px 32px rgba(46,43,38,0.15);
-      aspect-ratio: 3/4;
+      aspect-ratio: 755/1066;
     }
     .sc-card-bg {
       position: absolute;
       inset: 0;
       width: 100%;
       height: 100%;
-      object-fit: contain;
+      object-fit: fill;
     }
     .sc-card-content {
       position: absolute;
-      inset: 0;
+      top: 0; left: 0; right: 0; bottom: 0;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 40px 32px 80px;
+      padding: 15% 10% 20%;
       text-align: center;
     }
     .sc-card-quote {
