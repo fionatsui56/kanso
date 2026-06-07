@@ -3210,11 +3210,6 @@
         <div class="tool-name">請假攻略 2027</div>
         <div class="tool-desc">請最少假，放最長假</div>
       </div>
-      <div class="tool-card" onclick="showTool('dailydraw')">
-        <div class="tool-icon mint" style="background:#F6EBC8">✦</div>
-        <div class="tool-name">每日一抽</div>
-        <div class="tool-desc">100 張正能量卡，為自己充電</div>
-      </div>
       <div class="tool-card" onclick="showTool('dailycard')">
         <div class="tool-icon mint" style="background:#F6EBC8">✦</div>
         <div class="tool-name">每日一抽</div>
@@ -3447,6 +3442,10 @@ function showTool(tool) {
   document.getElementById('nav-back').style.display = 'block';
   document.getElementById('tool-shortcut-bar').style.display = 'flex';
   window.scrollTo(0, 0);
+  // Reset daily card to intro on every entry
+  if (tool === 'dailycard') {
+    dcReset();
+  }
 }
 
 // ── URL SHORTENER ────────────────────────────────
@@ -6811,6 +6810,26 @@ function ddCopyQuote() {
 
 document.addEventListener('DOMContentLoaded', function() { ddInit(); });
 
+
+function dcReset() {
+  var intro = document.getElementById('dc-intro');
+  var scene = document.getElementById('dc-card-scene');
+  var actions = document.getElementById('dc-card-actions');
+  if (intro) intro.style.display = 'block';
+  if (scene) scene.classList.remove('show');
+  if (actions) actions.classList.remove('show');
+  var card = document.getElementById('dc-card');
+  if (card) card.classList.remove('flipped');
+  // Update counter display
+  var counterEl = document.getElementById('dc-counter');
+  if (counterEl) {
+    var today = new Date().toDateString();
+    var saved = JSON.parse(localStorage.getItem('kanso-dc') || '{"date":"","count":0}');
+    var count = saved.date === today ? saved.count : 0;
+    counterEl.textContent = '今日已抽 ' + count + ' 張 · 共 100 張卡';
+  }
+}
+
 // ── PWA SERVICE WORKER ────────────────────────────
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
@@ -8063,48 +8082,6 @@ if ('serviceWorker' in navigator) {
   </div>
 </div>
 
-
-<!-- ════════════════════════════════
-     DAILY DRAW
-════════════════════════════════ -->
-<div class="page" id="page-dailydraw">
-  <div class="tool-page">
-
-    <!-- Intro -->
-    <div class="dd-intro" id="dd-intro">
-      <div class="dd-intro-title">每日一抽<br>為自己充電</div>
-      <div class="dd-intro-desc">
-        生活有時會令人疲憊。<br>
-        這裡有 100 張卡，來自禪意、哲學、<br>文學與香港智慧。<br><br>
-        不需要理由，只需要抽一張。
-      </div>
-      <button class="dd-draw-btn" onclick="ddDraw()">✦ 抽一張</button>
-      <div class="dd-counter" id="dd-counter"></div>
-    </div>
-
-    <!-- Card -->
-    <div class="dd-card-scene" id="dd-card-scene">
-      <div class="dd-card" id="dd-card" onclick="ddFlip()">
-        <div class="dd-card-face dd-card-back">
-          <div class="dd-card-back-inner">
-            <div class="dd-card-back-symbol">✦</div>
-            <div class="dd-card-back-text">KANSO 簡素</div>
-          </div>
-        </div>
-        <div class="dd-card-face dd-card-front" id="dd-card-front">
-          <div class="dd-quote" id="dd-quote"></div>
-          <div class="dd-source" id="dd-source"></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="dd-card-actions" id="dd-card-actions">
-      <button class="dd-again-btn" onclick="ddDrawAgain()">✦ 再抽一張</button>
-      <button class="dd-share-btn" onclick="ddCopyQuote()">複製金句</button>
-    </div>
-
-  </div>
-</div>
 
 
 </body>
