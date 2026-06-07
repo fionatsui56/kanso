@@ -2757,59 +2757,74 @@
     .dc-card-front, .dc-card-back {
       position: absolute;
       inset: 0;
-      border-radius: 18px;
       backface-visibility: hidden;
       -webkit-backface-visibility: hidden;
+    }
+    .dc-card-back { transform: rotateY(180deg); }
+    .dc-card-front {
+      background: var(--ink);
+      border-radius: 0;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 24px;
-    }
-    .dc-card-back { transform: rotateY(180deg); }
-    .dc-card-border {
-      position: absolute;
-      inset: 0;
-      border-radius: 18px;
-      pointer-events: none;
-      z-index: 1;
-    }
-    .dc-card-front {
-      background: var(--ink);
-      box-shadow: 0 8px 32px rgba(46,43,38,0.2);
     }
     .dc-card-front-logo {
-      font-size: 32px;
-      margin-bottom: 10px;
+      font-size: 28px;
       font-family: var(--font-display);
       font-weight: 300;
       font-style: italic;
       color: rgba(255,255,255,0.9);
       letter-spacing: 2px;
+      margin-bottom: 8px;
     }
     .dc-card-front-sub {
       font-size: 11px;
       color: rgba(255,255,255,0.4);
       letter-spacing: 2px;
-      text-transform: uppercase;
+    }
+    .dc-card-back-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+    .dc-card-back-content {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 32px 80px;
+      text-align: center;
     }
     .dc-card-quote {
-      font-size: 15px;
+      font-size: clamp(14px, 4vw, 18px);
       font-weight: 600;
       font-family: var(--font-display);
       text-align: center;
-      line-height: 1.6;
-      letter-spacing: 0.2px;
+      line-height: 1.8;
+      letter-spacing: 0.3px;
+      color: #5A3A1A;
       position: relative;
       z-index: 2;
     }
     .dc-card-source {
+      position: absolute;
+      bottom: 52px;
+      left: 0;
+      right: 0;
+      text-align: center;
       font-size: 11px;
-      opacity: 0.65;
-      margin-top: 14px;
+      color: #8B6B3A;
+      opacity: 0.75;
       letter-spacing: 0.5px;
-      position: relative;
       z-index: 2;
+    }
+    .dc-watermark {
+      display: none;
     }
     .dc-watermark {
       position: absolute;
@@ -3131,7 +3146,7 @@
       inset: 0;
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      object-fit: contain;
     }
     .sc-card-content {
       position: absolute;
@@ -6736,25 +6751,11 @@ function drawCard() {
   back.style.background = palette.bg;
   back.style.boxShadow = '0 8px 32px rgba(46,43,38,0.2)';
 
-  // Border color
-  var goldStop = palette.border === 'silver' ? '#C0C0C0' : '#B89B72';
-  var goldMid  = palette.border === 'silver' ? '#E8E8E8' : '#E8D5A0';
-  var svgNS = 'http://www.w3.org/2000/svg';
-  var svg = document.getElementById('dc-border-svg');
-  if (svg) {
-    var stops = svg.querySelectorAll('stop');
-    if (stops[0]) stops[0].setAttribute('stop-color', goldStop);
-    if (stops[1]) stops[1].setAttribute('stop-color', goldMid);
-    if (stops[2]) stops[2].setAttribute('stop-color', goldStop.replace('B8','9A').replace('C0','A0'));
-  }
-
-  // Quote text
+  // Quote text — warm brown on cream background
   var quoteEl = document.getElementById('dc-quote');
-  quoteEl.style.color = palette.text;
   quoteEl.innerHTML = card.q.replace(/\n/g, '<br>');
 
   var srcEl = document.getElementById('dc-source');
-  srcEl.style.color = palette.text;
   srcEl.textContent = '— ' + card.src;
 
   // Show card + flip
@@ -8543,44 +8544,11 @@ if ('serviceWorker' in navigator) {
         </div>
         <!-- Back (quote) -->
         <div class="dc-card-back" id="dc-card-back">
-          <!-- Border + corner decorations SVG -->
-          <svg class="dc-card-border" id="dc-border-svg" viewBox="0 0 300 420" fill="none" preserveAspectRatio="none">
-            <defs>
-              <linearGradient id="goldGrad" x1="0" y1="0" x2="300" y2="420" gradientUnits="userSpaceOnUse">
-                <stop offset="0%" stop-color="#B89B72"/>
-                <stop offset="50%" stop-color="#E8D5A0"/>
-                <stop offset="100%" stop-color="#9A7B55"/>
-              </linearGradient>
-            </defs>
-            <!-- Main border -->
-            <rect x="6" y="6" width="288" height="408" rx="14" stroke="url(#goldGrad)" stroke-width="1.2" fill="none"/>
-            <!-- Inner border -->
-            <rect x="14" y="14" width="272" height="392" rx="10" stroke="url(#goldGrad)" stroke-width="0.5" fill="none" opacity="0.5"/>
-            <!-- Top-left corner -->
-            <path d="M6 40 L6 20 Q6 6 20 6 L40 6" stroke="url(#goldGrad)" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-            <circle cx="25" cy="25" r="3" fill="url(#goldGrad)" opacity="0.8"/>
-            <path d="M20 14 L14 20 M30 14 L14 30" stroke="url(#goldGrad)" stroke-width="0.8" opacity="0.6"/>
-            <!-- Top-right corner -->
-            <path d="M294 40 L294 20 Q294 6 280 6 L260 6" stroke="url(#goldGrad)" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-            <circle cx="275" cy="25" r="3" fill="url(#goldGrad)" opacity="0.8"/>
-            <path d="M280 14 L286 20 M270 14 L286 30" stroke="url(#goldGrad)" stroke-width="0.8" opacity="0.6"/>
-            <!-- Bottom-left corner -->
-            <path d="M6 380 L6 400 Q6 414 20 414 L40 414" stroke="url(#goldGrad)" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-            <circle cx="25" cy="395" r="3" fill="url(#goldGrad)" opacity="0.8"/>
-            <path d="M20 406 L14 400 M30 406 L14 390" stroke="url(#goldGrad)" stroke-width="0.8" opacity="0.6"/>
-            <!-- Bottom-right corner -->
-            <path d="M294 380 L294 400 Q294 414 280 414 L260 414" stroke="url(#goldGrad)" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-            <circle cx="275" cy="395" r="3" fill="url(#goldGrad)" opacity="0.8"/>
-            <path d="M280 406 L286 400 M270 406 L286 390" stroke="url(#goldGrad)" stroke-width="0.8" opacity="0.6"/>
-            <!-- Top center small diamond -->
-            <path d="M150 10 L154 6 L158 10 L154 14 Z" fill="url(#goldGrad)" opacity="0.7"/>
-            <!-- Bottom center small diamond -->
-            <path d="M150 406 L154 410 L158 406 L154 402 Z" fill="url(#goldGrad)" opacity="0.7"/>
-          </svg>
-          <!-- Watermark -->
-          <div class="dc-watermark">✦</div>
-          <div class="dc-card-quote" id="dc-quote">—</div>
-          <div class="dc-card-source" id="dc-source">—</div>
+          <img class="dc-card-back-img" src="card-daily.png" alt="每日一抽">
+          <div class="dc-card-back-content">
+            <div class="dc-card-quote" id="dc-quote">—</div>
+            <div class="dc-card-source" id="dc-source">—</div>
+          </div>
         </div>
       </div>
     </div>
