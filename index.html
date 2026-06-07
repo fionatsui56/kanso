@@ -2811,6 +2811,18 @@
       position: relative;
       z-index: 2;
     }
+    .dc-watermark {
+      position: absolute;
+      font-size: 120px;
+      opacity: 0.06;
+      z-index: 1;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      font-family: var(--font-display);
+      line-height: 1;
+    }
     .dc-again-btn {
       display: block;
       width: 100%;
@@ -3004,6 +3016,181 @@
       transition: all 0.2s;
     }
     .dd-share-btn:hover { border-color: var(--ink); }
+
+    /* ── SOUL COMFORT CARDS ── */
+    .sc-intro {
+      text-align: center;
+      padding: 8px 0 28px;
+    }
+    .sc-intro-title {
+      font-size: 22px;
+      font-weight: 700;
+      font-family: var(--font-display);
+      color: var(--ink);
+      margin-bottom: 10px;
+    }
+    .sc-intro-sub {
+      font-size: 13px;
+      color: var(--subtle);
+      font-style: italic;
+      margin-bottom: 6px;
+    }
+    .sc-intro-desc {
+      font-size: 13px;
+      color: var(--subtle);
+      line-height: 1.8;
+      margin-bottom: 28px;
+    }
+    .sc-cats {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .sc-cat-btn {
+      width: 100%;
+      border-radius: 14px;
+      padding: 18px 20px;
+      border: none;
+      cursor: pointer;
+      font-family: var(--font);
+      text-align: left;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      box-shadow: 0 2px 8px rgba(46,43,38,0.08);
+    }
+    .sc-cat-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(46,43,38,0.12); }
+    .sc-cat-btn:active { transform: translateY(0); }
+    .sc-cat-icon { font-size: 24px; flex-shrink: 0; }
+    .sc-cat-text { flex: 1; }
+    .sc-cat-name { font-size: 16px; font-weight: 700; margin-bottom: 3px; }
+    .sc-cat-desc { font-size: 12px; opacity: 0.75; }
+    .sc-cat-arrow { font-size: 16px; opacity: 0.5; flex-shrink: 0; }
+    /* Scene selection */
+    .sc-scene-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .sc-back-btn {
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 6px 12px;
+      font-family: var(--font);
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--subtle);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .sc-back-btn:hover { border-color: var(--ink); color: var(--text); }
+    .sc-scene-title {
+      font-size: 16px;
+      font-weight: 700;
+      font-family: var(--font-display);
+      color: var(--ink);
+    }
+    .sc-scenes {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .sc-scene-btn {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      text-align: left;
+      cursor: pointer;
+      font-family: var(--font);
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .sc-scene-btn:hover { border-color: var(--ink); background: var(--surface2); }
+    .sc-scene-btn-text { font-size: 14px; font-weight: 600; color: var(--text); }
+    .sc-scene-btn-sub { font-size: 11px; color: var(--subtle); margin-top: 3px; }
+    /* Card display */
+    .sc-card-wrap {
+      position: relative;
+      width: 100%;
+      max-width: 360px;
+      margin: 0 auto 20px;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 8px 32px rgba(46,43,38,0.15);
+      aspect-ratio: 3/4;
+    }
+    .sc-card-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .sc-card-content {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 32px 80px;
+      text-align: center;
+    }
+    .sc-card-quote {
+      font-family: var(--font-display);
+      font-size: clamp(14px, 4vw, 18px);
+      font-weight: 600;
+      line-height: 1.8;
+      letter-spacing: 0.3px;
+    }
+    .sc-card-source {
+      position: absolute;
+      bottom: 52px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-size: 11px;
+      opacity: 0.65;
+      letter-spacing: 0.5px;
+    }
+    .sc-card-actions {
+      display: flex;
+      gap: 10px;
+      max-width: 360px;
+      margin: 0 auto;
+    }
+    .sc-again-btn {
+      flex: 1;
+      padding: 13px;
+      border: none;
+      border-radius: 12px;
+      font-family: var(--font);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .sc-copy-btn {
+      flex: 1;
+      padding: 13px;
+      background: var(--surface);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      font-family: var(--font);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .sc-copy-btn:hover { border-color: var(--ink); }
 
     /* ── RESPONSIVE ── */
     @media (max-width: 380px) {
@@ -3214,6 +3401,11 @@
         <div class="tool-icon mint" style="background:#F6EBC8">✦</div>
         <div class="tool-name">每日一抽</div>
         <div class="tool-desc">100 張正能量卡，為自己充電</div>
+      </div>
+      <div class="tool-card" onclick="showTool('soulcard')">
+        <div class="tool-icon mint" style="background:#DBD2DB">🃏</div>
+        <div class="tool-name">心靈安慰卡</div>
+        <div class="tool-desc">揀場景，抽一張屬於你的卡</div>
       </div>
       <div class="tool-card" onclick="showTool('slang')">
         <div class="tool-icon blue" style="background:#EDD5C8">💬</div>
@@ -3445,6 +3637,9 @@ function showTool(tool) {
   // Reset daily card to intro on every entry
   if (tool === 'dailycard') {
     dcReset();
+  }
+  if (tool === 'soulcard') {
+    scReset();
   }
 }
 
@@ -6506,13 +6701,26 @@ function dcShuffle(arr) {
 function dcInit() {
   dcShuffled = dcShuffle(DC_CARDS);
   dcIndex = 0;
-  dcDrawn = parseInt(localStorage.getItem('kanso-dc-drawn') || '0');
+  // Today's count (resets daily)
+  var today = new Date().toDateString();
+  var saved = JSON.parse(localStorage.getItem('kanso-dc-today') || '{"date":"","count":0}');
+  dcDrawn = saved.date === today ? saved.count : 0;
   updateDcCount();
 }
 
 function updateDcCount() {
   var el = document.getElementById('dc-count');
-  if (el) el.textContent = dcDrawn > 0 ? '你已抽過 ' + dcDrawn + ' 張卡' : '';
+  if (!el) return;
+  if (dcDrawn === 0) {
+    el.textContent = '今日還未抽 · 共 100 張卡';
+  } else {
+    el.textContent = '今日已抽 ' + dcDrawn + ' 張';
+  }
+}
+
+function saveDcCount() {
+  var today = new Date().toDateString();
+  localStorage.setItem('kanso-dc-today', JSON.stringify({ date: today, count: dcDrawn }));
 }
 
 function drawCard() {
@@ -6571,7 +6779,7 @@ function drawCard() {
 
   // Update count
   dcDrawn++;
-  localStorage.setItem('kanso-dc-drawn', dcDrawn);
+  saveDcCount();
   updateDcCount();
 }
 
@@ -6821,13 +7029,303 @@ function dcReset() {
   var card = document.getElementById('dc-card');
   if (card) card.classList.remove('flipped');
   // Update counter display
-  var counterEl = document.getElementById('dc-counter');
-  if (counterEl) {
-    var today = new Date().toDateString();
-    var saved = JSON.parse(localStorage.getItem('kanso-dc') || '{"date":"","count":0}');
-    var count = saved.date === today ? saved.count : 0;
-    counterEl.textContent = '今日已抽 ' + count + ' 張 · 共 100 張卡';
-  }
+  updateDcCount();
+}
+
+
+// ── SOUL COMFORT CARDS ───────────────────────────
+const SC_CATS = {
+  work:   { name: '職場 Work',   img: 'card-work.png',   textColor: '#E8D5A0', srcColor: '#B89B72', btnBg: '#3F4A3C', btnColor: '#E8D5A0' },
+  love:   { name: '感情 Love',   img: 'card-love.png',   textColor: '#8B5E52', srcColor: '#A0725E', btnBg: '#EDD5C8', btnColor: '#8B5E52' },
+  family: { name: '家庭 Family', img: 'card-family.png', textColor: '#6B4C2A', srcColor: '#8B6540', btnBg: '#F6EBC8', btnColor: '#6B4C2A' },
+  self:   { name: '自我 Self',   img: 'card-self.png',   textColor: '#3F4A3C', srcColor: '#5A6B52', btnBg: '#C8DDD0', btnColor: '#3F4A3C' },
+  rest:   { name: '身心 Rest',   img: 'card-rest.png',   textColor: '#6B6480', srcColor: '#8B84A0', btnBg: '#DBD2DB', btnColor: '#6B6480' },
+};
+
+const SC_SCENES = {
+  work: [
+    { name: '被上司鬧／批評', desc: '被否定的那一刻很痛', cards: [
+      { q: '被否定的那一刻很痛。\n但別人的聲音，\n不是你價值的全部。', src: '心靈安慰卡' },
+      { q: '你不需要每個人的認可，\n才有資格繼續前行。', src: '心靈安慰卡' },
+      { q: 'One criticism doesn\'t define your capability.\nYou are more than this moment.', src: '心靈安慰卡' },
+      { q: '被鬧，不等於你錯了。\n有時候，只是時機不對。', src: '心靈安慰卡' },
+      { q: '讓它過去。\n明天的你，比今天更清醒。', src: '心靈安慰卡' },
+    ]},
+    { name: '死線壓力／好趕', desc: '一步一步，不需要一次過', cards: [
+      { q: '一步一步。\n不需要一次過完成所有事。', src: '心靈安慰卡' },
+      { q: 'You don\'t have to be perfect.\nYou just have to keep going.', src: '心靈安慰卡' },
+      { q: '壓力是真實的。\n但你撐過來的次數，\n比你記得的更多。', src: '心靈安慰卡' },
+      { q: '做完一件，再做下一件。\n就這樣。', src: '心靈安慰卡' },
+      { q: '今日盡力，\n已經足夠。', src: '心靈安慰卡' },
+    ]},
+    { name: '努力冇人見', desc: '你做的事，你自己知道', cards: [
+      { q: '你做的事，你自己知道。\n這份清醒，是你的。', src: '心靈安慰卡' },
+      { q: '看不見，不代表不存在。\n根在生長，花還未開。', src: '心靈安慰卡' },
+      { q: 'The right people will notice.\nKeep going.', src: '心靈安慰卡' },
+      { q: '不是所有付出都即時有回報。\n但每一分努力，都在複利。', src: '心靈安慰卡' },
+      { q: '你不是在等人發現你。\n你是在成為那個\n值得被發現的人。', src: '心靈安慰卡' },
+    ]},
+    { name: '同事關係差', desc: '有些人，保持距離就好', cards: [
+      { q: '不是所有人都值得你解釋。\n有些人，保持距離就好。', src: '心靈安慰卡' },
+      { q: '你無法控制別人怎樣對你，\n但你可以決定自己怎樣回應。', src: '心靈安慰卡' },
+      { q: 'Not every battle is worth fighting.\nChoose yours wisely.', src: '心靈安慰卡' },
+      { q: '辦公室的事，下班後放下。\n你的生命比這裡大得多。', src: '心靈安慰卡' },
+      { q: '做好自己的事，\n是最有力的回應。', src: '心靈安慰卡' },
+    ]},
+    { name: '懷疑自己', desc: '你坐在那個位置，不是偶然', cards: [
+      { q: '你坐在那個位置，\n不是偶然。', src: '心靈安慰卡' },
+      { q: '不確定感，是成長的正常感覺。\n不是你不夠好的證明。', src: '心靈安慰卡' },
+      { q: 'Everyone feels like a fraud sometimes.\nThat feeling means you care.', src: '心靈安慰卡' },
+      { q: '你以為自己不夠，\n但你已經做到了\n很多你以為做不到的事。', src: '心靈安慰卡' },
+      { q: '懷疑自己的人，\n往往比過分自信的人\n更值得信任。', src: '心靈安慰卡' },
+    ]},
+    { name: '想辭職／唔知去留', desc: '離開不是失敗', cards: [
+      { q: '離開不是失敗。\n有時候，那是你給自己\n最大的尊重。', src: '心靈安慰卡' },
+      { q: '留下來要有理由。\n離開，也要有理由。\n兩個都值得認真想清楚。', src: '心靈安慰卡' },
+      { q: 'Staying is not always strength.\nLeaving is not always weakness.', src: '心靈安慰卡' },
+      { q: '你不欠任何人一個解釋。\n你只需要對自己誠實。', src: '心靈安慰卡' },
+      { q: '無論你選擇什麼，\n記得：你比這份工作更重要。', src: '心靈安慰卡' },
+    ]},
+  ],
+  love: [
+    { name: '失戀／分手', desc: '痛是真實的，讓自己痛一陣', cards: [
+      { q: '痛是真實的。\n讓自己痛一陣，沒有關係。', src: '心靈安慰卡' },
+      { q: '結束的，不一定是錯的。\n只是不適合繼續。', src: '心靈安慰卡' },
+      { q: 'Healing isn\'t linear.\nBe patient with yourself.', src: '心靈安慰卡' },
+      { q: '你失去的，是一段關係。\n你沒有失去自己。', src: '心靈安慰卡' },
+      { q: '有些人出現，\n是為了讓你更清楚\n自己想要什麼。', src: '心靈安慰卡' },
+    ]},
+    { name: '關係出現裂縫', desc: '有時候，是兩個人都在用力', cards: [
+      { q: '爭吵不代表感情破裂。\n有時候，是兩個人都在用力。', src: '心靈安慰卡' },
+      { q: '說出口的話可以道歉。\n但先讓自己冷靜下來。', src: '心靈安慰卡' },
+      { q: 'Being heard matters\nmore than being right.', src: '心靈安慰卡' },
+      { q: '愛一個人，\n包括愛他和你之間的分歧。', src: '心靈安慰卡' },
+      { q: '有時候，沉默\n比辯解更有力量。', src: '心靈安慰卡' },
+    ]},
+    { name: '暗戀／說不出口', desc: '心動的感覺，本身已是禮物', cards: [
+      { q: '心動的感覺，\n本身已經是一份禮物。', src: '心靈安慰卡' },
+      { q: '說出來有風險。\n但藏著，也有代價。', src: '心靈安慰卡' },
+      { q: 'You deserve to be someone\'s first choice,\nnot a secret.', src: '心靈安慰卡' },
+      { q: '無論結果如何，\n你敢感受，已經很勇敢。', src: '心靈安慰卡' },
+      { q: '喜歡一個人的時候，\n你也看見了自己\n最柔軟的部分。', src: '心靈安慰卡' },
+    ]},
+    { name: '孤單／冇人明白', desc: '你還未遇到對的人', cards: [
+      { q: '孤單不是你的問題。\n是你還未遇到對的人。', src: '心靈安慰卡' },
+      { q: '有時候，你需要的不是人陪，\n是被理解。這很正常。', src: '心靈安慰卡' },
+      { q: 'You are not too much.\nYou just haven\'t met your people yet.', src: '心靈安慰卡' },
+      { q: '懂你的人，\n一個已經足夠。', src: '心靈安慰卡' },
+      { q: '先成為自己最好的陪伴。\n其他的，慢慢來。', src: '心靈安慰卡' },
+    ]},
+    { name: '唔知要唔要繼續', desc: '你心裡其實已有答案', cards: [
+      { q: '不確定，是因為你認真。\n不認真的人，從不猶豫。', src: '心靈安慰卡' },
+      { q: '問問自己：\n是捨不得這個人，\n還是捨不得那段時光？', src: '心靈安慰卡' },
+      { q: 'Stay because you want to,\nnot because you\'re afraid to leave.', src: '心靈安慰卡' },
+      { q: '感情裡最難的，\n是對自己誠實。', src: '心靈安慰卡' },
+      { q: '你心裡其實已經有答案。\n只是還沒準備好接受它。', src: '心靈安慰卡' },
+    ]},
+  ],
+  family: [
+    { name: '同父母關係緊張', desc: '兩件事可以同時成立', cards: [
+      { q: '他們愛你的方式，\n跟你需要的不一樣。\n兩件事可以同時成立。', src: '心靈安慰卡' },
+      { q: '你不需要改變自己，\n才值得被家人接受。', src: '心靈安慰卡' },
+      { q: 'You can love your family\nand still need distance to breathe.', src: '心靈安慰卡' },
+      { q: '理解一個人，\n不代表認同他的所有做法。', src: '心靈安慰卡' },
+      { q: '有些傷，是代代相傳的。\n但你可以選擇\n在你這裡停下來。', src: '心靈安慰卡' },
+    ]},
+    { name: '照顧家人的壓力', desc: '照顧別人之前，你也需要被照顧', cards: [
+      { q: '照顧別人之前，\n你也需要被照顧。', src: '心靈安慰卡' },
+      { q: '你已經付出很多。\n允許自己今天少做一點。', src: '心靈安慰卡' },
+      { q: 'Caring for others\ndoesn\'t mean forgetting yourself.', src: '心靈安慰卡' },
+      { q: '疲憊不是軟弱。\n是你一直在撐的證明。', src: '心靈安慰卡' },
+      { q: '你不是一個人在承擔。\n即使現在感覺是。', src: '心靈安慰卡' },
+    ]},
+    { name: '家庭矛盾／角色壓力', desc: '有些事不是你的責任去修復', cards: [
+      { q: '你不需要在家庭裡\n扮演一個令所有人滿意的角色。', src: '心靈安慰卡' },
+      { q: '家人之間的傷，需要時間。\n不是一次對話就能解決。', src: '心靈安慰卡' },
+      { q: 'You can set boundaries\nand still love your family.', src: '心靈安慰卡' },
+      { q: '有些事情，\n不是你的責任去修復。', src: '心靈安慰卡' },
+      { q: '家，應該是你充電的地方，\n不是消耗你的地方。', src: '心靈安慰卡' },
+    ]},
+    { name: '思念／距離', desc: '距離讓思念更清晰', cards: [
+      { q: '距離讓思念更清晰。\n你愛的人，\n知道你在想他們。', src: '心靈安慰卡' },
+      { q: '不在同一個地方，\n不代表不在彼此心裡。', src: '心靈安慰卡' },
+      { q: 'Distance is just geography.\nLove doesn\'t need a map.', src: '心靈安慰卡' },
+      { q: '思念是一種愛的方式。\n讓自己感受它。', src: '心靈安慰卡' },
+      { q: '等待重逢的日子，\n也是生命的一部分。', src: '心靈安慰卡' },
+    ]},
+  ],
+  self: [
+    { name: '迷失方向', desc: '迷失是重新認識自己的開始', cards: [
+      { q: '不知道去哪裡，\n不代表你走錯了。\n有時候，迷失是重新認識自己的開始。', src: '心靈安慰卡' },
+      { q: '方向不是找到的，\n是走出來的。\n先動，再說。', src: '心靈安慰卡' },
+      { q: 'Not all who wander are lost.\nSometimes you\'re just\nfinding your own way.', src: '心靈安慰卡' },
+      { q: '你不需要把所有事情想清楚，\n才可以開始。', src: '心靈安慰卡' },
+      { q: '此刻的迷茫，\n是因為你在認真\n對待自己的人生。', src: '心靈安慰卡' },
+    ]},
+    { name: '唔夠自信／比較心', desc: '你有你自己的節奏', cards: [
+      { q: '你看見別人的高光，\n但你不知道他們的代價。', src: '心靈安慰卡' },
+      { q: '比較是偷走快樂的賊。\n你有你自己的節奏。', src: '心靈安慰卡' },
+      { q: 'You are not behind.\nYou are on your own timeline.', src: '心靈安慰卡' },
+      { q: '你唯一需要超越的，\n是昨天的自己。', src: '心靈安慰卡' },
+      { q: '自信不是天生的。\n是每一次選擇相信自己\n累積出來的。', src: '心靈安慰卡' },
+    ]},
+    { name: '想改變但唔知點開始', desc: '現在，就是最好的時機', cards: [
+      { q: '改變不需要完美的時機。\n現在，就是最好的時機。', src: '心靈安慰卡' },
+      { q: '一個小動作，已經是開始。\n不要等準備好了才行動。', src: '心靈安慰卡' },
+      { q: 'You don\'t have to be great to start.\nBut you have to start to be great.', src: '心靈安慰卡' },
+      { q: '改變讓人害怕，\n但留在原地更可惜。', src: '心靈安慰卡' },
+      { q: '你已經在想改變了。\n這個念頭，已經是第一步。', src: '心靈安慰卡' },
+    ]},
+    { name: '身份認同／格格不入', desc: '不同，是你獨有的輪廓', cards: [
+      { q: '不合群，有時候是因為\n你已經超越了那個群體。', src: '心靈安慰卡' },
+      { q: '你不需要被所有人理解，\n才能做真實的自己。', src: '心靈安慰卡' },
+      { q: 'The right people will find you.\nBe yourself anyway.', src: '心靈安慰卡' },
+      { q: '不同，不是缺陷。\n是你獨有的輪廓。', src: '心靈安慰卡' },
+      { q: '做自己，\n是這一生最值得完成的事。', src: '心靈安慰卡' },
+    ]},
+    { name: '後悔／放不低過去', desc: '當時的你，已做了最好的決定', cards: [
+      { q: '後悔說明你在意。\n但你無法改變已發生的，\n只能決定接下來怎樣走。', src: '心靈安慰卡' },
+      { q: '放下不是忘記。\n是選擇不讓它\n繼續佔據你的現在。', src: '心靈安慰卡' },
+      { q: 'Your past is part of you,\nbut it doesn\'t have to define you.', src: '心靈安慰卡' },
+      { q: '當時的你，用當時的能力\n做了當時最好的決定。', src: '心靈安慰卡' },
+      { q: '原諒自己，\n是最難也最值得做的事。', src: '心靈安慰卡' },
+    ]},
+  ],
+  rest: [
+    { name: '好攰／Burnout', desc: '你可以停下來', cards: [
+      { q: '疲憊不是懶惰。\n是你的身體在告訴你，\n它需要被照顧。', src: '心靈安慰卡' },
+      { q: '你可以停下來。\n世界不會因為你休息而崩塌。', src: '心靈安慰卡' },
+      { q: 'Rest is not a reward.\nIt is a right.', src: '心靈安慰卡' },
+      { q: '燃燒殆盡之前，\n先補充自己。', src: '心靈安慰卡' },
+      { q: '今天什麼都不做，\n也是一種選擇。\n一個正確的選擇。', src: '心靈安慰卡' },
+    ]},
+    { name: '焦慮／睡不著', desc: '呼吸，慢一點', cards: [
+      { q: '此刻你擔心的事，\n大部分不會發生。', src: '心靈安慰卡' },
+      { q: '焦慮是你的大腦在保護你。\n謝謝它，然後告訴它：\n現在安全。', src: '心靈安慰卡' },
+      { q: 'You survived every bad day so far.\nThis one too shall pass.', src: '心靈安慰卡' },
+      { q: '呼吸。慢一點。\n你不需要現在\n解決所有事。', src: '心靈安慰卡' },
+      { q: '讓思緒流過，\n不用抓住每一個。', src: '心靈安慰卡' },
+    ]},
+    { name: '情緒低落', desc: '有些日子，活著就夠了', cards: [
+      { q: '低落不需要理由。\n允許自己今天\n只是存在著。', src: '心靈安慰卡' },
+      { q: '不是每一天都需要有意義。\n有些日子，活著就夠了。', src: '心靈安慰卡' },
+      { q: 'It\'s okay to not be okay.\nYou don\'t have to explain it.', src: '心靈安慰卡' },
+      { q: '黑暗的日子，\n不代表黑暗的未來。', src: '心靈安慰卡' },
+      { q: '你不需要振作。\n你只需要撐過今天。', src: '心靈安慰卡' },
+    ]},
+    { name: '覺得自己不夠好', desc: '此刻的你，已經足夠', cards: [
+      { q: '你不需要變得更好，\n才值得被愛。', src: '心靈安慰卡' },
+      { q: '此刻的你，\n已經足夠。', src: '心靈安慰卡' },
+      { q: 'You are worthy of love and belonging,\nexactly as you are.', src: '心靈安慰卡' },
+      { q: '不完美，才是真實的你。\n真實，才是最動人的。', src: '心靈安慰卡' },
+      { q: '對自己溫柔一點。\n你已經很努力了。', src: '心靈安慰卡' },
+    ]},
+  ],
+};
+
+let scCurrentCat = null;
+let scCurrentScene = null;
+let scLastCardIdx = -1;
+
+function scSelectCat(cat) {
+  scCurrentCat = cat;
+  const catInfo = SC_CATS[cat];
+  const scenes = SC_SCENES[cat];
+
+  document.getElementById('sc-intro-section').style.display = 'none';
+  document.getElementById('sc-scene-section').style.display = 'block';
+  document.getElementById('sc-card-section').style.display = 'none';
+
+  document.getElementById('sc-scene-title').textContent = catInfo.name;
+
+  const list = document.getElementById('sc-scenes-list');
+  list.innerHTML = '';
+  scenes.forEach(function(scene, i) {
+    var btn = document.createElement('button');
+    btn.className = 'sc-scene-btn';
+    btn.innerHTML =
+      '<div class="sc-scene-btn-left">' +
+        '<div class="sc-scene-btn-text">' + scene.name + '</div>' +
+        '<div class="sc-scene-btn-sub">' + scene.desc + '</div>' +
+      '</div>' +
+      '<span style="color:var(--subtle);font-size:16px">›</span>';
+    btn.onclick = function() { scSelectScene(i); };
+    list.appendChild(btn);
+  });
+}
+
+function scSelectScene(idx) {
+  scCurrentScene = idx;
+  const scene = SC_SCENES[scCurrentCat][idx];
+  document.getElementById('sc-scene-section').style.display = 'none';
+  document.getElementById('sc-card-section').style.display = 'block';
+  document.getElementById('sc-card-scene-title').textContent = scene.name;
+  scDrawCard();
+}
+
+function scDrawCard() {
+  const cat = scCurrentCat;
+  const catInfo = SC_CATS[cat];
+  const scene = SC_SCENES[cat][scCurrentScene];
+  const cards = scene.cards;
+
+  // Pick random card avoiding repeat
+  var idx;
+  do { idx = Math.floor(Math.random() * cards.length); }
+  while (idx === scLastCardIdx && cards.length > 1);
+  scLastCardIdx = idx;
+
+  const card = cards[idx];
+
+  // Set card image
+  document.getElementById('sc-card-bg').src = catInfo.img;
+
+  // Set text colors
+  const quoteEl = document.getElementById('sc-card-quote');
+  quoteEl.style.color = catInfo.textColor;
+  quoteEl.innerHTML = card.q.replace(/\n/g, '<br>');
+
+  const srcEl = document.getElementById('sc-card-source');
+  srcEl.style.color = catInfo.srcColor;
+  srcEl.textContent = '— ' + card.src;
+
+  // Style again button
+  const againBtn = document.getElementById('sc-again-btn');
+  againBtn.style.background = catInfo.btnBg;
+  againBtn.style.color = catInfo.btnColor;
+  againBtn.style.border = 'none';
+}
+
+function scDrawAgain() {
+  scDrawCard();
+}
+
+function scBackToCats() {
+  document.getElementById('sc-intro-section').style.display = 'block';
+  document.getElementById('sc-scene-section').style.display = 'none';
+  document.getElementById('sc-card-section').style.display = 'none';
+}
+
+function scBackToScenes() {
+  document.getElementById('sc-scene-section').style.display = 'block';
+  document.getElementById('sc-card-section').style.display = 'none';
+}
+
+function scCopyQuote() {
+  var quote = document.getElementById('sc-card-quote').innerText;
+  var src = document.getElementById('sc-card-source').textContent;
+  navigator.clipboard.writeText(quote + '\n' + src).then(function() {
+    showCiToast('已複製金句 ✦');
+  });
+}
+
+// Reset soul card on entry
+function scReset() {
+  document.getElementById('sc-intro-section').style.display = 'block';
+  document.getElementById('sc-scene-section').style.display = 'none';
+  document.getElementById('sc-card-section').style.display = 'none';
+  scCurrentCat = null;
+  scCurrentScene = null;
 }
 
 // ── PWA SERVICE WORKER ────────────────────────────
@@ -8045,16 +8543,42 @@ if ('serviceWorker' in navigator) {
         </div>
         <!-- Back (quote) -->
         <div class="dc-card-back" id="dc-card-back">
-          <svg class="dc-card-border" id="dc-border-svg" viewBox="0 0 360 220" fill="none">
-            <rect x="4" y="4" width="352" height="212" rx="16" stroke="url(#gold3)" stroke-width="1.5"/>
+          <!-- Border + corner decorations SVG -->
+          <svg class="dc-card-border" id="dc-border-svg" viewBox="0 0 300 420" fill="none" preserveAspectRatio="none">
             <defs>
-              <linearGradient id="gold3" x1="0" y1="0" x2="360" y2="220">
+              <linearGradient id="goldGrad" x1="0" y1="0" x2="300" y2="420" gradientUnits="userSpaceOnUse">
                 <stop offset="0%" stop-color="#B89B72"/>
                 <stop offset="50%" stop-color="#E8D5A0"/>
                 <stop offset="100%" stop-color="#9A7B55"/>
               </linearGradient>
             </defs>
+            <!-- Main border -->
+            <rect x="6" y="6" width="288" height="408" rx="14" stroke="url(#goldGrad)" stroke-width="1.2" fill="none"/>
+            <!-- Inner border -->
+            <rect x="14" y="14" width="272" height="392" rx="10" stroke="url(#goldGrad)" stroke-width="0.5" fill="none" opacity="0.5"/>
+            <!-- Top-left corner -->
+            <path d="M6 40 L6 20 Q6 6 20 6 L40 6" stroke="url(#goldGrad)" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <circle cx="25" cy="25" r="3" fill="url(#goldGrad)" opacity="0.8"/>
+            <path d="M20 14 L14 20 M30 14 L14 30" stroke="url(#goldGrad)" stroke-width="0.8" opacity="0.6"/>
+            <!-- Top-right corner -->
+            <path d="M294 40 L294 20 Q294 6 280 6 L260 6" stroke="url(#goldGrad)" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <circle cx="275" cy="25" r="3" fill="url(#goldGrad)" opacity="0.8"/>
+            <path d="M280 14 L286 20 M270 14 L286 30" stroke="url(#goldGrad)" stroke-width="0.8" opacity="0.6"/>
+            <!-- Bottom-left corner -->
+            <path d="M6 380 L6 400 Q6 414 20 414 L40 414" stroke="url(#goldGrad)" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <circle cx="25" cy="395" r="3" fill="url(#goldGrad)" opacity="0.8"/>
+            <path d="M20 406 L14 400 M30 406 L14 390" stroke="url(#goldGrad)" stroke-width="0.8" opacity="0.6"/>
+            <!-- Bottom-right corner -->
+            <path d="M294 380 L294 400 Q294 414 280 414 L260 414" stroke="url(#goldGrad)" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <circle cx="275" cy="395" r="3" fill="url(#goldGrad)" opacity="0.8"/>
+            <path d="M280 406 L286 400 M270 406 L286 390" stroke="url(#goldGrad)" stroke-width="0.8" opacity="0.6"/>
+            <!-- Top center small diamond -->
+            <path d="M150 10 L154 6 L158 10 L154 14 Z" fill="url(#goldGrad)" opacity="0.7"/>
+            <!-- Bottom center small diamond -->
+            <path d="M150 406 L154 410 L158 406 L154 402 Z" fill="url(#goldGrad)" opacity="0.7"/>
           </svg>
+          <!-- Watermark -->
+          <div class="dc-watermark">✦</div>
           <div class="dc-card-quote" id="dc-quote">—</div>
           <div class="dc-card-source" id="dc-source">—</div>
         </div>
@@ -8082,6 +8606,104 @@ if ('serviceWorker' in navigator) {
   </div>
 </div>
 
+
+
+<!-- ════════════════════════════════
+     SOUL COMFORT CARDS
+════════════════════════════════ -->
+<div class="page" id="page-soulcard">
+  <div class="tool-page">
+
+    <!-- INTRO + CATEGORY SELECTION -->
+    <div id="sc-intro-section">
+      <div class="sc-intro">
+        <div class="sc-intro-title">心靈安慰卡</div>
+        <div class="sc-intro-sub">此刻你需要聽到的那句話</div>
+        <div class="sc-intro-desc">
+          生活裡有些時刻，<br>
+          不需要解決方案，<br>
+          只需要有人說一句：「我明白。」<br><br>
+          選擇你現在的處境，<br>抽一張屬於你的卡。
+        </div>
+      </div>
+
+      <div class="sc-cats">
+        <button class="sc-cat-btn" style="background:#3F4A3C;color:#E8D5A0" onclick="scSelectCat('work')">
+          <span class="sc-cat-icon">💼</span>
+          <div class="sc-cat-text">
+            <div class="sc-cat-name">職場</div>
+            <div class="sc-cat-desc">當工作令你喘不過氣</div>
+          </div>
+          <span class="sc-cat-arrow">›</span>
+        </button>
+        <button class="sc-cat-btn" style="background:#EDD5C8;color:#8B5E52" onclick="scSelectCat('love')">
+          <span class="sc-cat-icon">💕</span>
+          <div class="sc-cat-text">
+            <div class="sc-cat-name">感情</div>
+            <div class="sc-cat-desc">當心裡有說不出口的事</div>
+          </div>
+          <span class="sc-cat-arrow">›</span>
+        </button>
+        <button class="sc-cat-btn" style="background:#F6EBC8;color:#6B4C2A" onclick="scSelectCat('family')">
+          <span class="sc-cat-icon">👨‍👩‍👧</span>
+          <div class="sc-cat-text">
+            <div class="sc-cat-name">家庭</div>
+            <div class="sc-cat-desc">當家的重量壓在你身上</div>
+          </div>
+          <span class="sc-cat-arrow">›</span>
+        </button>
+        <button class="sc-cat-btn" style="background:#C8DDD0;color:#3F4A3C" onclick="scSelectCat('self')">
+          <span class="sc-cat-icon">🌱</span>
+          <div class="sc-cat-text">
+            <div class="sc-cat-name">自我</div>
+            <div class="sc-cat-desc">當你迷失了自己的方向</div>
+          </div>
+          <span class="sc-cat-arrow">›</span>
+        </button>
+        <button class="sc-cat-btn" style="background:#DBD2DB;color:#6B6480" onclick="scSelectCat('rest')">
+          <span class="sc-cat-icon">😴</span>
+          <div class="sc-cat-text">
+            <div class="sc-cat-name">身心</div>
+            <div class="sc-cat-desc">當你只是需要被允許休息</div>
+          </div>
+          <span class="sc-cat-arrow">›</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- SCENE SELECTION -->
+    <div id="sc-scene-section" style="display:none">
+      <div class="sc-scene-header">
+        <button class="sc-back-btn" onclick="scBackToCats()">← 返回</button>
+        <div class="sc-scene-title" id="sc-scene-title"></div>
+      </div>
+      <div class="sc-scenes" id="sc-scenes-list"></div>
+    </div>
+
+    <!-- CARD DISPLAY -->
+    <div id="sc-card-section" style="display:none">
+      <div class="sc-scene-header">
+        <button class="sc-back-btn" onclick="scBackToScenes()">← 返回</button>
+        <div class="sc-scene-title" id="sc-card-scene-title"></div>
+      </div>
+
+      <div class="sc-card-wrap">
+        <img class="sc-card-bg" id="sc-card-bg" src="" alt="">
+        <div class="sc-card-content">
+          <div class="sc-card-quote" id="sc-card-quote"></div>
+          <div class="sc-card-source" id="sc-card-source"></div>
+        </div>
+      </div>
+
+      <div class="sc-card-actions">
+        <button class="sc-again-btn" id="sc-again-btn" onclick="scDrawAgain()">↺ 再抽一張</button>
+        <button class="sc-copy-btn" onclick="scCopyQuote()">複製金句</button>
+      </div>
+    </div>
+
+    <div class="status-msg" id="sc-status"></div>
+  </div>
+</div>
 
 
 </body>
