@@ -8525,25 +8525,9 @@ if ('serviceWorker' in navigator) {
     <!-- Card display area -->
     <div class="dc-card-scene" id="dc-card-scene">
       <div class="dc-card-inner" id="dc-card-inner">
-        <!-- Front (card back design) -->
+        <!-- Front (cover image) -->
         <div class="dc-card-front">
-          <svg class="dc-card-border" viewBox="0 0 360 220" fill="none">
-            <rect x="4" y="4" width="352" height="212" rx="16" stroke="url(#gold1)" stroke-width="1.5"/>
-            <rect x="10" y="10" width="340" height="200" rx="13" stroke="url(#gold2)" stroke-width="0.5" opacity="0.5"/>
-            <defs>
-              <linearGradient id="gold1" x1="0" y1="0" x2="360" y2="220">
-                <stop offset="0%" stop-color="#B89B72"/>
-                <stop offset="50%" stop-color="#E8D5A0"/>
-                <stop offset="100%" stop-color="#9A7B55"/>
-              </linearGradient>
-              <linearGradient id="gold2" x1="360" y1="0" x2="0" y2="220">
-                <stop offset="0%" stop-color="#E8D5A0"/>
-                <stop offset="100%" stop-color="#B89B72"/>
-              </linearGradient>
-            </defs>
-          </svg>
-          <div class="dc-card-front-logo">Kanso</div>
-          <div class="dc-card-front-sub">簡素 · 每日一抽</div>
+          <img src="card-daily-cover.png" alt="每日一抽" style="position:absolute;inset:0;width:100%;height:100%;object-fit:fill;">
         </div>
         <!-- Back (quote) -->
         <div class="dc-card-back" id="dc-card-back">
