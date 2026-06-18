@@ -3355,6 +3355,31 @@
       border-radius: 10px;
     }
 
+    /* ── EDIT INLINE ── */
+    .mt-edit-btn {
+      background: none; border: 1px solid var(--border);
+      border-radius: 6px; color: var(--subtle);
+      font-family: var(--font); font-size: 11px;
+      padding: 3px 8px; cursor: pointer;
+      transition: all 0.2s; flex-shrink: 0;
+    }
+    .mt-edit-btn:hover { border-color: var(--ink); color: var(--ink); }
+    .mt-inline-edit {
+      display: flex; gap: 6px; align-items: center; flex: 1;
+    }
+    .mt-inline-input {
+      flex: 1; font-family: var(--font); font-size: 13px;
+      font-weight: 600; color: var(--text);
+      background: var(--surface2); border: 1px solid var(--ink);
+      border-radius: 6px; padding: 4px 8px; outline: none;
+    }
+    .mt-inline-confirm {
+      background: var(--ink); color: var(--surface);
+      border: none; border-radius: 6px; font-family: var(--font);
+      font-size: 11px; font-weight: 600; padding: 4px 10px;
+      cursor: pointer; flex-shrink: 0;
+    }
+
     /* ── MEETING LANG TOGGLE ── */
     .mt-lang-toggle {
       display: flex;
@@ -8352,6 +8377,83 @@ function selectMtMode(mode) {
 }
 
 
+
+// ── EDIT FUNCTIONS ───────────────────────────────
+
+// 1. Edit Meeting Name (Single mode) — just focus the input
+function editMeetingTitle() {
+  var input = document.getElementById('mt-title');
+  if (input) { input.focus(); input.select(); }
+}
+
+// 2. Edit Session in rundown list
+function editRdSession(i) {
+  var list = document.getElementById('mt-rd-list');
+  var items = list.querySelectorAll('.mt-rd-item');
+  var item = items[i];
+  if (!item) return;
+  var session = rdSessions[i];
+
+  item.innerHTML =
+    '<div class="mt-rd-num">' + (i+1) + '</div>' +
+    '<div class="mt-inline-edit">' +
+      '<input class="mt-inline-input" id="mt-edit-name-' + i + '" value="' + session.name + '" maxlength="50">' +
+      '<input class="mt-inline-input" id="mt-edit-mins-' + i + '" value="' + session.mins + '" style="width:56px" inputmode="numeric">' +
+      '<button class="mt-inline-confirm" onclick="confirmEditSession(' + i + ')">✓</button>' +
+    '</div>';
+
+  var nameInput = document.getElementById('mt-edit-name-' + i);
+  if (nameInput) { nameInput.focus(); nameInput.select(); }
+  nameInput.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') confirmEditSession(i);
+  });
+}
+
+function confirmEditSession(i) {
+  var nameEl = document.getElementById('mt-edit-name-' + i);
+  var minsEl = document.getElementById('mt-edit-mins-' + i);
+  if (!nameEl || !minsEl) return;
+  var name = nameEl.value.trim();
+  var mins = parseInt(minsEl.value.trim());
+  if (!name || !mins || mins < 1) return;
+  rdSessions[i].name = name;
+  rdSessions[i].mins = mins;
+  renderRdList();
+}
+
+// 3. Edit saved rundown name
+function editSavedRundown(i) {
+  var saved = loadSavedRundowns();
+  if (!saved[i]) return;
+  var list = document.getElementById('mt-saved-list');
+  var items = list.querySelectorAll('.mt-saved-item');
+  var item = items[i];
+  if (!item) return;
+
+  item.innerHTML =
+    '<div class="mt-inline-edit">' +
+      '<input class="mt-inline-input" id="mt-edit-saved-' + i + '" value="' + saved[i].name + '">' +
+      '<button class="mt-inline-confirm" onclick="confirmEditSaved(' + i + ')">✓</button>' +
+    '</div>';
+
+  var inp = document.getElementById('mt-edit-saved-' + i);
+  if (inp) { inp.focus(); inp.select(); }
+  inp.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') confirmEditSaved(i);
+  });
+}
+
+function confirmEditSaved(i) {
+  var inp = document.getElementById('mt-edit-saved-' + i);
+  if (!inp) return;
+  var name = inp.value.trim();
+  if (!name) return;
+  var saved = loadSavedRundowns();
+  saved[i].name = name;
+  saveSavedRundowns(saved);
+  renderSavedList();
+}
+
 // ── RUNDOWN SAVE/LOAD ─────────────────────────────
 function loadSavedRundowns() {
   try { return JSON.parse(localStorage.getItem('kanso-rundowns') || '[]'); }
@@ -8398,6 +8500,7 @@ function renderSavedList() {
     div.innerHTML =
       '<div class="mt-saved-name">' + rd.name + '</div>' +
       '<div class="mt-saved-meta">' + rd.sessions.length + sessLabel + ' · ' + (rd.date || '') + '</div>' +
+      '<button class="mt-edit-btn" onclick="editSavedRundown(' + i + ');event.stopPropagation()">✎</button>' +
       '<button class="mt-saved-del" onclick="deleteSavedRundown(' + i + ');event.stopPropagation()">×</button>';
     div.addEventListener('click', function() { loadRundown(i); });
     list.appendChild(div);
@@ -8460,6 +8563,7 @@ function renderRdList() {
       '<div class="mt-rd-num">' + (i+1) + '</div>' +
       '<div class="mt-rd-name">' + s.name + '</div>' +
       '<div class="mt-rd-dur">' + s.mins + (mtLang === 'en' ? ' min' : ' 分鐘') + '</div>' +
+      (!rdRunning ? '<button class="mt-edit-btn" onclick="editRdSession(' + i + ');event.stopPropagation()">✎</button>' : '') +
       (!rdRunning ? '<button class="mt-rd-del" onclick="delRdSession(' + i + ')">×</button>' : '');
     list.appendChild(div);
   });
