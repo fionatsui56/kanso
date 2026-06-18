@@ -8344,6 +8344,9 @@ function selectMtMode(mode) {
   document.getElementById('mt-opt2').classList.toggle('active', mode === 'rundown');
   document.getElementById('mt-single-section').style.display = mode === 'single' ? 'block' : 'none';
   document.getElementById('mt-rundown-section').style.display = mode === 'rundown' ? 'block' : 'none';
+  // Clear fullscreen title on mode switch
+  var fsTitleEl = document.getElementById('mt-fs-meeting-title');
+  if (fsTitleEl) fsTitleEl.textContent = '';
   resetMeeting();
   resetRundown();
 }
@@ -8558,6 +8561,9 @@ function updateRdFsDisplay() {
 
   var session = rdSessions[rdCurrentIdx];
   if (session) { var n = session.name; fsTitle.textContent = n.length > 40 ? n.slice(0,40) + '...' : n; }
+  // Update label language
+  var fsLabelEl = document.getElementById('mt-fs-label');
+  if (fsLabelEl) fsLabelEl.textContent = mtLang === 'en' ? 'Meeting Timer' : '會議計時器';
 
   // Next session
   var nextSession = rdSessions[rdCurrentIdx + 1];
