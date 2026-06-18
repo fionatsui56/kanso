@@ -8320,6 +8320,9 @@ function applyMtLang() {
   // Fullscreen hint
   var fsHint = document.querySelector('.mt-fs-hint');
   if (fsHint) fsHint.textContent = s.fsHint || '點擊任何地方退出全螢幕';
+  // Saved list title
+  var savedTitle = document.getElementById('mt-saved-title');
+  if (savedTitle) savedTitle.textContent = mtLang === 'en' ? 'Saved Rundowns' : '已儲存行程';
   // Save/load buttons
   var saveRow = document.getElementById('mt-rd-save-row');
   if (saveRow) {
@@ -8453,7 +8456,7 @@ function renderRdList() {
     div.innerHTML =
       '<div class="mt-rd-num">' + (i+1) + '</div>' +
       '<div class="mt-rd-name">' + s.name + '</div>' +
-      '<div class="mt-rd-dur">' + s.mins + ' 分鐘</div>' +
+      '<div class="mt-rd-dur">' + s.mins + (mtLang === 'en' ? ' min' : ' 分鐘') + '</div>' +
       (!rdRunning ? '<button class="mt-rd-del" onclick="delRdSession(' + i + ')">×</button>' : '');
     list.appendChild(div);
   });
@@ -8952,7 +8955,7 @@ if ('serviceWorker' in navigator) {
 
       <!-- Saved rundowns list -->
       <div class="mt-saved-section" id="mt-saved-section" style="display:none">
-        <div class="mt-saved-title">已儲存行程</div>
+        <div class="mt-saved-title" id="mt-saved-title">已儲存行程</div>
         <div id="mt-saved-list"></div>
       </div>
 
