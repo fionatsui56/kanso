@@ -8488,7 +8488,7 @@ function startRdSession() {
   var session = rdSessions[rdCurrentIdx];
   rdTotal = session.mins * 60;
   rdRemaining = rdTotal;
-  document.getElementById('mt-rd-label').textContent = session.name + '  (' + (rdCurrentIdx+1) + ' / ' + rdSessions.length + ')';
+  document.getElementById('mt-rd-label').textContent = session.name;
   updateRdDisplay();
   renderRdList();
   rdInterval = setInterval(rdTick, 1000);
@@ -8570,8 +8570,7 @@ function updateRdFsDisplay() {
     fsNext.textContent = lastLabel;
   }
 
-  var ofLabel = mtLang === 'en' ? ' of ' : ' / ';
-  fsProgress.textContent = 'Session ' + (rdCurrentIdx+1) + ofLabel + rdSessions.length;
+  fsProgress.textContent = '';
 
   // Background colour
   overlay.classList.remove('green-bg', 'orange-bg', 'red-bg');
