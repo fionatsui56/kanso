@@ -8238,17 +8238,17 @@ var mtLang = 'zh';
 const MT_STRINGS = {
   zh: {
     opt1Title: '單一計時', opt1Desc: '一個時段<br>快速開始',
-    opt2Title: '全日行程', opt2Desc: '多個 Session<br>順序播放',
+    opt2Title: '全日議程', opt2Desc: '多個 Session<br>順序播放',
     titleLabel: '會議名稱（選填）', titlePlaceholder: '例如：Q2 Review',
     durationLabel: '會議時長（分鐘）', durationPlaceholder: '例如 45',
     setBtn: '設定', startBtn: '開始', pauseBtn: '暫停', resumeBtn: '繼續',
     resetBtn: '重設', fsBtn: '⛶ 全螢幕', addTime: '加時：',
     plus1: '+1分', plus5: '+5分', plus10: '+10分',
     rdNameLabel: 'Session 名稱', rdNamePlaceholder: '例如：Opening Keynote',
-    rdMinsLabel: '分鐘', rdStartBtn: '▶ 開始行程',
-    rdEmpty: '未有 Session，請加入行程',
+    rdMinsLabel: '分鐘', rdStartBtn: '▶ 開始議程',
+    rdEmpty: '未有 Session，請加入議程',
     readyMsg: '輸入時長後開始', pausedMsg: '已暫停', runningMsg: '會議進行中',
-    overtimeMsg: '⚠️ 時間已到！', doneMsg: '✅ 全部行程完成！',
+    overtimeMsg: '⚠️ 時間已到！', doneMsg: '✅ 全部議程完成！',
     lastSession: '▶ Last Session',
   },
   en: {
@@ -8347,13 +8347,13 @@ function applyMtLang() {
   if (fsHint) fsHint.textContent = s.fsHint || '點擊任何地方退出全螢幕';
   // Saved list title
   var savedTitle = document.getElementById('mt-saved-title');
-  if (savedTitle) savedTitle.textContent = mtLang === 'en' ? 'Saved Rundowns' : '已儲存行程';
+  if (savedTitle) savedTitle.textContent = mtLang === 'en' ? 'Saved Rundowns' : '已儲存議程';
   // Save/load buttons
   var saveRow = document.getElementById('mt-rd-save-row');
   if (saveRow) {
     var saveBtns = saveRow.querySelectorAll('.btn-secondary');
-    if (saveBtns[0]) saveBtns[0].textContent = mtLang === 'en' ? '💾 Save Rundown' : '💾 儲存行程';
-    if (saveBtns[1]) saveBtns[1].textContent = mtLang === 'en' ? '📂 Load Rundown' : '📂 載入行程';
+    if (saveBtns[0]) saveBtns[0].textContent = mtLang === 'en' ? '💾 Save Rundown' : '💾 儲存議程';
+    if (saveBtns[1]) saveBtns[1].textContent = mtLang === 'en' ? '📂 Load Rundown' : '📂 載入議程';
   }
   // Re-render list
   renderRdList();
@@ -8468,12 +8468,12 @@ function saveRundown() {
     showStatus('mt-status', mtLang === 'en' ? 'Add sessions first' : '請先加入 Session', 'error');
     return;
   }
-  var name = prompt(mtLang === 'en' ? 'Name this rundown:' : '儲存行程名稱：', '');
+  var name = prompt(mtLang === 'en' ? 'Name this rundown:' : '儲存議程名稱：', '');
   if (!name || !name.trim()) return;
   var saved = loadSavedRundowns();
   saved.push({ name: name.trim(), sessions: rdSessions.slice(), date: new Date().toLocaleDateString('zh-HK') });
   saveSavedRundowns(saved);
-  showCiToast(mtLang === 'en' ? 'Rundown saved!' : '行程已儲存 ✓');
+  showCiToast(mtLang === 'en' ? 'Rundown saved!' : '議程已儲存 ✓');
   renderSavedList();
 }
 
@@ -8489,7 +8489,7 @@ function renderSavedList() {
   var list = document.getElementById('mt-saved-list');
   if (!list) return;
   if (saved.length === 0) {
-    list.innerHTML = '<div class="mt-saved-empty">' + (mtLang === 'en' ? 'No saved rundowns yet' : '未有已儲存行程') + '</div>';
+    list.innerHTML = '<div class="mt-saved-empty">' + (mtLang === 'en' ? 'No saved rundowns yet' : '未有已儲存議程') + '</div>';
     return;
   }
   list.innerHTML = '';
@@ -8612,7 +8612,7 @@ function rdTick() {
     } else {
       // All done
       rdRunning = false;
-      document.getElementById('mt-rd-label').textContent = '✅ 全部行程完成！';
+      document.getElementById('mt-rd-label').textContent = '✅ 全部議程完成！';
       document.getElementById('mt-rd-display').textContent = '00:00';
       updateRdFsDisplay();
       renderRdList();
@@ -8981,7 +8981,7 @@ if ('serviceWorker' in navigator) {
       <div class="tool-icon mint">⏱</div>
       <div class="tool-header-text">
         <h1>會議計時器</h1>
-        <p>單一計時 · 全日行程</p>
+        <p>單一計時 · 全日議程</p>
       </div>
     </div>
 
@@ -9002,7 +9002,7 @@ if ('serviceWorker' in navigator) {
       </div>
       <div class="mt-option-btn" id="mt-opt2" onclick="selectMtMode('rundown')">
         <div class="mt-option-icon">📋</div>
-        <div class="mt-option-title">全日行程</div>
+        <div class="mt-option-title">全日議程</div>
         <div class="mt-option-desc">多個 Session<br>順序播放</div>
       </div>
     </div>
@@ -9059,25 +9059,25 @@ if ('serviceWorker' in navigator) {
       <!-- Session list -->
       <div class="mt-rd-list" id="mt-rd-list">
         <div style="text-align:center;padding:20px;color:var(--subtle);font-size:13px">
-          未有 Session，請加入行程
+          未有 Session，請加入議程
         </div>
       </div>
 
       <!-- Save/Load row -->
       <div class="mt-rd-save-row" id="mt-rd-save-row">
-        <button class="btn btn-secondary" style="flex:1" onclick="saveRundown()">💾 儲存行程</button>
-        <button class="btn btn-secondary" style="flex:1" onclick="toggleSavedList()">📂 載入行程</button>
+        <button class="btn btn-secondary" style="flex:1" onclick="saveRundown()">💾 儲存議程</button>
+        <button class="btn btn-secondary" style="flex:1" onclick="toggleSavedList()">📂 載入議程</button>
       </div>
 
       <!-- Saved rundowns list -->
       <div class="mt-saved-section" id="mt-saved-section" style="display:none">
-        <div class="mt-saved-title" id="mt-saved-title">已儲存行程</div>
+        <div class="mt-saved-title" id="mt-saved-title">已儲存議程</div>
         <div id="mt-saved-list"></div>
       </div>
 
       <!-- Rundown controls -->
       <div class="mt-controls">
-        <button class="btn btn-primary" id="mt-rd-start-btn" onclick="startRundown()" disabled>▶ 開始行程</button>
+        <button class="btn btn-primary" id="mt-rd-start-btn" onclick="startRundown()" disabled>▶ 開始議程</button>
         <button class="btn btn-secondary" onclick="resetRundown()">重設</button>
         <button class="btn btn-secondary" id="mt-rd-fs-btn" onclick="openMeetingFS()" disabled style="padding:12px">⛶ 全螢幕</button>
       </div>
