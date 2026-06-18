@@ -3307,6 +3307,125 @@
       text-align: center;
     }
 
+    /* ── MEETING LANG TOGGLE ── */
+    .mt-lang-toggle {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 16px;
+    }
+    .mt-lang-btn {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 5px 4px;
+      display: flex;
+      gap: 2px;
+      cursor: pointer;
+    }
+    .mt-lang-option {
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      font-family: var(--font);
+      color: var(--subtle);
+      transition: all 0.2s;
+      cursor: pointer;
+      border: none;
+      background: none;
+    }
+    .mt-lang-option.active {
+      background: var(--ink);
+      color: var(--surface);
+    }
+
+    /* ── MEETING OPTION SELECT ── */
+    .mt-option-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .mt-option-btn {
+      background: var(--surface);
+      border: 2px solid var(--border);
+      border-radius: 14px;
+      padding: 18px 12px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: var(--font);
+    }
+    .mt-option-btn:hover, .mt-option-btn.active {
+      border-color: var(--ink);
+      background: var(--surface2);
+    }
+    .mt-option-icon { font-size: 28px; margin-bottom: 8px; }
+    .mt-option-title { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+    .mt-option-desc { font-size: 11px; color: var(--subtle); line-height: 1.4; }
+    /* Rundown */
+    .mt-rd-input-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+      align-items: flex-end;
+    }
+    .mt-rd-input-row .input-group {
+      margin-bottom: 0;
+      flex: 1;
+    }
+    .mt-rd-input-row .input-group:first-child { flex: 2; }
+    .mt-rd-list { margin-bottom: 16px; }
+    .mt-rd-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      margin-bottom: 8px;
+      transition: all 0.2s;
+    }
+    .mt-rd-item.active-session {
+      border-color: var(--ink);
+      background: var(--surface2);
+    }
+    .mt-rd-item.done-session { opacity: 0.4; }
+    .mt-rd-num {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--subtle);
+      width: 20px;
+      flex-shrink: 0;
+    }
+    .mt-rd-name { font-size: 13px; font-weight: 600; color: var(--text); flex: 1; }
+    .mt-rd-dur { font-size: 12px; color: var(--subtle); flex-shrink: 0; }
+    .mt-rd-del {
+      background: none; border: none; color: var(--subtle);
+      font-size: 16px; cursor: pointer; padding: 2px 4px;
+      transition: color 0.2s; flex-shrink: 0;
+    }
+    .mt-rd-del:hover { color: #C46A5A; }
+    /* Fullscreen wrap-up colors */
+    .mt-fs-overlay.green-bg { background: #1A3A2A; }
+    .mt-fs-overlay.orange-bg { background: #3A2A0A; }
+    .mt-fs-overlay.red-bg { background: #3A0A0A; }
+    /* Fullscreen next session */
+    .mt-fs-next {
+      font-size: clamp(12px, 3vw, 16px);
+      color: rgba(240,238,233,0.4);
+      margin-top: 20px;
+      font-family: var(--font);
+      letter-spacing: 1px;
+    }
+    .mt-fs-progress {
+      font-size: clamp(11px, 2.5vw, 14px);
+      color: rgba(240,238,233,0.35);
+      margin-top: 8px;
+      font-family: var(--font);
+    }
+
     /* ── MEETING ADD TIME ── */
     .mt-add-row {
       display: flex;
@@ -8038,27 +8157,331 @@ document.addEventListener('DOMContentLoaded', function() {
 const _origShowTool = showTool;
 
 
+
+
+// ── MEETING LANG ─────────────────────────────────
+var mtLang = 'zh';
+
+const MT_STRINGS = {
+  zh: {
+    opt1Title: '單一計時', opt1Desc: '一個時段<br>快速開始',
+    opt2Title: '全日行程', opt2Desc: '多個 Session<br>順序播放',
+    titleLabel: '會議名稱（選填）', titlePlaceholder: '例如：Q2 Review',
+    durationLabel: '會議時長（分鐘）', durationPlaceholder: '例如 45',
+    setBtn: '設定', startBtn: '開始', pauseBtn: '暫停', resumeBtn: '繼續',
+    resetBtn: '重設', fsBtn: '⛶ 全螢幕', addTime: '加時：',
+    plus1: '+1分', plus5: '+5分', plus10: '+10分',
+    rdNameLabel: 'Session 名稱', rdNamePlaceholder: '例如：Opening Keynote',
+    rdMinsLabel: '分鐘', rdStartBtn: '▶ 開始行程',
+    rdEmpty: '未有 Session，請加入行程',
+    readyMsg: '輸入時長後開始', pausedMsg: '已暫停', runningMsg: '會議進行中',
+    overtimeMsg: '⚠️ 時間已到！', doneMsg: '✅ 全部行程完成！',
+    lastSession: '▶ Last Session',
+  },
+  en: {
+    opt1Title: 'Single Timer', opt1Desc: 'One session<br>Quick start',
+    opt2Title: 'Full Rundown', opt2Desc: 'Multiple sessions<br>Auto-advance',
+    titleLabel: 'Meeting Name (optional)', titlePlaceholder: 'e.g. Q2 Review',
+    durationLabel: 'Duration (minutes)', durationPlaceholder: 'e.g. 45',
+    setBtn: 'Set', startBtn: 'Start', pauseBtn: 'Pause', resumeBtn: 'Resume',
+    resetBtn: 'Reset', fsBtn: '⛶ Fullscreen', addTime: 'Add:',
+    plus1: '+1 min', plus5: '+5 min', plus10: '+10 min',
+    rdNameLabel: 'Session Name', rdNamePlaceholder: 'e.g. Opening Keynote',
+    rdMinsLabel: 'Mins', rdStartBtn: '▶ Start Rundown',
+    rdEmpty: 'No sessions yet. Add a session to begin.',
+    readyMsg: 'Enter duration to start', pausedMsg: 'Paused', runningMsg: 'Meeting in progress',
+    overtimeMsg: '⚠️ Time is up!', doneMsg: '✅ All sessions complete!',
+    lastSession: '▶ Last Session',
+  }
+};
+
+function setMtLang(lang) {
+  mtLang = lang;
+  document.getElementById('mt-lang-zh').classList.toggle('active', lang === 'zh');
+  document.getElementById('mt-lang-en').classList.toggle('active', lang === 'en');
+  applyMtLang();
+}
+
+function applyMtLang() {
+  var s = MT_STRINGS[mtLang];
+  // Option buttons
+  document.querySelector('#mt-opt1 .mt-option-title').textContent = s.opt1Title;
+  document.querySelector('#mt-opt1 .mt-option-desc').innerHTML = s.opt1Desc;
+  document.querySelector('#mt-opt2 .mt-option-title').textContent = s.opt2Title;
+  document.querySelector('#mt-opt2 .mt-option-desc').innerHTML = s.opt2Desc;
+  // Single mode
+  var titleLbl = document.querySelector('label[for-mt-title]');
+  var labels = document.querySelectorAll('#mt-single-section label');
+  if (labels[0]) labels[0].textContent = s.titleLabel;
+  if (labels[1]) labels[1].textContent = s.durationLabel;
+  document.getElementById('mt-title').placeholder = s.titlePlaceholder;
+  document.getElementById('mt-mins').placeholder = s.durationPlaceholder;
+  // Buttons
+  var setBtn = document.querySelector('#mt-single-section .mt-input-row .btn-primary');
+  if (setBtn) setBtn.textContent = s.setBtn;
+  var toggleBtn = document.getElementById('mt-toggle-btn');
+  if (toggleBtn && !mtRunning) toggleBtn.textContent = s.startBtn;
+  document.getElementById('mt-fs-open-btn').textContent = s.fsBtn;
+  var resetBtns = document.querySelectorAll('#mt-single-section .btn-secondary');
+  if (resetBtns[0]) resetBtns[0].textContent = s.resetBtn;
+  // Add time row
+  var addSpan = document.querySelector('#mt-add-row span');
+  if (addSpan) addSpan.textContent = s.addTime;
+  var addBtns = document.querySelectorAll('#mt-add-row .mt-add-btn');
+  if (addBtns[0]) addBtns[0].textContent = s.plus1;
+  if (addBtns[1]) addBtns[1].textContent = s.plus5;
+  if (addBtns[2]) addBtns[2].textContent = s.plus10;
+  // Label
+  var label = document.getElementById('mt-label');
+  if (label && label.textContent === MT_STRINGS[mtLang === 'zh' ? 'en' : 'zh'].readyMsg)
+    label.textContent = s.readyMsg;
+  // Rundown mode
+  var rdLabels = document.querySelectorAll('#mt-rundown-section label');
+  if (rdLabels[0]) rdLabels[0].textContent = s.rdNameLabel;
+  if (rdLabels[1]) rdLabels[1].textContent = s.rdMinsLabel;
+  document.getElementById('mt-rd-name').placeholder = s.rdNamePlaceholder;
+  var rdStartBtn = document.getElementById('mt-rd-start-btn');
+  if (rdStartBtn) rdStartBtn.textContent = s.rdStartBtn;
+  document.getElementById('mt-rd-fs-btn').textContent = s.fsBtn;
+  var rdResetBtn = document.querySelector('#mt-rundown-section .btn-secondary');
+  if (rdResetBtn) rdResetBtn.textContent = s.resetBtn;
+  var rdAddSpan = document.querySelector('#mt-rd-add-row span');
+  if (rdAddSpan) rdAddSpan.textContent = s.addTime;
+  var rdAddBtns = document.querySelectorAll('#mt-rd-add-row .mt-add-btn');
+  if (rdAddBtns[0]) rdAddBtns[0].textContent = s.plus1;
+  if (rdAddBtns[1]) rdAddBtns[1].textContent = s.plus5;
+  if (rdAddBtns[2]) rdAddBtns[2].textContent = s.plus10;
+  // Re-render list for empty state text
+  if (rdSessions.length === 0) renderRdList();
+}
+
+// ── MEETING MODE SELECTOR ────────────────────────
+var mtMode = 'single';
+
+function selectMtMode(mode) {
+  mtMode = mode;
+  document.getElementById('mt-opt1').classList.toggle('active', mode === 'single');
+  document.getElementById('mt-opt2').classList.toggle('active', mode === 'rundown');
+  document.getElementById('mt-single-section').style.display = mode === 'single' ? 'block' : 'none';
+  document.getElementById('mt-rundown-section').style.display = mode === 'rundown' ? 'block' : 'none';
+  resetMeeting();
+  resetRundown();
+}
+
+// ── RUNDOWN ──────────────────────────────────────
+var rdSessions = [];
+var rdCurrentIdx = 0;
+var rdRunning = false;
+var rdInterval = null;
+var rdRemaining = 0;
+var rdTotal = 0;
+
+function addRdSession() {
+  var name = document.getElementById('mt-rd-name').value.trim();
+  var mins = parseInt(document.getElementById('mt-rd-mins').value.trim());
+  if (!name) return showStatus('mt-status', '請輸入 Session 名稱', 'error');
+  if (!mins || isNaN(mins) || mins < 1) return showStatus('mt-status', '請輸入有效分鐘數', 'error');
+  hideStatus('mt-status');
+  rdSessions.push({ name: name, mins: mins });
+  document.getElementById('mt-rd-name').value = '';
+  document.getElementById('mt-rd-mins').value = '';
+  document.getElementById('mt-rd-name').focus();
+  renderRdList();
+  document.getElementById('mt-rd-start-btn').disabled = false;
+}
+
+function renderRdList() {
+  var list = document.getElementById('mt-rd-list');
+  if (rdSessions.length === 0) {
+    list.innerHTML = '<div style="text-align:center;padding:20px;color:var(--subtle);font-size:13px">' + MT_STRINGS[mtLang].rdEmpty + '</div>';
+    return;
+  }
+  list.innerHTML = '';
+  rdSessions.forEach(function(s, i) {
+    var div = document.createElement('div');
+    var cls = 'mt-rd-item';
+    if (rdRunning && i === rdCurrentIdx) cls += ' active-session';
+    if (rdRunning && i < rdCurrentIdx) cls += ' done-session';
+    div.className = cls;
+    div.innerHTML =
+      '<div class="mt-rd-num">' + (i+1) + '</div>' +
+      '<div class="mt-rd-name">' + s.name + '</div>' +
+      '<div class="mt-rd-dur">' + s.mins + ' 分鐘</div>' +
+      (!rdRunning ? '<button class="mt-rd-del" onclick="delRdSession(' + i + ')">×</button>' : '');
+    list.appendChild(div);
+  });
+}
+
+function delRdSession(i) {
+  rdSessions.splice(i, 1);
+  renderRdList();
+  if (rdSessions.length === 0) document.getElementById('mt-rd-start-btn').disabled = true;
+}
+
+function startRundown() {
+  if (rdSessions.length === 0) return;
+  rdCurrentIdx = 0;
+  rdRunning = true;
+  document.getElementById('mt-rd-start-btn').style.display = 'none';
+  document.getElementById('mt-rd-display').style.display = 'block';
+  document.getElementById('mt-rd-label').style.display = 'block';
+  document.getElementById('mt-rd-progress').style.display = 'block';
+  document.getElementById('mt-rd-add-row').style.display = 'flex';
+  document.getElementById('mt-rd-fs-btn').disabled = false;
+  startRdSession();
+}
+
+function startRdSession() {
+  clearInterval(rdInterval);
+  var session = rdSessions[rdCurrentIdx];
+  rdTotal = session.mins * 60;
+  rdRemaining = rdTotal;
+  document.getElementById('mt-rd-label').textContent = session.name + '  (' + (rdCurrentIdx+1) + ' / ' + rdSessions.length + ')';
+  updateRdDisplay();
+  renderRdList();
+  rdInterval = setInterval(rdTick, 1000);
+}
+
+function rdTick() {
+  rdRemaining--;
+  if (rdRemaining < 0) {
+    // Move to next session
+    clearInterval(rdInterval);
+    rdCurrentIdx++;
+    if (rdCurrentIdx < rdSessions.length) {
+      startRdSession();
+    } else {
+      // All done
+      rdRunning = false;
+      document.getElementById('mt-rd-label').textContent = '✅ 全部行程完成！';
+      document.getElementById('mt-rd-display').textContent = '00:00';
+      updateRdFsDisplay();
+      renderRdList();
+    }
+    return;
+  }
+  updateRdDisplay();
+}
+
+function updateRdDisplay() {
+  var m = String(Math.floor(Math.abs(rdRemaining) / 60)).padStart(2, '0');
+  var s = String(Math.abs(rdRemaining) % 60).padStart(2, '0');
+  var timeStr = m + ':' + s;
+  var displayEl = document.getElementById('mt-rd-display');
+  var bar = document.getElementById('mt-rd-bar');
+
+  displayEl.textContent = timeStr;
+
+  // Colour logic
+  var pct = rdTotal > 0 ? (rdRemaining / rdTotal) * 100 : 0;
+  if (rdRemaining <= 120) {
+    displayEl.className = 'mt-display critical';
+    bar.className = 'mt-progress-bar critical';
+  } else if (rdRemaining <= 300) {
+    displayEl.className = 'mt-display warning';
+    bar.className = 'mt-progress-bar warning';
+  } else if (rdRemaining <= 600) {
+    displayEl.className = 'mt-display';
+    bar.className = 'mt-progress-bar green';
+  } else {
+    displayEl.className = 'mt-display';
+    bar.className = 'mt-progress-bar';
+  }
+  bar.style.width = Math.max(0, pct) + '%';
+
+  updateRdFsDisplay();
+}
+
+function updateRdFsDisplay() {
+  var fsTime = document.getElementById('mt-fs-time');
+  var fsTitle = document.getElementById('mt-fs-meeting-title');
+  var fsNext = document.getElementById('mt-fs-next');
+  var fsProgress = document.getElementById('mt-fs-progress');
+  var overlay = document.getElementById('mt-fs-overlay');
+  if (!fsTime) return;
+
+  var m = String(Math.floor(Math.abs(rdRemaining) / 60)).padStart(2, '0');
+  var s = String(Math.abs(rdRemaining) % 60).padStart(2, '0');
+  fsTime.textContent = m + ':' + s;
+
+  var session = rdSessions[rdCurrentIdx];
+  if (session) fsTitle.textContent = session.name;
+
+  // Next session
+  var nextSession = rdSessions[rdCurrentIdx + 1];
+  if (nextSession) {
+    fsNext.textContent = '▶ 下一個：' + nextSession.name + ' (' + nextSession.mins + ' 分鐘)';
+  } else {
+    fsNext.textContent = '▶ 最後一個 Session';
+  }
+
+  fsProgress.textContent = 'Session ' + (rdCurrentIdx+1) + ' / ' + rdSessions.length;
+
+  // Background colour
+  overlay.classList.remove('green-bg', 'orange-bg', 'red-bg');
+  if (rdRemaining <= 120) overlay.classList.add('red-bg');
+  else if (rdRemaining <= 300) overlay.classList.add('orange-bg');
+  else if (rdRemaining <= 600) overlay.classList.add('green-bg');
+
+  // Time colour
+  fsTime.className = 'mt-fs-time';
+  if (rdRemaining <= 120) fsTime.className += ' critical';
+  else if (rdRemaining <= 300) fsTime.className += ' warning';
+}
+
+function resetRundown() {
+  clearInterval(rdInterval);
+  rdSessions = [];
+  rdCurrentIdx = 0;
+  rdRunning = false;
+  rdRemaining = 0;
+  var startBtn = document.getElementById('mt-rd-start-btn');
+  if (startBtn) { startBtn.style.display = ''; startBtn.disabled = true; }
+  var rdDisplay = document.getElementById('mt-rd-display');
+  if (rdDisplay) { rdDisplay.style.display = 'none'; rdDisplay.textContent = '--:--'; }
+  var rdLabel = document.getElementById('mt-rd-label');
+  if (rdLabel) { rdLabel.style.display = 'none'; }
+  var rdProg = document.getElementById('mt-rd-progress');
+  if (rdProg) rdProg.style.display = 'none';
+  var addRow = document.getElementById('mt-rd-add-row');
+  if (addRow) addRow.style.display = 'none';
+  var fsBtn = document.getElementById('mt-rd-fs-btn');
+  if (fsBtn) fsBtn.disabled = true;
+  renderRdList();
+}
+
 // ── MEETING FULLSCREEN ───────────────────────────
 
 function addMeetingTime(mins) {
-  mtRemaining += mins * 60;
-  if (mtTotal) mtTotal += mins * 60;
-  updateMtDisplay();
+  if (mtMode === 'rundown') {
+    rdRemaining += mins * 60;
+    if (rdTotal) rdTotal += mins * 60;
+    updateRdDisplay();
+  } else {
+    mtRemaining += mins * 60;
+    if (mtTotal) mtTotal += mins * 60;
+    updateMtDisplay();
+  }
   showCiToast('+' + mins + ' 分鐘');
 }
 
 function openMeetingFS() {
   var overlay = document.getElementById('mt-fs-overlay');
-  var fsTime = document.getElementById('mt-fs-time');
-  var display = document.getElementById('mt-display');
-  if (fsTime && display) {
-    fsTime.textContent = display.textContent;
-    fsTime.className = 'mt-fs-time' + (display.className.includes('critical') ? ' critical' : display.className.includes('warning') ? ' warning' : '');
+  if (mtMode === 'rundown') {
+    updateRdFsDisplay();
+  } else {
+    var fsTime = document.getElementById('mt-fs-time');
+    var display = document.getElementById('mt-display');
+    if (fsTime && display) {
+      fsTime.textContent = display.textContent;
+      fsTime.className = 'mt-fs-time' + (display.className.includes('critical') ? ' critical' : display.className.includes('warning') ? ' warning' : '');
+    }
+    var titleEl = document.getElementById('mt-fs-meeting-title');
+    var titleInput = document.getElementById('mt-title');
+    if (titleEl && titleInput) titleEl.textContent = titleInput.value.trim();
+    document.getElementById('mt-fs-next').textContent = '';
+    document.getElementById('mt-fs-progress').textContent = '';
   }
-  // Show meeting title
-  var titleEl = document.getElementById('mt-fs-meeting-title');
-  var titleInput = document.getElementById('mt-title');
-  if (titleEl && titleInput) titleEl.textContent = titleInput.value.trim();
   overlay.classList.add('show');
   // Request native fullscreen if supported
   if (overlay.requestFullscreen) overlay.requestFullscreen().catch(function(){});
@@ -8284,39 +8707,107 @@ if ('serviceWorker' in navigator) {
       <div class="tool-icon mint">⏱</div>
       <div class="tool-header-text">
         <h1>會議計時器</h1>
-        <p>自訂時長 · 超時警示</p>
+        <p>單一計時 · 全日行程</p>
       </div>
     </div>
 
-    <div class="input-group">
-      <label>會議名稱（選填）</label>
-      <input type="text" id="mt-title" placeholder="例如：Q2 Review" />
+    <!-- Language toggle -->
+    <div class="mt-lang-toggle">
+      <div class="mt-lang-btn">
+        <button class="mt-lang-option active" id="mt-lang-zh" onclick="setMtLang('zh')">中文</button>
+        <button class="mt-lang-option" id="mt-lang-en" onclick="setMtLang('en')">EN</button>
+      </div>
     </div>
-    <div class="mt-input-row">
+
+    <!-- Option selector -->
+    <div class="mt-option-row" id="mt-option-row">
+      <div class="mt-option-btn active" id="mt-opt1" onclick="selectMtMode('single')">
+        <div class="mt-option-icon">⏱</div>
+        <div class="mt-option-title">單一計時</div>
+        <div class="mt-option-desc">一個時段<br>快速開始</div>
+      </div>
+      <div class="mt-option-btn" id="mt-opt2" onclick="selectMtMode('rundown')">
+        <div class="mt-option-icon">📋</div>
+        <div class="mt-option-title">全日行程</div>
+        <div class="mt-option-desc">多個 Session<br>順序播放</div>
+      </div>
+    </div>
+
+    <!-- SINGLE MODE -->
+    <div id="mt-single-section">
       <div class="input-group">
-        <label>會議時長（分鐘）</label>
-        <input type="text" id="mt-mins" placeholder="例如 45" inputmode="numeric" />
+        <label>會議名稱（選填）</label>
+        <input type="text" id="mt-title" placeholder="例如：Q2 Review" />
       </div>
-      <button class="btn btn-primary" style="width:auto;padding:12px 20px;margin-bottom:0" onclick="startMeeting()">設定</button>
+      <div class="mt-input-row">
+        <div class="input-group">
+          <label>會議時長（分鐘）</label>
+          <input type="text" id="mt-mins" placeholder="例如 45" inputmode="numeric" />
+        </div>
+        <button class="btn btn-primary" style="width:auto;padding:12px 20px;margin-bottom:0" onclick="startMeeting()">設定</button>
+      </div>
+
+      <div class="mt-display" id="mt-display">--:--</div>
+      <div class="mt-label" id="mt-label">輸入時長後開始</div>
+
+      <div class="mt-progress">
+        <div class="mt-progress-bar" id="mt-bar"></div>
+      </div>
+
+      <div class="mt-controls">
+        <button class="btn btn-primary" id="mt-toggle-btn" onclick="toggleMeeting()" disabled>開始</button>
+        <button class="btn btn-secondary" onclick="resetMeeting()">重設</button>
+        <button class="btn btn-secondary" id="mt-fs-open-btn" onclick="openMeetingFS()" disabled style="padding:12px">⛶ 全螢幕</button>
+      </div>
+      <div class="mt-add-row" id="mt-add-row" style="display:none">
+        <span style="font-size:12px;color:var(--subtle);margin-right:8px">加時：</span>
+        <button class="mt-add-btn" onclick="addMeetingTime(1)">+1分</button>
+        <button class="mt-add-btn" onclick="addMeetingTime(5)">+5分</button>
+        <button class="mt-add-btn" onclick="addMeetingTime(10)">+10分</button>
+      </div>
     </div>
 
-    <div class="mt-display" id="mt-display">--:--</div>
-    <div class="mt-label" id="mt-label">輸入時長後開始</div>
+    <!-- RUNDOWN MODE -->
+    <div id="mt-rundown-section" style="display:none">
+      <!-- Add session input -->
+      <div class="mt-rd-input-row">
+        <div class="input-group">
+          <label>Session 名稱</label>
+          <input type="text" id="mt-rd-name" placeholder="例如：Opening Keynote">
+        </div>
+        <div class="input-group">
+          <label>分鐘</label>
+          <input type="text" id="mt-rd-mins" placeholder="30" inputmode="numeric" style="width:80px">
+        </div>
+        <button class="btn btn-primary" style="width:auto;padding:12px 16px;margin-bottom:0" onclick="addRdSession()">＋</button>
+      </div>
 
-    <div class="mt-progress">
-      <div class="mt-progress-bar" id="mt-bar"></div>
-    </div>
+      <!-- Session list -->
+      <div class="mt-rd-list" id="mt-rd-list">
+        <div style="text-align:center;padding:20px;color:var(--subtle);font-size:13px">
+          未有 Session，請加入行程
+        </div>
+      </div>
 
-    <div class="mt-controls">
-      <button class="btn btn-primary" id="mt-toggle-btn" onclick="toggleMeeting()" disabled>開始</button>
-      <button class="btn btn-secondary" onclick="resetMeeting()">重設</button>
-      <button class="btn btn-secondary" id="mt-fs-open-btn" onclick="openMeetingFS()" disabled style="padding:12px">⛶ 全螢幕</button>
-    </div>
-    <div class="mt-add-row" id="mt-add-row" style="display:none">
-      <span style="font-size:12px;color:var(--subtle);margin-right:8px">加時：</span>
-      <button class="mt-add-btn" onclick="addMeetingTime(1)">+1分</button>
-      <button class="mt-add-btn" onclick="addMeetingTime(5)">+5分</button>
-      <button class="mt-add-btn" onclick="addMeetingTime(10)">+10分</button>
+      <!-- Rundown controls -->
+      <div class="mt-controls">
+        <button class="btn btn-primary" id="mt-rd-start-btn" onclick="startRundown()" disabled>▶ 開始行程</button>
+        <button class="btn btn-secondary" onclick="resetRundown()">重設</button>
+        <button class="btn btn-secondary" id="mt-rd-fs-btn" onclick="openMeetingFS()" disabled style="padding:12px">⛶ 全螢幕</button>
+      </div>
+      <div class="mt-add-row" id="mt-rd-add-row" style="display:none">
+        <span style="font-size:12px;color:var(--subtle);margin-right:8px">加時：</span>
+        <button class="mt-add-btn" onclick="addMeetingTime(1)">+1分</button>
+        <button class="mt-add-btn" onclick="addMeetingTime(5)">+5分</button>
+        <button class="mt-add-btn" onclick="addMeetingTime(10)">+10分</button>
+      </div>
+
+      <!-- Rundown display -->
+      <div class="mt-display" id="mt-rd-display" style="display:none">--:--</div>
+      <div class="mt-label" id="mt-rd-label" style="display:none"></div>
+      <div class="mt-progress" style="display:none" id="mt-rd-progress">
+        <div class="mt-progress-bar" id="mt-rd-bar"></div>
+      </div>
     </div>
 
     <div class="status-msg" id="mt-status"></div>
@@ -9467,6 +9958,8 @@ if ('serviceWorker' in navigator) {
   <div class="mt-fs-meeting-title" id="mt-fs-meeting-title"></div>
   <div class="mt-fs-time" id="mt-fs-time">--:--</div>
   <div class="mt-fs-label" id="mt-fs-label">會議計時器</div>
+  <div class="mt-fs-next" id="mt-fs-next"></div>
+  <div class="mt-fs-progress" id="mt-fs-progress"></div>
   <div class="mt-fs-hint">點擊任何地方退出全螢幕</div>
 </div>
 
