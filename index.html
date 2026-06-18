@@ -8184,14 +8184,18 @@ const MT_STRINGS = {
     titleLabel: 'Meeting Name (optional)', titlePlaceholder: 'e.g. Q2 Review',
     durationLabel: 'Duration (minutes)', durationPlaceholder: 'e.g. 45',
     setBtn: 'Set', startBtn: 'Start', pauseBtn: 'Pause', resumeBtn: 'Resume',
-    resetBtn: 'Reset', fsBtn: '⛶ Fullscreen', addTime: 'Add:',
+    resetBtn: 'Reset', fsBtn: '⛶ Fullscreen', addTime: 'Add time:',
     plus1: '+1 min', plus5: '+5 min', plus10: '+10 min',
     rdNameLabel: 'Session Name', rdNamePlaceholder: 'e.g. Opening Keynote',
     rdMinsLabel: 'Mins', rdStartBtn: '▶ Start Rundown',
     rdEmpty: 'No sessions yet. Add a session to begin.',
     readyMsg: 'Enter duration to start', pausedMsg: 'Paused', runningMsg: 'Meeting in progress',
     overtimeMsg: '⚠️ Time is up!', doneMsg: '✅ All sessions complete!',
-    lastSession: '▶ Last Session',
+    lastSession: '▶ Last Session', nextLabel: '▶ Next:',
+    fsHint: 'Tap anywhere to exit fullscreen', fsLabel: 'Meeting Timer',
+    errorName: 'Please enter a session name', errorMins: 'Please enter a valid duration',
+    errorDuration: 'Please enter 1–480 minutes',
+    toastAdd: ' min added',
   }
 };
 
@@ -8209,33 +8213,40 @@ function applyMtLang() {
   document.querySelector('#mt-opt1 .mt-option-desc').innerHTML = s.opt1Desc;
   document.querySelector('#mt-opt2 .mt-option-title').textContent = s.opt2Title;
   document.querySelector('#mt-opt2 .mt-option-desc').innerHTML = s.opt2Desc;
-  // Single mode
-  var titleLbl = document.querySelector('label[for-mt-title]');
+  // Single mode labels
   var labels = document.querySelectorAll('#mt-single-section label');
   if (labels[0]) labels[0].textContent = s.titleLabel;
   if (labels[1]) labels[1].textContent = s.durationLabel;
   document.getElementById('mt-title').placeholder = s.titlePlaceholder;
   document.getElementById('mt-mins').placeholder = s.durationPlaceholder;
-  // Buttons
+  // Single mode buttons
   var setBtn = document.querySelector('#mt-single-section .mt-input-row .btn-primary');
   if (setBtn) setBtn.textContent = s.setBtn;
   var toggleBtn = document.getElementById('mt-toggle-btn');
-  if (toggleBtn && !mtRunning) toggleBtn.textContent = s.startBtn;
+  if (toggleBtn) {
+    if (!mtRunning) toggleBtn.textContent = toggleBtn.textContent === MT_STRINGS[mtLang==='zh'?'en':'zh'].resumeBtn ? s.resumeBtn : s.startBtn;
+    else toggleBtn.textContent = s.pauseBtn;
+  }
   document.getElementById('mt-fs-open-btn').textContent = s.fsBtn;
-  var resetBtns = document.querySelectorAll('#mt-single-section .btn-secondary');
-  if (resetBtns[0]) resetBtns[0].textContent = s.resetBtn;
-  // Add time row
+  var singleBtns = document.querySelectorAll('#mt-single-section .mt-controls .btn-secondary');
+  if (singleBtns[0]) singleBtns[0].textContent = s.resetBtn;
+  // Add time row single
   var addSpan = document.querySelector('#mt-add-row span');
   if (addSpan) addSpan.textContent = s.addTime;
   var addBtns = document.querySelectorAll('#mt-add-row .mt-add-btn');
   if (addBtns[0]) addBtns[0].textContent = s.plus1;
   if (addBtns[1]) addBtns[1].textContent = s.plus5;
   if (addBtns[2]) addBtns[2].textContent = s.plus10;
-  // Label
+  // Single label
   var label = document.getElementById('mt-label');
-  if (label && label.textContent === MT_STRINGS[mtLang === 'zh' ? 'en' : 'zh'].readyMsg)
-    label.textContent = s.readyMsg;
-  // Rundown mode
+  if (label) {
+    var other = MT_STRINGS[mtLang==='zh'?'en':'zh'];
+    if (label.textContent === other.readyMsg) label.textContent = s.readyMsg;
+    else if (label.textContent === other.pausedMsg) label.textContent = s.pausedMsg;
+    else if (label.textContent === other.runningMsg) label.textContent = s.runningMsg;
+    else if (label.textContent === other.overtimeMsg) label.textContent = s.overtimeMsg;
+  }
+  // Rundown labels
   var rdLabels = document.querySelectorAll('#mt-rundown-section label');
   if (rdLabels[0]) rdLabels[0].textContent = s.rdNameLabel;
   if (rdLabels[1]) rdLabels[1].textContent = s.rdMinsLabel;
@@ -8243,16 +8254,26 @@ function applyMtLang() {
   var rdStartBtn = document.getElementById('mt-rd-start-btn');
   if (rdStartBtn) rdStartBtn.textContent = s.rdStartBtn;
   document.getElementById('mt-rd-fs-btn').textContent = s.fsBtn;
-  var rdResetBtn = document.querySelector('#mt-rundown-section .btn-secondary');
-  if (rdResetBtn) rdResetBtn.textContent = s.resetBtn;
+  var rdBtns = document.querySelectorAll('#mt-rundown-section .mt-controls .btn-secondary');
+  if (rdBtns[0]) rdBtns[0].textContent = s.resetBtn;
+  // Add time row rundown
   var rdAddSpan = document.querySelector('#mt-rd-add-row span');
   if (rdAddSpan) rdAddSpan.textContent = s.addTime;
   var rdAddBtns = document.querySelectorAll('#mt-rd-add-row .mt-add-btn');
   if (rdAddBtns[0]) rdAddBtns[0].textContent = s.plus1;
   if (rdAddBtns[1]) rdAddBtns[1].textContent = s.plus5;
   if (rdAddBtns[2]) rdAddBtns[2].textContent = s.plus10;
-  // Re-render list for empty state text
-  if (rdSessions.length === 0) renderRdList();
+  // Rundown label
+  var rdLabel = document.getElementById('mt-rd-label');
+  if (rdLabel) {
+    var other2 = MT_STRINGS[mtLang==='zh'?'en':'zh'];
+    if (rdLabel.textContent === other2.doneMsg) rdLabel.textContent = s.doneMsg;
+  }
+  // Fullscreen hint
+  var fsHint = document.querySelector('.mt-fs-hint');
+  if (fsHint) fsHint.textContent = s.fsHint || '點擊任何地方退出全螢幕';
+  // Re-render list
+  renderRdList();
 }
 
 // ── MEETING MODE SELECTOR ────────────────────────
@@ -8277,7 +8298,7 @@ var rdRemaining = 0;
 var rdTotal = 0;
 
 function addRdSession() {
-  var name = document.getElementById('mt-rd-name').value.trim();
+  var name = document.getElementById('mt-rd-name').value.trim().slice(0, 50);
   var mins = parseInt(document.getElementById('mt-rd-mins').value.trim());
   if (!name) return showStatus('mt-status', '請輸入 Session 名稱', 'error');
   if (!mins || isNaN(mins) || mins < 1) return showStatus('mt-status', '請輸入有效分鐘數', 'error');
@@ -8405,17 +8426,21 @@ function updateRdFsDisplay() {
   fsTime.textContent = m + ':' + s;
 
   var session = rdSessions[rdCurrentIdx];
-  if (session) fsTitle.textContent = session.name;
+  if (session) { var n = session.name; fsTitle.textContent = n.length > 40 ? n.slice(0,40) + '...' : n; }
 
   // Next session
   var nextSession = rdSessions[rdCurrentIdx + 1];
+  var nextLabel = mtLang === 'en' ? '▶ Next: ' : '▶ 下一個：';
+  var minsLabel = mtLang === 'en' ? ' min)' : ' 分鐘)';
+  var lastLabel = mtLang === 'en' ? '▶ Last Session' : '▶ 最後一個 Session';
   if (nextSession) {
-    fsNext.textContent = '▶ 下一個：' + nextSession.name + ' (' + nextSession.mins + ' 分鐘)';
+    fsNext.textContent = nextLabel + nextSession.name + ' (' + nextSession.mins + minsLabel;
   } else {
-    fsNext.textContent = '▶ 最後一個 Session';
+    fsNext.textContent = lastLabel;
   }
 
-  fsProgress.textContent = 'Session ' + (rdCurrentIdx+1) + ' / ' + rdSessions.length;
+  var ofLabel = mtLang === 'en' ? ' of ' : ' / ';
+  fsProgress.textContent = 'Session ' + (rdCurrentIdx+1) + ofLabel + rdSessions.length;
 
   // Background colour
   overlay.classList.remove('green-bg', 'orange-bg', 'red-bg');
@@ -8773,7 +8798,7 @@ if ('serviceWorker' in navigator) {
       <div class="mt-rd-input-row">
         <div class="input-group">
           <label>Session 名稱</label>
-          <input type="text" id="mt-rd-name" placeholder="例如：Opening Keynote">
+          <input type="text" id="mt-rd-name" placeholder="例如：Opening Keynote" maxlength="50">
         </div>
         <div class="input-group">
           <label>分鐘</label>
