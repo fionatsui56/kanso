@@ -8640,6 +8640,13 @@ function openMeetingFS() {
     document.getElementById('mt-fs-next').textContent = '';
     document.getElementById('mt-fs-progress').textContent = '';
   }
+  // Update lang-dependent texts
+  var exitBtn = document.getElementById('mt-fs-exit-btn');
+  if (exitBtn) exitBtn.textContent = mtLang === 'en' ? '✕ Exit' : '✕ 退出';
+  var fsLabel = document.getElementById('mt-fs-label');
+  if (fsLabel && mtMode !== 'rundown') fsLabel.textContent = mtLang === 'en' ? 'Meeting Timer' : '會議計時器';
+  var fsHintEl = document.querySelector('.mt-fs-hint');
+  if (fsHintEl) fsHintEl.textContent = mtLang === 'en' ? 'Tap anywhere to exit fullscreen' : '點擊任何地方退出全螢幕';
   overlay.classList.add('show');
   // Request native fullscreen if supported
   if (overlay.requestFullscreen) overlay.requestFullscreen().catch(function(){});
@@ -10124,7 +10131,7 @@ if ('serviceWorker' in navigator) {
 
 <!-- Meeting Timer Fullscreen Overlay -->
 <div class="mt-fs-overlay" id="mt-fs-overlay" onclick="closeMeetingFS()">
-  <button class="mt-fs-btn" onclick="closeMeetingFS();event.stopPropagation()">✕ 退出</button>
+  <button class="mt-fs-btn" id="mt-fs-exit-btn" onclick="closeMeetingFS();event.stopPropagation()">✕ 退出</button>
   <div class="mt-fs-meeting-title" id="mt-fs-meeting-title"></div>
   <div class="mt-fs-time" id="mt-fs-time">--:--</div>
   <div class="mt-fs-label" id="mt-fs-label">會議計時器</div>
