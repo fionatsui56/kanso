@@ -3307,6 +3307,36 @@
       text-align: center;
     }
 
+    /* ── MEETING ADD TIME ── */
+    .mt-add-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+    .mt-add-btn {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-family: var(--font);
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--ink);
+      padding: 7px 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .mt-add-btn:hover { background: var(--ink); color: var(--surface); border-color: var(--ink); }
+    .mt-fs-meeting-title {
+      font-size: clamp(16px, 4vw, 24px);
+      color: rgba(240,238,233,0.5);
+      letter-spacing: 3px;
+      margin-bottom: 16px;
+      font-family: var(--font);
+      text-transform: uppercase;
+    }
+
     /* ── MEETING FULLSCREEN ── */
     .mt-fs-overlay {
       position: fixed;
@@ -4747,6 +4777,7 @@ function startMeeting() {
   btn.disabled = false;
   btn.textContent = '開始';
   document.getElementById('mt-fs-open-btn').disabled = false;
+  document.getElementById('mt-add-row').style.display = 'flex';
   updateMtDisplay();
 }
 
@@ -4820,6 +4851,7 @@ function updateMtDisplay() {
 function resetMeeting() {
   closeMeetingFS();
   document.getElementById('mt-fs-open-btn').disabled = true;
+  document.getElementById('mt-add-row').style.display = 'none';
   clearInterval(mtInterval);
   mtRunning = false;
   mtRemaining = mtTotal;
@@ -8007,6 +8039,14 @@ const _origShowTool = showTool;
 
 
 // ── MEETING FULLSCREEN ───────────────────────────
+
+function addMeetingTime(mins) {
+  mtRemaining += mins * 60;
+  if (mtTotal) mtTotal += mins * 60;
+  updateMtDisplay();
+  showCiToast('+' + mins + ' 分鐘');
+}
+
 function openMeetingFS() {
   var overlay = document.getElementById('mt-fs-overlay');
   var fsTime = document.getElementById('mt-fs-time');
@@ -8015,6 +8055,10 @@ function openMeetingFS() {
     fsTime.textContent = display.textContent;
     fsTime.className = 'mt-fs-time' + (display.className.includes('critical') ? ' critical' : display.className.includes('warning') ? ' warning' : '');
   }
+  // Show meeting title
+  var titleEl = document.getElementById('mt-fs-meeting-title');
+  var titleInput = document.getElementById('mt-title');
+  if (titleEl && titleInput) titleEl.textContent = titleInput.value.trim();
   overlay.classList.add('show');
   // Request native fullscreen if supported
   if (overlay.requestFullscreen) overlay.requestFullscreen().catch(function(){});
@@ -8244,6 +8288,10 @@ if ('serviceWorker' in navigator) {
       </div>
     </div>
 
+    <div class="input-group">
+      <label>會議名稱（選填）</label>
+      <input type="text" id="mt-title" placeholder="例如：Q2 Review" />
+    </div>
     <div class="mt-input-row">
       <div class="input-group">
         <label>會議時長（分鐘）</label>
@@ -8263,6 +8311,12 @@ if ('serviceWorker' in navigator) {
       <button class="btn btn-primary" id="mt-toggle-btn" onclick="toggleMeeting()" disabled>開始</button>
       <button class="btn btn-secondary" onclick="resetMeeting()">重設</button>
       <button class="btn btn-secondary" id="mt-fs-open-btn" onclick="openMeetingFS()" disabled style="padding:12px">⛶ 全螢幕</button>
+    </div>
+    <div class="mt-add-row" id="mt-add-row" style="display:none">
+      <span style="font-size:12px;color:var(--subtle);margin-right:8px">加時：</span>
+      <button class="mt-add-btn" onclick="addMeetingTime(1)">+1分</button>
+      <button class="mt-add-btn" onclick="addMeetingTime(5)">+5分</button>
+      <button class="mt-add-btn" onclick="addMeetingTime(10)">+10分</button>
     </div>
 
     <div class="status-msg" id="mt-status"></div>
@@ -9410,6 +9464,7 @@ if ('serviceWorker' in navigator) {
 <!-- Meeting Timer Fullscreen Overlay -->
 <div class="mt-fs-overlay" id="mt-fs-overlay" onclick="closeMeetingFS()">
   <button class="mt-fs-btn" onclick="closeMeetingFS();event.stopPropagation()">✕ 退出</button>
+  <div class="mt-fs-meeting-title" id="mt-fs-meeting-title"></div>
   <div class="mt-fs-time" id="mt-fs-time">--:--</div>
   <div class="mt-fs-label" id="mt-fs-label">會議計時器</div>
   <div class="mt-fs-hint">點擊任何地方退出全螢幕</div>
