@@ -3307,6 +3307,66 @@
       text-align: center;
     }
 
+    /* ── MEETING FULLSCREEN ── */
+    .mt-fs-overlay {
+      position: fixed;
+      inset: 0;
+      background: #1A1F1A;
+      z-index: 9000;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    .mt-fs-overlay.show { display: flex; }
+    .mt-fs-time {
+      font-family: var(--font-display);
+      font-size: clamp(80px, 22vw, 160px);
+      font-weight: 700;
+      color: #F0EEE9;
+      letter-spacing: -4px;
+      line-height: 1;
+      transition: color 0.3s;
+    }
+    .mt-fs-time.warning { color: #D4B87A; }
+    .mt-fs-time.critical { color: #D4756A; animation: mtPulse 1s infinite; }
+    .mt-fs-time.overtime { color: #D4756A; }
+    .mt-fs-label {
+      font-size: 16px;
+      color: rgba(240,238,233,0.4);
+      margin-top: 20px;
+      letter-spacing: 2px;
+      font-family: var(--font);
+    }
+    .mt-fs-hint {
+      position: absolute;
+      bottom: 32px;
+      font-size: 12px;
+      color: rgba(240,238,233,0.25);
+      letter-spacing: 1px;
+      font-family: var(--font);
+    }
+    .mt-fs-btn {
+      position: absolute;
+      top: 24px;
+      right: 24px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 8px;
+      color: rgba(240,238,233,0.5);
+      font-family: var(--font);
+      font-size: 12px;
+      padding: 8px 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .mt-fs-btn:hover { background: rgba(255,255,255,0.15); color: #F0EEE9; }
+    @keyframes mtPulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
     /* ── RESPONSIVE ── */
     @media (max-width: 380px) {
       .tools-grid { grid-template-columns: 1fr; }
@@ -4744,10 +4804,21 @@ function mtTick() {
 function updateMtDisplay() {
   const m = String(Math.floor(mtRemaining / 60)).padStart(2,'0');
   const s = String(mtRemaining % 60).padStart(2,'0');
-  document.getElementById('mt-display').textContent = `${m}:${s}`;
+  var timeStr = m + ':' + s;
+  document.getElementById('mt-display').textContent = timeStr;
+  // Sync fullscreen
+  var fsTime = document.getElementById('mt-fs-time');
+  var fsLabel = document.getElementById('mt-fs-label');
+  if (fsTime) {
+    fsTime.textContent = timeStr;
+    fsTime.className = 'mt-fs-time' + (document.getElementById('mt-display').className.includes('critical') ? ' critical' : document.getElementById('mt-display').className.includes('warning') ? ' warning' : '');
+  }
+  if (fsLabel && mtOvertime) fsLabel.textContent = '⚠️ 超時';
 }
 
 function resetMeeting() {
+  closeMeetingFS();
+  document.getElementById('mt-fs-open-btn').disabled = true;
   clearInterval(mtInterval);
   mtRunning = false;
   mtRemaining = mtTotal;
@@ -7933,6 +8004,28 @@ document.addEventListener('DOMContentLoaded', function() {
 // Override showTool to init daily colour
 const _origShowTool = showTool;
 
+
+// ── MEETING FULLSCREEN ───────────────────────────
+function openMeetingFS() {
+  var overlay = document.getElementById('mt-fs-overlay');
+  var fsTime = document.getElementById('mt-fs-time');
+  var display = document.getElementById('mt-display');
+  if (fsTime && display) {
+    fsTime.textContent = display.textContent;
+    fsTime.className = 'mt-fs-time' + (display.className.includes('critical') ? ' critical' : display.className.includes('warning') ? ' warning' : '');
+  }
+  overlay.classList.add('show');
+  // Request native fullscreen if supported
+  if (overlay.requestFullscreen) overlay.requestFullscreen().catch(function(){});
+  else if (overlay.webkitRequestFullscreen) overlay.webkitRequestFullscreen();
+}
+
+function closeMeetingFS() {
+  document.getElementById('mt-fs-overlay').classList.remove('show');
+  if (document.fullscreenElement) document.exitFullscreen().catch(function(){});
+  else if (document.webkitFullscreenElement) document.webkitExitFullscreen();
+}
+
 // ── PWA SERVICE WORKER ────────────────────────────
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
@@ -8168,6 +8261,7 @@ if ('serviceWorker' in navigator) {
     <div class="mt-controls">
       <button class="btn btn-primary" id="mt-toggle-btn" onclick="toggleMeeting()" disabled>開始</button>
       <button class="btn btn-secondary" onclick="resetMeeting()">重設</button>
+      <button class="btn btn-secondary" id="mt-fs-open-btn" onclick="openMeetingFS()" disabled style="padding:12px">⛶ 全螢幕</button>
     </div>
 
     <div class="status-msg" id="mt-status"></div>
@@ -9309,6 +9403,15 @@ if ('serviceWorker' in navigator) {
 
     <div class="dy-remark">今日色調以天干五行為靈感，僅供生活美學參考，不構成命理建議。</div>
   </div>
+</div>
+
+
+<!-- Meeting Timer Fullscreen Overlay -->
+<div class="mt-fs-overlay" id="mt-fs-overlay" onclick="closeMeetingFS()">
+  <button class="mt-fs-btn" onclick="closeMeetingFS();event.stopPropagation()">✕ 退出</button>
+  <div class="mt-fs-time" id="mt-fs-time">--:--</div>
+  <div class="mt-fs-label" id="mt-fs-label">會議計時器</div>
+  <div class="mt-fs-hint">點擊任何地方退出全螢幕</div>
 </div>
 
 
