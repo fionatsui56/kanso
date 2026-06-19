@@ -11,9 +11,8 @@
   <meta name="apple-mobile-web-app-title" content="Kanso">
   <title>Kanso 簡素</title>
   <link rel="manifest" href="manifest.json">
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,600;1,300&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,600;1,300&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -30,7 +29,7 @@
       --success:  #6F8A6A;
       --error:    #B76E62;
       --font-display: 'Fraunces', Georgia, serif;
-      --font: 'DM Sans', -apple-system, sans-serif;
+      --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang TC', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif;
     }
 
     html { scroll-behavior: smooth; }
@@ -4238,7 +4237,19 @@ function downloadQR() {
 let pdfFileData = null;
 let pdfPageCount = 0;
 
-pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+// PDF.js lazy load — only load when user opens PDF tool
+var pdfjsLoaded = false;
+function loadPdfJs(callback) {
+  if (pdfjsLoaded) { callback(); return; }
+  var script = document.createElement('script');
+  script.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
+  script.onload = function() {
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    pdfjsLoaded = true;
+    callback();
+  };
+  document.head.appendChild(script);
+}
 
 // Drag and drop
 const dropZone = document.getElementById('pdf-drop-zone');
