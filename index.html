@@ -3968,7 +3968,7 @@
       <input type="file" id="pdf-input" accept=".pdf" onchange="handlePdfFile(this.files[0])">
       <div class="upload-icon">📂</div>
       <div class="upload-title">點擊或拖曳 PDF 到這裡</div>
-      <div class="upload-hint">最大支援 50MB</div>
+      <div class="upload-hint">最大支援 100MB</div>
     </div>
 
     <div class="pdf-info" id="pdf-info">
@@ -4265,7 +4265,7 @@ dropZone.addEventListener('drop', e => {
 function handlePdfFile(file) {
   if (!file) return;
   if (file.type !== 'application/pdf') return showStatus('pdf-status', '請選擇 PDF 檔案', 'error');
-  if (file.size > 50 * 1024 * 1024) return showStatus('pdf-status', '檔案太大，最大支援 50MB', 'error');
+  if (file.size > 100 * 1024 * 1024) return showStatus('pdf-status', '檔案太大，最大支援 100MB', 'error');
 
   const reader = new FileReader();
   reader.onload = async (e) => {
