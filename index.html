@@ -4267,6 +4267,12 @@ function handlePdfFile(file) {
   if (file.type !== 'application/pdf') return showStatus('pdf-status', '請選擇 PDF 檔案', 'error');
   if (file.size > 100 * 1024 * 1024) return showStatus('pdf-status', '檔案太大，最大支援 100MB', 'error');
 
+  if (!pdfjsLoaded) {
+    showStatus('pdf-status', '載入中，請稍候...', 'info');
+    loadPdfJs(function() { handlePdfFile(file); });
+    return;
+  }
+
   const reader = new FileReader();
   reader.onload = async (e) => {
     pdfFileData = e.target.result;
