@@ -3588,6 +3588,63 @@
       50% { opacity: 0.5; }
     }
 
+    /* ── VCARD QR ── */
+    .vc-form { margin-bottom: 20px; }
+    .vc-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    @media (max-width: 480px) { .vc-row { grid-template-columns: 1fr; } }
+    .vc-qr-wrap {
+      text-align: center;
+      margin: 24px auto;
+      max-width: 280px;
+    }
+    .vc-qr-box {
+      background: white;
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 4px 20px rgba(46,43,38,0.1);
+      display: inline-block;
+      margin-bottom: 16px;
+    }
+    .vc-qr-name {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 4px;
+      font-family: var(--font-display);
+    }
+    .vc-qr-title {
+      font-size: 12px;
+      color: var(--subtle);
+      margin-bottom: 16px;
+    }
+    .vc-download-btn {
+      width: 100%;
+      padding: 13px;
+      background: var(--ink);
+      color: var(--surface);
+      border: none;
+      border-radius: 12px;
+      font-family: var(--font);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-bottom: 10px;
+    }
+    .vc-download-btn:hover { opacity: 0.85; }
+    .vc-hint {
+      font-size: 11px;
+      color: var(--subtle);
+      text-align: center;
+      margin-top: 12px;
+      line-height: 1.6;
+      opacity: 0.8;
+    }
+
     /* ── RESPONSIVE ── */
     @media (max-width: 380px) {
       .tools-grid { grid-template-columns: 1fr; }
@@ -3733,6 +3790,11 @@
         <div class="tool-icon blue" style="background:#D8E8E0">🏦</div>
         <div class="tool-name">支票金額轉換</div>
         <div class="tool-desc">數字轉中文大寫及英文大寫</div>
+      </div>
+      <div class="tool-card" onclick="showTool('vcard')">
+        <div class="tool-icon mint" style="background:#C8DDD0">👤</div>
+        <div class="tool-name">名片 QR Code</div>
+        <div class="tool-desc">掃描即加入聯絡人，iOS／Android 通用</div>
       </div>
       <div class="tool-card" onclick="showTool('travel')">
         <div class="tool-icon orange" style="background:#C8DDD0">✈️</div>
@@ -8785,6 +8847,95 @@ function closeMeetingFS() {
   else if (document.webkitFullscreenElement) document.webkitExitFullscreen();
 }
 
+
+// ── VCARD QR CODE ────────────────────────────────
+function generateVCard() {
+  var firstname = document.getElementById('vc-firstname').value.trim();
+  var lastname  = document.getElementById('vc-lastname').value.trim();
+  var title     = document.getElementById('vc-title').value.trim();
+  var company   = document.getElementById('vc-company').value.trim();
+  var phone     = document.getElementById('vc-phone').value.trim();
+  var email     = document.getElementById('vc-email').value.trim();
+  var website   = document.getElementById('vc-website').value.trim();
+
+  if (!firstname && !lastname) return showStatus('vc-status', '請輸入姓名', 'error');
+  if (!phone && !email) return showStatus('vc-status', '請輸入電話或 Email', 'error');
+  hideStatus('vc-status');
+
+  // Build vCard 3.0 string
+  var fullname = (firstname + ' ' + lastname).trim();
+  var vcard = [
+    'BEGIN:VCARD',
+    'VERSION:3.0',
+    'FN:' + fullname,
+    'N:' + lastname + ';' + firstname + ';;;',
+  ];
+  if (title)   vcard.push('TITLE:' + title);
+  if (company) vcard.push('ORG:' + company);
+  if (phone)   vcard.push('TEL;TYPE=CELL:' + phone);
+  if (email)   vcard.push('EMAIL:' + email);
+  if (website) vcard.push('URL:' + website);
+  vcard.push('END:VCARD');
+  var vcardStr = vcard.join('\r\n');
+
+  // Generate QR
+  var container = document.getElementById('vc-qr-canvas');
+  container.innerHTML = '';
+  new QRCode(container, {
+    text: vcardStr,
+    width: 200,
+    height: 200,
+    colorDark: '#2E2B26',
+    colorLight: '#FFFFFF',
+    correctLevel: QRCode.CorrectLevel.M
+  });
+
+  // Display name + title
+  document.getElementById('vc-display-name').textContent = fullname;
+  document.getElementById('vc-display-title').textContent = [title, company].filter(Boolean).join(' · ');
+  document.getElementById('vc-result').style.display = 'block';
+  document.getElementById('vc-result').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function downloadVCardQR() {
+  var canvas = document.querySelector('#vc-qr-canvas canvas');
+  if (!canvas) return showStatus('vc-status', '請先生成 QR Code', 'error');
+
+  // Create download canvas with padding + name
+  var padding = 24;
+  var nameHeight = 60;
+  var dlCanvas = document.createElement('canvas');
+  dlCanvas.width = canvas.width + padding * 2;
+  dlCanvas.height = canvas.height + padding * 2 + nameHeight;
+  var ctx = dlCanvas.getContext('2d');
+
+  // Background
+  ctx.fillStyle = '#FAF8F5';
+  ctx.roundRect(0, 0, dlCanvas.width, dlCanvas.height, 16);
+  ctx.fill();
+
+  // QR Code
+  ctx.drawImage(canvas, padding, padding);
+
+  // Name text
+  var name = document.getElementById('vc-display-name').textContent;
+  var subtitle = document.getElementById('vc-display-title').textContent;
+  ctx.fillStyle = '#2E2B26';
+  ctx.font = '600 16px -apple-system, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText(name, dlCanvas.width/2, canvas.height + padding + 26);
+  ctx.fillStyle = '#7A7368';
+  ctx.font = '400 12px -apple-system, sans-serif';
+  ctx.fillText(subtitle, dlCanvas.width/2, canvas.height + padding + 46);
+
+  // Download
+  var link = document.createElement('a');
+  link.download = name.replace(/\s+/g, '_') + '_QR.png';
+  link.href = dlCanvas.toDataURL('image/png');
+  link.click();
+  showCiToast('QR Code 已下載 ✓');
+}
+
 // ── PWA SERVICE WORKER ────────────────────────────
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
@@ -10264,6 +10415,75 @@ if ('serviceWorker' in navigator) {
   <div class="mt-fs-next" id="mt-fs-next"></div>
   <div class="mt-fs-progress" id="mt-fs-progress"></div>
   <div class="mt-fs-hint">點擊任何地方退出全螢幕</div>
+</div>
+
+
+<!-- ════════════════════════════════
+     VCARD QR CODE
+════════════════════════════════ -->
+<div class="page" id="page-vcard">
+  <div class="tool-page">
+    <div class="tool-header">
+      <div class="tool-icon mint" style="background:#C8DDD0">👤</div>
+      <div class="tool-header-text">
+        <h1>名片 QR Code</h1>
+        <p>掃描即加入聯絡人 · iOS／Android 通用</p>
+      </div>
+    </div>
+
+    <div class="vc-form">
+      <div class="vc-row">
+        <div class="input-group">
+          <label>名字</label>
+          <input type="text" id="vc-firstname" placeholder="例如：Fiona">
+        </div>
+        <div class="input-group">
+          <label>姓氏</label>
+          <input type="text" id="vc-lastname" placeholder="例如：Tsui">
+        </div>
+      </div>
+      <div class="input-group">
+        <label>職銜</label>
+        <input type="text" id="vc-title" placeholder="例如：Founder & Principal Consultant">
+      </div>
+      <div class="input-group">
+        <label>公司</label>
+        <input type="text" id="vc-company" placeholder="例如：Flux Strategy">
+      </div>
+      <div class="vc-row">
+        <div class="input-group">
+          <label>電話</label>
+          <input type="tel" id="vc-phone" placeholder="例如：+852 9123 4567">
+        </div>
+        <div class="input-group">
+          <label>Email</label>
+          <input type="email" id="vc-email" placeholder="例如：hello@flux-strategy.com">
+        </div>
+      </div>
+      <div class="input-group">
+        <label>網址（選填）</label>
+        <input type="url" id="vc-website" placeholder="例如：https://flux-strategy.com">
+      </div>
+      <button class="btn btn-primary" onclick="generateVCard()">生成名片 QR Code</button>
+    </div>
+
+    <div id="vc-result" style="display:none">
+      <div class="vc-qr-wrap">
+        <div class="vc-qr-box">
+          <div id="vc-qr-canvas"></div>
+        </div>
+        <div class="vc-qr-name" id="vc-display-name"></div>
+        <div class="vc-qr-title" id="vc-display-title"></div>
+        <button class="vc-download-btn" onclick="downloadVCardQR()">⬇ 下載 QR Code</button>
+      </div>
+      <div class="vc-hint">
+        用手機相機掃描，自動彈出「加入聯絡人」<br>
+        iOS 同 Android 均適用，毋需安裝任何 App
+      </div>
+    </div>
+
+    <div class="status-msg" id="vc-status"></div>
+  </div>
 </div>
 
 
