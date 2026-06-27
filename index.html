@@ -8901,32 +8901,80 @@ function downloadVCardQR() {
   var canvas = document.querySelector('#vc-qr-canvas canvas');
   if (!canvas) return showStatus('vc-status', '請先生成 QR Code', 'error');
 
-  // Create download canvas with padding + name
+  var dpr = window.devicePixelRatio || 2;
   var padding = 24;
-  var nameHeight = 60;
+  var qrSize = canvas.width;
+  var name = document.getElementById('vc-display-name').textContent;
+  var subtitle = document.getElementById('vc-display-title').textContent;
+
+  // Pre-calculate text wrapping
+  var tmpCanvas = document.createElement('canvas');
+  var tmpCtx = tmpCanvas.getContext('2d');
+  var maxTextWidth = qrSize;
+
+  function wrapText(ctx, text, maxWidth, fontSize, weight) {
+    ctx.font = weight + ' ' + fontSize + 'px -apple-system, sans-serif';
+    var words = text.split(' ');
+    var lines = [];
+    var line = '';
+    words.forEach(function(word) {
+      var test = line ? line + ' ' + word : word;
+      if (ctx.measureText(test).width > maxWidth && line) {
+        lines.push(line);
+        line = word;
+      } else {
+        line = test;
+      }
+    });
+    if (line) lines.push(line);
+    return lines;
+  }
+
+  var nameLines = wrapText(tmpCtx, name, maxTextWidth, 16, '600');
+  var subtitleLines = wrapText(tmpCtx, subtitle, maxTextWidth, 12, '400');
+  var lineH1 = 22, lineH2 = 18;
+  var textBlockH = nameLines.length * lineH1 + (subtitleLines.length > 0 ? subtitleLines.length * lineH2 + 8 : 0) + 20;
+
+  // Build canvas at 2x for sharpness
+  var w = qrSize + padding * 2;
+  var h = qrSize + padding * 2 + textBlockH;
   var dlCanvas = document.createElement('canvas');
-  dlCanvas.width = canvas.width + padding * 2;
-  dlCanvas.height = canvas.height + padding * 2 + nameHeight;
+  dlCanvas.width = w * dpr;
+  dlCanvas.height = h * dpr;
+  dlCanvas.style.width = w + 'px';
+  dlCanvas.style.height = h + 'px';
   var ctx = dlCanvas.getContext('2d');
+  ctx.scale(dpr, dpr);
 
   // Background
   ctx.fillStyle = '#FAF8F5';
-  ctx.roundRect(0, 0, dlCanvas.width, dlCanvas.height, 16);
+  ctx.beginPath();
+  ctx.roundRect(0, 0, w, h, 16);
   ctx.fill();
 
   // QR Code
-  ctx.drawImage(canvas, padding, padding);
+  ctx.drawImage(canvas, padding, padding, qrSize, qrSize);
 
-  // Name text
-  var name = document.getElementById('vc-display-name').textContent;
-  var subtitle = document.getElementById('vc-display-title').textContent;
+  // Name lines
+  ctx.textAlign = 'center';
+  var yPos = qrSize + padding + lineH1;
   ctx.fillStyle = '#2E2B26';
   ctx.font = '600 16px -apple-system, sans-serif';
-  ctx.textAlign = 'center';
-  ctx.fillText(name, dlCanvas.width/2, canvas.height + padding + 26);
-  ctx.fillStyle = '#7A7368';
-  ctx.font = '400 12px -apple-system, sans-serif';
-  ctx.fillText(subtitle, dlCanvas.width/2, canvas.height + padding + 46);
+  nameLines.forEach(function(line) {
+    ctx.fillText(line, w/2, yPos);
+    yPos += lineH1;
+  });
+
+  // Subtitle lines
+  if (subtitleLines.length > 0) {
+    yPos += 8;
+    ctx.fillStyle = '#7A7368';
+    ctx.font = '400 12px -apple-system, sans-serif';
+    subtitleLines.forEach(function(line) {
+      ctx.fillText(line, w/2, yPos);
+      yPos += lineH2;
+    });
+  }
 
   // Download
   var link = document.createElement('a');
@@ -10450,19 +10498,17 @@ if ('serviceWorker' in navigator) {
         <label>公司</label>
         <input type="text" id="vc-company" placeholder="例如：Flux Strategy">
       </div>
-      <div class="vc-row">
-        <div class="input-group">
-          <label>電話</label>
-          <input type="tel" id="vc-phone" placeholder="例如：+852 9123 4567">
-        </div>
-        <div class="input-group">
-          <label>Email</label>
-          <input type="email" id="vc-email" placeholder="例如：hello@flux-strategy.com">
-        </div>
+      <div class="input-group">
+        <label>電話</label>
+        <input type="text" id="vc-phone" placeholder="例如：+852 9123 4567" inputmode="tel">
+      </div>
+      <div class="input-group">
+        <label>Email</label>
+        <input type="text" id="vc-email" placeholder="例如：hello@flux-strategy.com" inputmode="email">
       </div>
       <div class="input-group">
         <label>網址（選填）</label>
-        <input type="url" id="vc-website" placeholder="例如：https://flux-strategy.com">
+        <input type="text" id="vc-website" placeholder="例如：https://flux-strategy.com">
       </div>
       <button class="btn btn-primary" onclick="generateVCard()">生成名片 QR Code</button>
     </div>
@@ -10473,7 +10519,7 @@ if ('serviceWorker' in navigator) {
           <div id="vc-qr-canvas"></div>
         </div>
         <div class="vc-qr-name" id="vc-display-name"></div>
-        <div class="vc-qr-title" id="vc-display-title"></div>
+        <div class="vc-qr-title" id="vc-display-title" style="word-break:break-word;white-space:normal;padding:0 8px"></div>
         <button class="vc-download-btn" onclick="downloadVCardQR()">⬇ 下載 QR Code</button>
       </div>
       <div class="vc-hint">
