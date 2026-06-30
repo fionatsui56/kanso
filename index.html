@@ -3651,6 +3651,92 @@
       opacity: 0.8;
     }
 
+    /* ── SPLIT BILL ── */
+    .sb-people-list { margin-bottom: 16px; }
+    .sb-person-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      margin-bottom: 8px;
+    }
+    .sb-person-item.birthday { border-color: #D4B87A; background: #FAF4E4; }
+    .sb-person-name { flex: 1; font-size: 14px; font-weight: 600; color: var(--text); }
+    .sb-bday-toggle {
+      background: none; border: 1px solid var(--border);
+      border-radius: 999px; padding: 4px 10px;
+      font-size: 11px; cursor: pointer; transition: all 0.2s;
+      color: var(--subtle); white-space: nowrap;
+    }
+    .sb-bday-toggle.active { background: #D4B87A; border-color: #D4B87A; color: white; }
+    .sb-person-del {
+      background: none; border: none; color: var(--subtle);
+      font-size: 16px; cursor: pointer; padding: 2px 4px;
+    }
+    .sb-person-del:hover { color: #C46A5A; }
+    .sb-add-row { display: flex; gap: 8px; margin-bottom: 24px; }
+    .sb-add-row input { flex: 1; }
+
+    .sb-expense-item {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 10px 0; border-bottom: 1px solid var(--border);
+      gap: 10px;
+    }
+    .sb-expense-item:last-child { border-bottom: none; }
+    .sb-expense-left { flex: 1; }
+    .sb-expense-payer { font-size: 11px; color: var(--subtle); margin-bottom: 2px; }
+    .sb-expense-note { font-size: 13px; font-weight: 600; color: var(--text); }
+    .sb-expense-amt { font-size: 14px; font-weight: 700; color: var(--ink); font-family: var(--font-display); }
+    .sb-expense-del {
+      background: none; border: none; color: var(--subtle);
+      font-size: 16px; cursor: pointer; padding: 2px 4px; flex-shrink: 0;
+    }
+    .sb-expense-del:hover { color: #C46A5A; }
+
+    .sb-summary-card {
+      background: var(--ink); color: var(--surface);
+      border-radius: 14px; padding: 18px; margin: 20px 0;
+    }
+    .sb-summary-total { font-size: 13px; opacity: 0.7; margin-bottom: 4px; }
+    .sb-summary-val { font-size: 24px; font-weight: 700; font-family: var(--font-display); margin-bottom: 14px; }
+    .sb-summary-row {
+      display: flex; justify-content: space-between;
+      font-size: 13px; padding: 6px 0;
+      border-top: 1px solid rgba(255,255,255,0.15);
+    }
+    .sb-summary-row:first-of-type { border-top: none; }
+
+    .sb-settle-section { margin-top: 20px; }
+    .sb-settle-title { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 12px; }
+    .sb-settle-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 12px 14px; background: var(--surface);
+      border: 1px solid var(--border); border-radius: 10px; margin-bottom: 8px;
+      font-size: 13px;
+    }
+    .sb-settle-arrow { color: var(--subtle); flex-shrink: 0; }
+    .sb-settle-from { font-weight: 700; color: #C46A5A; }
+    .sb-settle-to { font-weight: 700; color: #4A7C59; }
+    .sb-settle-amt { margin-left: auto; font-weight: 700; color: var(--ink); font-family: var(--font-display); flex-shrink: 0; }
+    .sb-settle-empty { text-align: center; padding: 20px; color: var(--subtle); font-size: 13px; }
+
+    .sb-balance-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+      margin-top: 16px;
+    }
+    .sb-balance-item {
+      background: var(--surface2); border-radius: 10px;
+      padding: 10px 12px; text-align: center;
+    }
+    .sb-balance-name { font-size: 12px; color: var(--subtle); margin-bottom: 4px; }
+    .sb-balance-val { font-size: 14px; font-weight: 700; font-family: var(--font-display); }
+    .sb-balance-val.owe { color: #C46A5A; }
+    .sb-balance-val.owed { color: #4A7C59; }
+    .sb-balance-val.even { color: var(--subtle); }
+
     /* ── RESPONSIVE ── */
     @media (max-width: 380px) {
       .tools-grid { grid-template-columns: 1fr; }
@@ -3880,6 +3966,11 @@
         <div class="tool-icon orange" style="background:#EDD5C8">💬</div>
         <div class="tool-name">潮語速查</div>
         <div class="tool-desc">GenZ · Alpha · 網絡熱詞，唔識即查</div>
+      </div>
+      <div class="tool-card" onclick="showTool('splitbill')">
+        <div class="tool-icon orange" style="background:#EDD5C8">🧾</div>
+        <div class="tool-name">夾錢計算機</div>
+        <div class="tool-desc">聚會夾錢，自動計邊個欠邊個</div>
       </div>
     </div>
   </div>
@@ -4115,6 +4206,11 @@ function showTool(tool) {
   }
   if (tool === 'travel') {
     loadTbRates();
+  }
+  if (tool === 'splitbill') {
+    sbRenderPeople();
+    sbRenderExpenses();
+    sbCalculate();
   }
 }
 
@@ -9038,6 +9134,221 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 
+
+// ── SPLIT BILL CALCULATOR ────────────────────────
+let sbPeople = []; // [{ name, isBirthday }]
+let sbExpenses = []; // [{ payer, note, amount }]
+
+function sbAddPerson() {
+  var input = document.getElementById('sb-person-name');
+  var name = input.value.trim();
+  if (!name) return showStatus('sb-status', '請輸入名字', 'error');
+  if (sbPeople.find(function(p){ return p.name === name; })) {
+    return showStatus('sb-status', '呢個名已經存在', 'error');
+  }
+  hideStatus('sb-status');
+  sbPeople.push({ name: name, isBirthday: false });
+  input.value = '';
+  input.focus();
+  sbRenderPeople();
+  sbUpdatePayerOptions();
+  sbCalculate();
+}
+
+function sbRenderPeople() {
+  var list = document.getElementById('sb-people-list');
+  if (sbPeople.length === 0) {
+    list.innerHTML = '<div style="text-align:center;padding:16px;color:var(--subtle);font-size:13px">未有參加者，請先加入名字</div>';
+    return;
+  }
+  list.innerHTML = '';
+  sbPeople.forEach(function(p, i) {
+    var div = document.createElement('div');
+    div.className = 'sb-person-item' + (p.isBirthday ? ' birthday' : '');
+    div.innerHTML =
+      '<div class="sb-person-name">' + p.name + (p.isBirthday ? ' 🎂' : '') + '</div>' +
+      '<button class="sb-bday-toggle' + (p.isBirthday ? ' active' : '') + '" onclick="sbToggleBday(' + i + ')">🎂 壽星</button>' +
+      '<button class="sb-person-del" onclick="sbDelPerson(' + i + ')">×</button>';
+    list.appendChild(div);
+  });
+}
+
+function sbToggleBday(i) {
+  sbPeople[i].isBirthday = !sbPeople[i].isBirthday;
+  sbRenderPeople();
+  sbCalculate();
+}
+
+function sbDelPerson(i) {
+  var name = sbPeople[i].name;
+  sbPeople.splice(i, 1);
+  sbExpenses = sbExpenses.filter(function(e){ return e.payer !== name; });
+  sbRenderPeople();
+  sbUpdatePayerOptions();
+  sbRenderExpenses();
+  sbCalculate();
+}
+
+function sbUpdatePayerOptions() {
+  var sel = document.getElementById('sb-payer');
+  var current = sel.value;
+  sel.innerHTML = '';
+  sbPeople.forEach(function(p) {
+    var opt = new Option(p.name, p.name);
+    sel.appendChild(opt);
+  });
+  if (sbPeople.find(function(p){ return p.name === current; })) sel.value = current;
+}
+
+function sbAddExpense() {
+  if (sbPeople.length === 0) return showStatus('sb-status', '請先加入參加者', 'error');
+  var payer = document.getElementById('sb-payer').value;
+  var note = document.getElementById('sb-exp-note').value.trim();
+  var amountStr = document.getElementById('sb-exp-amount').value.trim();
+  var amount = parseFloat(amountStr);
+  if (!payer) return showStatus('sb-status', '請選擇邊個俾錢', 'error');
+  if (!amountStr || isNaN(amount) || amount <= 0) return showStatus('sb-status', '請輸入有效金額', 'error');
+  hideStatus('sb-status');
+
+  sbExpenses.push({ payer: payer, note: note || '未命名', amount: amount });
+  document.getElementById('sb-exp-note').value = '';
+  document.getElementById('sb-exp-amount').value = '';
+  sbRenderExpenses();
+  sbCalculate();
+  showCiToast('已記錄 $' + amount.toLocaleString());
+}
+
+function sbRenderExpenses() {
+  var section = document.getElementById('sb-expense-section');
+  var list = document.getElementById('sb-expense-list');
+  if (sbExpenses.length === 0) {
+    section.style.display = 'none';
+    return;
+  }
+  section.style.display = 'block';
+  list.innerHTML = '';
+  sbExpenses.slice().reverse().forEach(function(exp, ri) {
+    var i = (sbExpenses.length - 1) - ri;
+    var div = document.createElement('div');
+    div.className = 'sb-expense-item';
+    div.innerHTML =
+      '<div class="sb-expense-left">' +
+        '<div class="sb-expense-payer">' + exp.payer + ' 墊支</div>' +
+        '<div class="sb-expense-note">' + exp.note + '</div>' +
+      '</div>' +
+      '<div class="sb-expense-amt">$' + exp.amount.toLocaleString() + '</div>' +
+      '<button class="sb-expense-del" onclick="sbDelExpense(' + i + ')">×</button>';
+    list.appendChild(div);
+  });
+}
+
+function sbDelExpense(i) {
+  sbExpenses.splice(i, 1);
+  sbRenderExpenses();
+  sbCalculate();
+}
+
+function sbCalculate() {
+  var summaryCard = document.getElementById('sb-summary-card');
+  var balanceGrid = document.getElementById('sb-balance-grid');
+  var settleSection = document.getElementById('sb-settle-section');
+
+  if (sbPeople.length === 0 || sbExpenses.length === 0) {
+    summaryCard.style.display = 'none';
+    balanceGrid.innerHTML = '';
+    settleSection.style.display = 'none';
+    return;
+  }
+
+  var total = sbExpenses.reduce(function(s,e){ return s + e.amount; }, 0);
+  var payingPeople = sbPeople.filter(function(p){ return !p.isBirthday; });
+  var perHead = payingPeople.length > 0 ? total / payingPeople.length : 0;
+
+  // Summary
+  summaryCard.style.display = 'block';
+  document.getElementById('sb-summary-total-val').textContent = '$' + total.toLocaleString(undefined, {maximumFractionDigits:0});
+  document.getElementById('sb-summary-perhead-val').textContent = '$' + perHead.toLocaleString(undefined, {maximumFractionDigits:1});
+  document.getElementById('sb-summary-count-val').textContent = payingPeople.length + ' 人';
+
+  // Calculate balance per person: paid - shouldPay
+  var balances = {};
+  sbPeople.forEach(function(p) {
+    var paid = sbExpenses.filter(function(e){ return e.payer === p.name; })
+                         .reduce(function(s,e){ return s + e.amount; }, 0);
+    var shouldPay = p.isBirthday ? 0 : perHead;
+    balances[p.name] = paid - shouldPay; // positive = should receive, negative = owes
+  });
+
+  // Render balance grid
+  balanceGrid.innerHTML = '';
+  sbPeople.forEach(function(p) {
+    var bal = balances[p.name];
+    var div = document.createElement('div');
+    div.className = 'sb-balance-item';
+    var valClass = bal > 1 ? 'owed' : bal < -1 ? 'owe' : 'even';
+    var valText = bal > 1 ? '應收 $' + bal.toFixed(0) : bal < -1 ? '應俾 $' + Math.abs(bal).toFixed(0) : '不用俾錢';
+    div.innerHTML =
+      '<div class="sb-balance-name">' + p.name + (p.isBirthday ? ' 🎂' : '') + '</div>' +
+      '<div class="sb-balance-val ' + valClass + '">' + valText + '</div>';
+    balanceGrid.appendChild(div);
+  });
+
+  // Debt settlement algorithm (greedy minimal transactions)
+  var debtors = [];
+  var creditors = [];
+  Object.keys(balances).forEach(function(name) {
+    var bal = balances[name];
+    if (bal < -0.5) debtors.push({ name: name, amount: -bal });
+    else if (bal > 0.5) creditors.push({ name: name, amount: bal });
+  });
+
+  var transactions = [];
+  var di = 0, ci = 0;
+  debtors = debtors.slice();
+  creditors = creditors.slice();
+  while (di < debtors.length && ci < creditors.length) {
+    var debtor = debtors[di];
+    var creditor = creditors[ci];
+    var amt = Math.min(debtor.amount, creditor.amount);
+    if (amt > 0.5) {
+      transactions.push({ from: debtor.name, to: creditor.name, amount: amt });
+    }
+    debtor.amount -= amt;
+    creditor.amount -= amt;
+    if (debtor.amount < 0.5) di++;
+    if (creditor.amount < 0.5) ci++;
+  }
+
+  settleSection.style.display = 'block';
+  var settleList = document.getElementById('sb-settle-list');
+  if (transactions.length === 0) {
+    settleList.innerHTML = '<div class="sb-settle-empty">大家已經夾直，毋需找贖 ✓</div>';
+  } else {
+    settleList.innerHTML = '';
+    transactions.forEach(function(t) {
+      var div = document.createElement('div');
+      div.className = 'sb-settle-item';
+      div.innerHTML =
+        '<span class="sb-settle-from">' + t.from + '</span>' +
+        '<span class="sb-settle-arrow">→</span>' +
+        '<span class="sb-settle-to">' + t.to + '</span>' +
+        '<span class="sb-settle-amt">$' + t.amount.toFixed(0) + '</span>';
+      settleList.appendChild(div);
+    });
+  }
+}
+
+function sbResetAll() {
+  if (!confirm('清除所有資料，重新開始？')) return;
+  sbPeople = [];
+  sbExpenses = [];
+  sbRenderPeople();
+  sbUpdatePayerOptions();
+  sbRenderExpenses();
+  sbCalculate();
+  showCiToast('已重設');
+}
+
 // ── PWA SERVICE WORKER ────────────────────────────
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
@@ -10577,6 +10888,91 @@ if ('serviceWorker' in navigator) {
     </div>
 
     <div class="status-msg" id="vc-status"></div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════
+     SPLIT BILL CALCULATOR
+════════════════════════════════ -->
+<div class="page" id="page-splitbill">
+  <div class="tool-page">
+    <div class="tool-header">
+      <div class="tool-icon orange" style="background:#EDD5C8">🧾</div>
+      <div class="tool-header-text">
+        <h1>夾錢計算機</h1>
+        <p>聚會夾錢，自動計邊個欠邊個</p>
+      </div>
+    </div>
+
+    <!-- People section -->
+    <div class="input-group">
+      <label>參加者</label>
+    </div>
+    <div class="sb-add-row">
+      <input type="text" id="sb-person-name" placeholder="輸入名字">
+      <button class="btn btn-primary" style="width:auto;padding:12px 18px;margin-bottom:0" onclick="sbAddPerson()">＋</button>
+    </div>
+    <div class="sb-people-list" id="sb-people-list"></div>
+
+    <!-- Expense section -->
+    <div class="input-group">
+      <label>記錄墊支</label>
+    </div>
+    <div class="input-group">
+      <label>邊個俾錢</label>
+      <select class="currency-select" id="sb-payer"></select>
+    </div>
+    <div style="display:flex;gap:10px">
+      <div class="input-group" style="flex:1">
+        <label>買咗咩（選填）</label>
+        <input type="text" id="sb-exp-note" placeholder="例如：食物、飲品">
+      </div>
+      <div class="input-group" style="flex:1">
+        <label>金額</label>
+        <input type="text" id="sb-exp-amount" placeholder="0" inputmode="decimal">
+      </div>
+    </div>
+    <button class="btn btn-primary" onclick="sbAddExpense()">記錄墊支</button>
+
+    <!-- Expense list -->
+    <div id="sb-expense-section" style="margin-top:20px;display:none">
+      <div class="sb-settle-title">墊支記錄</div>
+      <div id="sb-expense-list"></div>
+    </div>
+
+    <!-- Summary -->
+    <div class="sb-summary-card" id="sb-summary-card" style="display:none">
+      <div class="sb-summary-total">聚會總開支</div>
+      <div class="sb-summary-val" id="sb-summary-total-val">$0</div>
+      <div class="sb-summary-row">
+        <span id="sb-summary-perhead-label">每人應夾</span>
+        <span id="sb-summary-perhead-val">$0</span>
+      </div>
+      <div class="sb-summary-row">
+        <span>夾錢人數</span>
+        <span id="sb-summary-count-val">0 人</span>
+      </div>
+    </div>
+
+    <!-- Balance grid -->
+    <div class="sb-balance-grid" id="sb-balance-grid"></div>
+
+    <!-- Settlement -->
+    <div class="sb-settle-section" id="sb-settle-section" style="display:none">
+      <div class="sb-settle-title">💸 結算方案（最簡化還款）</div>
+      <div id="sb-settle-list"></div>
+    </div>
+
+    <div class="status-msg" id="sb-status"></div>
+
+    <button class="btn btn-secondary" style="margin-top:24px" onclick="sbResetAll()">🔄 清除全部重新開始</button>
+
+    <div class="tool-page-footer">
+      Built by <span>Flux Strategy</span><br>
+      © 2026 Kanso 簡素 · All Rights Reserved · 工具將不定期更新<br>
+      有工具想加？<a href="mailto:hello@flux-strategy.com" style="color:var(--ink);font-weight:600;text-decoration:none;">hello@flux-strategy.com</a>
+    </div>
   </div>
 </div>
 
