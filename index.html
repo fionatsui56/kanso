@@ -6898,11 +6898,11 @@ function tbRenderExpenses() {
     list.innerHTML = '<div class="tb-empty">未有消費記錄，開始記錄第一筆 💰</div>';
     return;
   }
-  const rate = TB_HKD_RATES[trip.currency] || 1;
   list.innerHTML = '';
   expenses.forEach(function(exp, ri) {
     const i = (trip.expenses.length - 1) - ri;
-    const hkd = (exp.amount * rate).toFixed(0);
+    const expRate = exp.rate || TB_HKD_RATES[trip.currency] || 1; // use locked rate, fallback to current for old records
+    const hkd = (exp.amount * expRate).toFixed(0);
     const div = document.createElement('div');
     div.className = 'tb-exp-item';
     div.innerHTML =
@@ -6927,7 +6927,8 @@ function tbAddExpense() {
   if (!amountStr || isNaN(amount) || amount <= 0) return showStatus('tb-status', '請輸入有效金額', 'error');
   const note = document.getElementById('tb-note').value.trim();
   var expDate = document.getElementById('tb-exp-date').value || new Date().toISOString().split('T')[0];
-  trip.expenses.push({ cat: tbSelectedCat, amount, note, date: expDate });
+  var lockedRate = TB_HKD_RATES[trip.currency] || 1;
+  trip.expenses.push({ cat: tbSelectedCat, amount, note, date: expDate, rate: lockedRate });
   tbSave();
   document.getElementById('tb-amount').value = '';
   document.getElementById('tb-note').value = '';
@@ -10241,7 +10242,7 @@ if ('serviceWorker' in navigator) {
     </div>
 
     <div class="status-msg" id="tb-status"></div>
-    <div class="tb-remark">⚠️ 數據儲存於本機，建議將 Kanso 加到主畫面（PWA 模式）以避免 Safari 自動清除資料。</div>
+    <div class="tb-remark">⚠️ 數據儲存於本機，建議將 Kanso 加到主畫面（PWA 模式）以避免 Safari 自動清除資料。<br>💱 匯率由 ExchangeRate-API 提供，僅供參考，實際匯率以銀行或找換店為準。</div>
   </div>
 </div>
 
