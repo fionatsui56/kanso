@@ -2560,6 +2560,12 @@
     }
     .tb-modal-title { font-size: 16px; font-weight: 700; margin-bottom: 20px; font-family: var(--font-display); }
 
+    /* ── ANDROID KEYBOARD FIX ── */
+    .tb-modal {
+      max-height: 85vh;
+      overflow-y: auto;
+    }
+
     /* ── TB EXTRAS ── */
     .tb-cat-breakdown {
       margin: 16px 0;
@@ -4106,6 +4112,9 @@ function showTool(tool) {
   }
   if (tool === 'dailycolour') {
     initDailyColour();
+  }
+  if (tool === 'travel') {
+    loadTbRates();
   }
 }
 
@@ -6661,7 +6670,29 @@ function copyCq(id) {
 
 // ── TRAVEL BUDGET TRACKER ────────────────────────
 const TB_CATS = ['🍜 食','🏨 住','🚌 交通','🛍 購物','🎫 景點','💊 雜項'];
-const TB_HKD_RATES = { JPY:0.052, HKD:1, USD:7.78, CNY:1.07, EUR:8.5, GBP:9.8, TWD:0.24, SGD:5.8, KRW:0.0057, THB:0.22, AUD:4.9, MYR:1.75 };
+let TB_HKD_RATES = { JPY:0.052, HKD:1, USD:7.78, CNY:1.07, EUR:8.5, GBP:9.8, TWD:0.24, SGD:5.8, KRW:0.0057, THB:0.22, AUD:4.9, MYR:1.75 }; // fallback static rates
+let tbRatesLoaded = false;
+
+async function loadTbRates() {
+  if (tbRatesLoaded) return;
+  try {
+    const res = await fetch('https://v6.exchangerate-api.com/v6/1caa726db406f572f4bdd61f/latest/HKD');
+    const data = await res.json();
+    if (data && data.conversion_rates) {
+      const rates = data.conversion_rates;
+      const newRates = { HKD: 1 };
+      Object.keys(TB_HKD_RATES).forEach(function(cur) {
+        if (cur === 'HKD') return;
+        // conversion_rates gives HKD->X, we need X->HKD, so invert
+        if (rates[cur]) newRates[cur] = 1 / rates[cur];
+      });
+      TB_HKD_RATES = newRates;
+      tbRatesLoaded = true;
+    }
+  } catch (e) {
+    console.log('Using fallback exchange rates for travel budget');
+  }
+}
 
 let tbTrips = [];
 let tbActiveIdx = -1;
@@ -6857,7 +6888,6 @@ function tbRenderSummary() {
 }
 
 function tbRenderExpenses() {
-  tbRenderBreakdown();
   tbRenderPie();
   tbRenderDaily();
   const trip = tbTrips[tbActiveIdx];
@@ -6958,12 +6988,20 @@ function tbRenderPie() {
   var total = Object.values(cats).reduce(function(s,v){ return s+v; }, 0);
   var sorted = Object.entries(cats).sort(function(a,b){ return b[1]-a[1]; });
 
-  // Draw pie
+  // Draw pie (high-DPI sharp rendering)
   var canvas = document.getElementById('tb-pie-canvas');
   if (!canvas) return;
+  var dpr = window.devicePixelRatio || 2;
+  var size = 120;
+  canvas.width = size * dpr;
+  canvas.height = size * dpr;
+  canvas.style.width = size + 'px';
+  canvas.style.height = size + 'px';
   var ctx = canvas.getContext('2d');
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
+  ctx.scale(dpr, dpr);
   var cx = 60, cy = 60, r = 54;
-  ctx.clearRect(0,0,120,120);
+  ctx.clearRect(0, 0, size, size);
 
   var startAngle = -Math.PI/2;
   sorted.forEach(function(entry, i) {
@@ -8984,6 +9022,21 @@ function downloadVCardQR() {
   showCiToast('QR Code 已下載 ✓');
 }
 
+
+// ── ANDROID KEYBOARD FIX ──────────────────────────
+document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('focusin', function(e) {
+    if (e.target.matches('input, select, textarea')) {
+      var modal = e.target.closest('.tb-modal');
+      if (modal) {
+        setTimeout(function() {
+          e.target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 300);
+      }
+    }
+  });
+});
+
 // ── PWA SERVICE WORKER ────────────────────────────
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
@@ -10153,12 +10206,6 @@ if ('serviceWorker' in navigator) {
         <div class="tb-chart-title">每日開支</div>
         <div class="tb-daily-grid" id="tb-daily-grid"></div>
         <div class="tb-daily-list" id="tb-daily-list"></div>
-      </div>
-
-      <!-- Category breakdown (keep as fallback, hide now) -->
-      <div class="tb-cat-breakdown" id="tb-breakdown" style="display:none">
-        <div class="tb-breakdown-title">類別佔比</div>
-        <div id="tb-breakdown-list"></div>
       </div>
 
       <!-- Add expense -->
