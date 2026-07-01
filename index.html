@@ -9595,6 +9595,11 @@ function tdCalculate() {
   document.getElementById('td-result-card').classList.add('show');
 }
 
+function tdReset() {
+  tdInit();
+  document.getElementById('td-result-card').classList.remove('show');
+}
+
 function tdSwap() {
   var sh = document.getElementById('td-start-h').value;
   var sm = document.getElementById('td-start-m').value;
@@ -11307,7 +11312,10 @@ if ('serviceWorker' in navigator) {
       </select>
     </div>
 
-    <button class="btn btn-primary" style="margin-top:8px" onclick="tdCalculate()">計算</button>
+    <div style="display:flex;gap:10px;margin-top:8px">
+      <button class="btn btn-primary" style="flex:1" onclick="tdCalculate()">計算</button>
+      <button class="btn btn-secondary" style="flex:1" onclick="tdReset()">清除重設</button>
+    </div>
 
     <!-- Result -->
     <div class="td-result-card" id="td-result-card">
