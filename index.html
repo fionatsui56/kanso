@@ -3743,22 +3743,12 @@
       padding: 0 20px 16px;
       background: var(--bg);
     }
-    .home-search-icon {
-      position: absolute;
-      left: 32px;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 15px;
-      pointer-events: none;
-      opacity: 0.45;
-      z-index: 1;
-    }
     .home-search-input {
       width: 100%;
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 12px;
-      padding: 12px 40px 12px 44px;
+      padding: 12px 40px 12px 16px;
       font-family: var(--font);
       font-size: 14px;
       color: var(--text);
@@ -3900,10 +3890,9 @@
 
   <!-- SEARCH BAR -->
   <div class="home-search-wrap">
-    <span class="home-search-icon">🔍</span>
     <input class="home-search-input" type="text" id="home-search"
-      placeholder="搜尋工具..." oninput="searchTools()">
-    <button class="home-search-clear" id="home-search-clear" onclick="clearSearch()">×</button>
+      placeholder="🔍 搜尋工具..." oninput="searchTools()">
+    <button class="home-search-clear" id="home-search-clear" onclick="clearSearch()">✕</button>
   </div>
 
   <!-- CATEGORY SHORTCUT BAR — home only -->
@@ -4044,6 +4033,11 @@
         <div class="tool-icon blue" style="background:#D4E2EC">🌡️</div>
         <div class="tool-name">溫度換算</div>
         <div class="tool-desc">°C ↔ °F ↔ K 即時換算</div>
+      </div>
+      <div class="tool-card" onclick="showTool('timedur')" data-search="時間 長度 計算 duration 幾耐 幾多小時">
+        <div class="tool-icon blue" style="background:#D4E2EC">⏳</div>
+        <div class="tool-name">時間長度計算</div>
+        <div class="tool-desc">計算兩個時間之間相差幾耐</div>
       </div>
     </div>
   </div>
