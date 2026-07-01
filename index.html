@@ -3745,25 +3745,27 @@
     }
     .home-search-icon {
       position: absolute;
-      left: 34px;
+      left: 32px;
       top: 50%;
       transform: translateY(-50%);
       font-size: 15px;
       pointer-events: none;
-      opacity: 0.4;
+      opacity: 0.45;
+      z-index: 1;
     }
     .home-search-input {
       width: 100%;
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 12px;
-      padding: 11px 14px 11px 38px;
+      padding: 12px 40px 12px 44px;
       font-family: var(--font);
       font-size: 14px;
       color: var(--text);
       outline: none;
       transition: all 0.2s;
       box-shadow: 0 1px 3px rgba(46,43,38,0.05);
+      box-sizing: border-box;
     }
     .home-search-input:focus {
       border-color: var(--ink);
@@ -3771,16 +3773,17 @@
     }
     .home-search-clear {
       position: absolute;
-      right: 34px;
+      right: 32px;
       top: 50%;
       transform: translateY(-50%);
       background: none;
       border: none;
-      font-size: 16px;
+      font-size: 18px;
       color: var(--subtle);
       cursor: pointer;
       display: none;
       padding: 4px;
+      line-height: 1;
     }
     .tool-card.hidden { display: none; }
     .cat-section.hidden { display: none; }
