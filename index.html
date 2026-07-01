@@ -3737,6 +3737,110 @@
     .sb-balance-val.owed { color: #4A7C59; }
     .sb-balance-val.even { color: var(--subtle); }
 
+    /* ── HOME SEARCH ── */
+    .home-search-wrap {
+      position: relative;
+      padding: 0 20px 16px;
+      background: var(--bg);
+    }
+    .home-search-icon {
+      position: absolute;
+      left: 34px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 15px;
+      pointer-events: none;
+      opacity: 0.4;
+    }
+    .home-search-input {
+      width: 100%;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 11px 14px 11px 38px;
+      font-family: var(--font);
+      font-size: 14px;
+      color: var(--text);
+      outline: none;
+      transition: all 0.2s;
+      box-shadow: 0 1px 3px rgba(46,43,38,0.05);
+    }
+    .home-search-input:focus {
+      border-color: var(--ink);
+      box-shadow: 0 0 0 3px rgba(63,74,60,0.08);
+    }
+    .home-search-clear {
+      position: absolute;
+      right: 34px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      font-size: 16px;
+      color: var(--subtle);
+      cursor: pointer;
+      display: none;
+      padding: 4px;
+    }
+    .tool-card.hidden { display: none; }
+    .cat-section.hidden { display: none; }
+    .search-empty {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--subtle);
+      font-size: 14px;
+      display: none;
+    }
+    .search-empty.show { display: block; }
+
+    /* ── TIME DURATION ── */
+    .td-time-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr auto;
+      gap: 8px;
+      align-items: flex-end;
+      margin-bottom: 12px;
+    }
+    .td-ampm-select {
+      height: 46px;
+      padding: 0 10px;
+    }
+    .td-result-card {
+      background: var(--ink);
+      color: var(--surface);
+      border-radius: 14px;
+      padding: 24px;
+      text-align: center;
+      margin: 20px 0;
+      display: none;
+    }
+    .td-result-card.show { display: block; }
+    .td-result-main {
+      font-size: 36px;
+      font-weight: 700;
+      font-family: var(--font-display);
+      letter-spacing: -1px;
+      margin-bottom: 8px;
+    }
+    .td-result-sub {
+      font-size: 13px;
+      opacity: 0.65;
+      line-height: 1.8;
+    }
+    .td-swap-btn {
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--subtle);
+      font-size: 18px;
+      padding: 6px 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+      width: 100%;
+      margin-bottom: 16px;
+    }
+    .td-swap-btn:hover { border-color: var(--ink); color: var(--ink); }
+
     /* ── RESPONSIVE ── */
     @media (max-width: 380px) {
       .tools-grid { grid-template-columns: 1fr; }
@@ -3791,6 +3895,14 @@
     <div class="hero-desc">日常所需，一個地方搞掂。</div>
   </div>
 
+  <!-- SEARCH BAR -->
+  <div class="home-search-wrap">
+    <span class="home-search-icon">🔍</span>
+    <input class="home-search-input" type="text" id="home-search"
+      placeholder="搜尋工具..." oninput="searchTools()">
+    <button class="home-search-clear" id="home-search-clear" onclick="clearSearch()">×</button>
+  </div>
+
   <!-- CATEGORY SHORTCUT BAR — home only -->
   <div class="cat-shortcut-bar" id="cat-shortcut-bar">
     <button class="cat-pill" id="pill-productivity" onclick="navToCategory('productivity')">
@@ -3811,27 +3923,27 @@
   <div class="cat-section cat-productivity" id="cat-productivity">
     <div class="cat-label">⚡ 生產力 Productivity</div>
     <div class="cat-grid">
-      <div class="tool-card" onclick="showTool('pomodoro')">
+      <div class="tool-card" onclick="showTool('pomodoro')" data-search="番茄時鐘 pomodoro timer 計時 專注">
         <div class="tool-icon blue" style="background:#F0E4B8">🍅</div>
         <div class="tool-name">番茄時鐘</div>
         <div class="tool-desc">25分鐘專注，5分鐘休息</div>
       </div>
-      <div class="tool-card" onclick="showTool('meeting')">
+      <div class="tool-card" onclick="showTool('meeting')" data-search="會議計時器 meeting timer 倒數 議程">
         <div class="tool-icon mint" style="background:#F6EBC8">⏱</div>
         <div class="tool-name">會議計時器</div>
         <div class="tool-desc">自訂時長，超時警示</div>
       </div>
-      <div class="tool-card" onclick="showTool('stopwatch')">
+      <div class="tool-card" onclick="showTool('stopwatch')" data-search="stopwatch 秒錶 計時">
         <div class="tool-icon blue" style="background:#F0E4B8">⏱</div>
         <div class="tool-name">Stopwatch</div>
         <div class="tool-desc">正數計時，支援 Lap 記錄</div>
       </div>
-      <div class="tool-card" onclick="showTool('noticeperiod')">
+      <div class="tool-card" onclick="showTool('noticeperiod')" data-search="通知期 辭職 離職 notice period">
         <div class="tool-icon mint" style="background:#F6EBC8">📋</div>
         <div class="tool-name">通知期計算</div>
         <div class="tool-desc">計算通知期到期日，扣除公眾假期</div>
       </div>
-      <div class="tool-card" onclick="showTool('marquee')">
+      <div class="tool-card" onclick="showTool('marquee')" data-search="跑馬燈 teleprompter 演講 字幕">
         <div class="tool-icon blue" style="background:#F0E4B8">📺</div>
         <div class="tool-name">跑馬燈</div>
         <div class="tool-desc">全螢幕滾動文字，演講提示</div>
@@ -3863,32 +3975,32 @@
         <div class="tool-name">繁→簡轉換</div>
         <div class="tool-desc">字形轉換＋內地用語替換</div>
       </div>
-      <div class="tool-card" onclick="showTool('wordcount')">
+      <div class="tool-card" onclick="showTool('wordcount')" data-search="字數 word count 計算">
         <div class="tool-icon mint" style="background:#C8DDD0">📝</div>
         <div class="tool-name">字數計算</div>
         <div class="tool-desc">字數、字符、閱讀時間即時計算</div>
       </div>
-      <div class="tool-card" onclick="showTool('colorinspo')">
+      <div class="tool-card" onclick="showTool('colorinspo')" data-search="色彩 pantone 顏色 配色 hex">
         <div class="tool-icon purple" style="background:#D8E8E0">🎨</div>
         <div class="tool-name">色彩靈感</div>
         <div class="tool-desc">Pantone 2026 七大系列配色</div>
       </div>
-      <div class="tool-card" onclick="showTool('symbols')">
+      <div class="tool-card" onclick="showTool('symbols')" data-search="符號 symbol 箭頭 特殊字元">
         <div class="tool-icon mint" style="background:#C8DDD0">✦</div>
         <div class="tool-name">符號複製</div>
         <div class="tool-desc">分隔線、箭頭、標點、常用符號</div>
       </div>
-      <div class="tool-card" onclick="showTool('cheque')">
+      <div class="tool-card" onclick="showTool('cheque')" data-search="支票 金額 大寫 cheque">
         <div class="tool-icon blue" style="background:#D8E8E0">🏦</div>
         <div class="tool-name">支票金額轉換</div>
         <div class="tool-desc">數字轉中文大寫及英文大寫</div>
       </div>
-      <div class="tool-card" onclick="showTool('vcard')">
+      <div class="tool-card" onclick="showTool('vcard')" data-search="名片 聯絡人 vcard qr contact">
         <div class="tool-icon mint" style="background:#C8DDD0">👤</div>
         <div class="tool-name">名片 QR Code</div>
         <div class="tool-desc">掃描即加入聯絡人，iOS／Android 通用</div>
       </div>
-      <div class="tool-card" onclick="showTool('travel')">
+      <div class="tool-card" onclick="showTool('travel')" data-search="旅行 預算 追蹤 消費 匯率">
         <div class="tool-icon orange" style="background:#C8DDD0">✈️</div>
         <div class="tool-name">旅行預算追蹤</div>
         <div class="tool-desc">記錄消費、人均攤分、多幣種</div>
@@ -3900,32 +4012,32 @@
   <div class="cat-section cat-converters" id="cat-converters" style="padding-bottom:0;">
     <div class="cat-label">🔢 換算工具 Converters</div>
     <div class="cat-grid">
-      <div class="tool-card" onclick="showTool('fx')">
+      <div class="tool-card" onclick="showTool('fx')" data-search="匯率 換算 外幣 currency exchange">
         <div class="tool-icon mint" style="background:#BBCFE8">💱</div>
         <div class="tool-name">匯率換算</div>
         <div class="tool-desc">實時匯率，多幣種即時換算</div>
       </div>
-      <div class="tool-card" onclick="showTool('timezone')">
+      <div class="tool-card" onclick="showTool('timezone')" data-search="時區 timezone 時間 世界">
         <div class="tool-icon orange" style="background:#D4E2EC">🌍</div>
         <div class="tool-name">時區換算</div>
         <div class="tool-desc">24 個城市＋搜尋，即時對照</div>
       </div>
-      <div class="tool-card" onclick="showTool('length')">
+      <div class="tool-card" onclick="showTool('length')" data-search="長度 換算 米 呎 length">
         <div class="tool-icon blue" style="background:#BBCFE8">📏</div>
         <div class="tool-name">長度換算</div>
         <div class="tool-desc">cm、inch、m、ft 即時換算</div>
       </div>
-      <div class="tool-card" onclick="showTool('weight')">
+      <div class="tool-card" onclick="showTool('weight')" data-search="重量 換算 磅 公斤 weight">
         <div class="tool-icon purple" style="background:#D4E2EC">⚖️</div>
         <div class="tool-name">重量換算</div>
         <div class="tool-desc">kg、lb、g、oz 即時換算</div>
       </div>
-      <div class="tool-card" onclick="showTool('area')">
+      <div class="tool-card" onclick="showTool('area')" data-search="面積 換算 平方呎 平方米 area">
         <div class="tool-icon mint" style="background:#BBCFE8">📐</div>
         <div class="tool-name">面積換算</div>
         <div class="tool-desc">平方呎 ↔ 平方米，買樓必備</div>
       </div>
-      <div class="tool-card" onclick="showTool('temp')">
+      <div class="tool-card" onclick="showTool('temp')" data-search="溫度 換算 攝氏 華氏 temperature">
         <div class="tool-icon blue" style="background:#D4E2EC">🌡️</div>
         <div class="tool-name">溫度換算</div>
         <div class="tool-desc">°C ↔ °F ↔ K 即時換算</div>
@@ -3937,37 +4049,37 @@
   <div class="cat-section cat-fun" id="cat-fun" style="padding-bottom:40px;">
     <div class="cat-label">🎲 輕鬆一下 Just for Fun</div>
     <div class="cat-grid">
-      <div class="tool-card" onclick="showTool('wheel')">
+      <div class="tool-card" onclick="showTool('wheel')" data-search="隨機 決策 輪盤 random">
         <div class="tool-icon orange" style="background:#EDD5C8">🎡</div>
         <div class="tool-name">隨機決策</div>
         <div class="tool-desc">輸入選項，轉動輪盤決定</div>
       </div>
-      <div class="tool-card" onclick="showTool('leaveplanner')">
+      <div class="tool-card" onclick="showTool('leaveplanner')" data-search="請假 假期 leave planner 2027">
         <div class="tool-icon orange" style="background:#EDD5C8">✈️</div>
         <div class="tool-name">請假攻略 2027</div>
         <div class="tool-desc">請最少假，放最長假</div>
       </div>
-      <div class="tool-card" onclick="showTool('dailycard')">
+      <div class="tool-card" onclick="showTool('dailycard')" data-search="每日一抽 正能量 勵志 卡片">
         <div class="tool-icon orange" style="background:#EDD5C8">✦</div>
         <div class="tool-name">每日一抽</div>
         <div class="tool-desc">100 張正能量卡，為自己充電</div>
       </div>
-      <div class="tool-card" onclick="showTool('dailycolour')">
+      <div class="tool-card" onclick="showTool('dailycolour')" data-search="今日色調 五行 天干 顏色 配色">
         <div class="tool-icon orange" style="background:#EDD5C8">🌿</div>
         <div class="tool-name">今日色調</div>
         <div class="tool-desc">天干五行配色，今日生活色調</div>
       </div>
-      <div class="tool-card" onclick="showTool('soulcard')">
+      <div class="tool-card" onclick="showTool('soulcard')" data-search="心靈 安慰 卡 情緒 職場">
         <div class="tool-icon orange" style="background:#EDD5C8">🃏</div>
         <div class="tool-name">心靈安慰卡</div>
         <div class="tool-desc">揀場景，抽一張屬於你的卡</div>
       </div>
-      <div class="tool-card" onclick="showTool('slang')">
+      <div class="tool-card" onclick="showTool('slang')" data-search="潮語 genz alpha 網絡用語">
         <div class="tool-icon orange" style="background:#EDD5C8">💬</div>
         <div class="tool-name">潮語速查</div>
         <div class="tool-desc">GenZ · Alpha · 網絡熱詞，唔識即查</div>
       </div>
-      <div class="tool-card" onclick="showTool('splitbill')">
+      <div class="tool-card" onclick="showTool('splitbill')" data-search="夾錢 計算 分帳 split bill 聚會">
         <div class="tool-icon orange" style="background:#EDD5C8">🧾</div>
         <div class="tool-name">夾錢計算機</div>
         <div class="tool-desc">聚會夾錢，自動計邊個欠邊個</div>
@@ -4206,6 +4318,10 @@ function showTool(tool) {
   }
   if (tool === 'travel') {
     loadTbRates();
+  }
+  if (tool === 'timedur') {
+    tdInit();
+    document.getElementById('td-result-card').classList.remove('show');
   }
   if (tool === 'splitbill') {
     sbRenderPeople();
@@ -9349,6 +9465,163 @@ function sbResetAll() {
   showCiToast('已重設');
 }
 
+
+// ── HOME SEARCH ──────────────────────────────────
+function searchTools() {
+  var q = document.getElementById('home-search').value.trim().toLowerCase();
+  var clearBtn = document.getElementById('home-search-clear');
+  var emptyEl = document.getElementById('search-empty');
+  var emptyTerm = document.getElementById('search-empty-term');
+  var catBar = document.getElementById('cat-shortcut-bar');
+
+  clearBtn.style.display = q ? 'block' : 'none';
+
+  var cards = document.querySelectorAll('#page-home .tool-card');
+  var sections = document.querySelectorAll('#page-home .cat-section');
+  var visibleCount = 0;
+
+  if (!q) {
+    // Reset
+    cards.forEach(function(c){ c.classList.remove('hidden'); });
+    sections.forEach(function(s){ s.classList.remove('hidden'); });
+    emptyEl.classList.remove('show');
+    catBar.style.display = '';
+    return;
+  }
+
+  catBar.style.display = 'none';
+
+  cards.forEach(function(card) {
+    var keywords = (card.dataset.search || '') + ' ' + (card.querySelector('.tool-name') ? card.querySelector('.tool-name').textContent : '') + ' ' + (card.querySelector('.tool-desc') ? card.querySelector('.tool-desc').textContent : '');
+    var match = keywords.toLowerCase().includes(q);
+    card.classList.toggle('hidden', !match);
+    if (match) visibleCount++;
+  });
+
+  // Show/hide category headers based on visible cards
+  sections.forEach(function(section) {
+    var visibleCards = section.querySelectorAll('.tool-card:not(.hidden)');
+    section.classList.toggle('hidden', visibleCards.length === 0);
+  });
+
+  if (visibleCount === 0) {
+    emptyEl.classList.add('show');
+    emptyTerm.textContent = document.getElementById('home-search').value.trim();
+  } else {
+    emptyEl.classList.remove('show');
+  }
+}
+
+function clearSearch() {
+  document.getElementById('home-search').value = '';
+  searchTools();
+  document.getElementById('home-search').focus();
+}
+
+
+// ── TIME DURATION CALCULATOR ─────────────────────
+function tdInit() {
+  var hours = [], mins = [], secs = [];
+  for (var h = 1; h <= 12; h++) hours.push(String(h).padStart(2,'0'));
+  for (var m = 0; m < 60; m++) mins.push(String(m).padStart(2,'0'));
+  for (var s = 0; s < 60; s++) secs.push(String(s).padStart(2,'0'));
+
+  function populate(id, arr, defaultVal) {
+    var sel = document.getElementById(id);
+    if (!sel) return;
+    sel.innerHTML = '';
+    arr.forEach(function(v) {
+      var opt = new Option(v, v);
+      sel.appendChild(opt);
+    });
+    sel.value = defaultVal;
+  }
+
+  // Default: 08:30:00 AM → 05:30:00 PM
+  populate('td-start-h', hours, '08');
+  populate('td-start-m', mins, '30');
+  populate('td-start-s', secs, '00');
+  document.getElementById('td-start-ampm').value = 'AM';
+
+  populate('td-end-h', hours, '05');
+  populate('td-end-m', mins, '30');
+  populate('td-end-s', secs, '00');
+  document.getElementById('td-end-ampm').value = 'PM';
+}
+
+function tdGetSeconds(h, m, s, ampm) {
+  var hour = parseInt(h);
+  if (ampm === 'AM' && hour === 12) hour = 0;
+  if (ampm === 'PM' && hour !== 12) hour += 12;
+  return hour * 3600 + parseInt(m) * 60 + parseInt(s);
+}
+
+function tdCalculate() {
+  var sh = document.getElementById('td-start-h').value;
+  var sm = document.getElementById('td-start-m').value;
+  var ss = document.getElementById('td-start-s').value;
+  var sa = document.getElementById('td-start-ampm').value;
+
+  var eh = document.getElementById('td-end-h').value;
+  var em = document.getElementById('td-end-m').value;
+  var es = document.getElementById('td-end-s').value;
+  var ea = document.getElementById('td-end-ampm').value;
+
+  var startSec = tdGetSeconds(sh, sm, ss, sa);
+  var endSec = tdGetSeconds(eh, em, es, ea);
+
+  var diff = endSec - startSec;
+  var crossMidnight = false;
+  if (diff < 0) {
+    diff += 86400; // add 24 hours for overnight
+    crossMidnight = true;
+  }
+
+  var hours = Math.floor(diff / 3600);
+  var mins = Math.floor((diff % 3600) / 60);
+  var secs = diff % 60;
+
+  // Format main result
+  var mainParts = [];
+  if (hours > 0) mainParts.push(hours + ' 小時');
+  if (mins > 0) mainParts.push(mins + ' 分鐘');
+  if (secs > 0 || diff === 0) mainParts.push(secs + ' 秒');
+  var mainText = mainParts.join(' ');
+
+  // Sub text
+  var totalMins = Math.floor(diff / 60);
+  var subLines = [];
+  subLines.push('合共 ' + totalMins + ' 分鐘 · ' + diff + ' 秒');
+  if (crossMidnight) subLines.push('⚠️ 跨越午夜計算');
+
+  document.getElementById('td-result-main').textContent = mainText || '0 秒';
+  document.getElementById('td-result-sub').innerHTML = subLines.join('<br>');
+  document.getElementById('td-result-card').classList.add('show');
+}
+
+function tdSwap() {
+  var sh = document.getElementById('td-start-h').value;
+  var sm = document.getElementById('td-start-m').value;
+  var ss = document.getElementById('td-start-s').value;
+  var sa = document.getElementById('td-start-ampm').value;
+
+  document.getElementById('td-start-h').value = document.getElementById('td-end-h').value;
+  document.getElementById('td-start-m').value = document.getElementById('td-end-m').value;
+  document.getElementById('td-start-s').value = document.getElementById('td-end-s').value;
+  document.getElementById('td-start-ampm').value = document.getElementById('td-end-ampm').value;
+
+  document.getElementById('td-end-h').value = sh;
+  document.getElementById('td-end-m').value = sm;
+  document.getElementById('td-end-s').value = ss;
+  document.getElementById('td-end-ampm').value = sa;
+
+  tdCalculate();
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  tdInit();
+});
+
 // ── PWA SERVICE WORKER ────────────────────────────
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
@@ -10973,6 +11246,80 @@ if ('serviceWorker' in navigator) {
       © 2026 Kanso 簡素 · All Rights Reserved · 工具將不定期更新<br>
       有工具想加？<a href="mailto:hello@flux-strategy.com" style="color:var(--ink);font-weight:600;text-decoration:none;">hello@flux-strategy.com</a>
     </div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════
+     TIME DURATION CALCULATOR
+════════════════════════════════ -->
+<div class="page" id="page-timedur">
+  <div class="tool-page">
+    <div class="tool-header">
+      <div class="tool-icon blue">⏳</div>
+      <div class="tool-header-text">
+        <h1>時間長度計算</h1>
+        <p>計算兩個時間之間相差幾耐</p>
+      </div>
+    </div>
+
+    <!-- Start time -->
+    <div class="input-group">
+      <label>開始時間</label>
+    </div>
+    <div class="td-time-row">
+      <div class="input-group" style="margin-bottom:0">
+        <label style="font-size:11px">時</label>
+        <select class="currency-select" id="td-start-h"></select>
+      </div>
+      <div class="input-group" style="margin-bottom:0">
+        <label style="font-size:11px">分</label>
+        <select class="currency-select" id="td-start-m"></select>
+      </div>
+      <div class="input-group" style="margin-bottom:0">
+        <label style="font-size:11px">秒</label>
+        <select class="currency-select" id="td-start-s"></select>
+      </div>
+      <select class="currency-select td-ampm-select" id="td-start-ampm">
+        <option>AM</option>
+        <option>PM</option>
+      </select>
+    </div>
+
+    <button class="td-swap-btn" onclick="tdSwap()">⇅ 互換開始 / 結束時間</button>
+
+    <!-- End time -->
+    <div class="input-group">
+      <label>結束時間</label>
+    </div>
+    <div class="td-time-row">
+      <div class="input-group" style="margin-bottom:0">
+        <label style="font-size:11px">時</label>
+        <select class="currency-select" id="td-end-h"></select>
+      </div>
+      <div class="input-group" style="margin-bottom:0">
+        <label style="font-size:11px">分</label>
+        <select class="currency-select" id="td-end-m"></select>
+      </div>
+      <div class="input-group" style="margin-bottom:0">
+        <label style="font-size:11px">秒</label>
+        <select class="currency-select" id="td-end-s"></select>
+      </div>
+      <select class="currency-select td-ampm-select" id="td-end-ampm">
+        <option>AM</option>
+        <option value="PM" selected>PM</option>
+      </select>
+    </div>
+
+    <button class="btn btn-primary" style="margin-top:8px" onclick="tdCalculate()">計算</button>
+
+    <!-- Result -->
+    <div class="td-result-card" id="td-result-card">
+      <div class="td-result-main" id="td-result-main">--</div>
+      <div class="td-result-sub" id="td-result-sub"></div>
+    </div>
+
+    <div class="status-msg" id="td-status"></div>
   </div>
 </div>
 
