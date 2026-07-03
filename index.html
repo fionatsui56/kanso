@@ -9113,6 +9113,25 @@ function addMeetingTime(mins) {
   showCiToast('+' + mins + ' 分鐘');
 }
 
+
+
+function fsFgClick(e) {
+  if (e.target === document.getElementById('mt-fs-overlay')) {
+    closeMeetingFS();
+  }
+}
+
+function fsPauseToggle() {
+  var btn = document.getElementById('mt-fs-pause-btn');
+  if (mtMode === 'rundown') {
+    toggleRdPause();
+    btn.textContent = rdPaused ? '▶' : '⏸';
+  } else {
+    toggleMeeting();
+    btn.textContent = mtRunning ? '⏸' : '▶';
+  }
+}
+
 function openMeetingFS() {
   var overlay = document.getElementById('mt-fs-overlay');
   if (mtMode === 'rundown') {
@@ -9135,8 +9154,19 @@ function openMeetingFS() {
   if (exitBtn) exitBtn.textContent = mtLang === 'en' ? '✕ Exit' : '✕ 退出';
   var fsLabel = document.getElementById('mt-fs-label');
   if (fsLabel && mtMode !== 'rundown') fsLabel.textContent = mtLang === 'en' ? 'Meeting Timer' : '會議計時器';
-  var fsHintEl = document.querySelector('.mt-fs-hint');
-  if (fsHintEl) fsHintEl.textContent = mtLang === 'en' ? 'Tap anywhere to exit fullscreen' : '點擊任何地方退出全螢幕';
+  var fsHintEl = document.getElementById('mt-fs-hint');
+  if (fsHintEl) fsHintEl.textContent = mtLang === 'en' ? 'Tap anywhere to exit · ⏸ to pause' : '點擊退出 · ⏸ 暫停';
+  // Sync pause button state
+  var fsPauseBtn = document.getElementById('mt-fs-pause-btn');
+  if (fsPauseBtn) {
+    if (mtMode === 'rundown') {
+      fsPauseBtn.textContent = rdPaused ? '▶' : '⏸';
+      fsPauseBtn.style.display = rdRunning ? 'block' : 'none';
+    } else {
+      fsPauseBtn.textContent = mtRunning ? '⏸' : '▶';
+      fsPauseBtn.style.display = mtTotal > 0 ? 'block' : 'none';
+    }
+  }
   overlay.classList.add('show');
   // Request native fullscreen if supported
   if (overlay.requestFullscreen) overlay.requestFullscreen().catch(function(){});
@@ -11145,14 +11175,15 @@ if ('serviceWorker' in navigator) {
 
 
 <!-- Meeting Timer Fullscreen Overlay -->
-<div class="mt-fs-overlay" id="mt-fs-overlay" onclick="closeMeetingFS()">
-  <button class="mt-fs-btn" id="mt-fs-exit-btn" onclick="closeMeetingFS();event.stopPropagation()">✕ 退出</button>
+<div class="mt-fs-overlay" id="mt-fs-overlay" onclick="fsFgClick(event)">
+  <button class="mt-fs-btn" id="mt-fs-exit-btn" onclick="closeMeetingFS()">✕ 退出</button>
+  <button class="mt-fs-btn" id="mt-fs-pause-btn" onclick="fsPauseToggle()" style="top:24px;left:24px;right:auto">⏸</button>
   <div class="mt-fs-meeting-title" id="mt-fs-meeting-title"></div>
   <div class="mt-fs-time" id="mt-fs-time">--:--</div>
   <div class="mt-fs-label" id="mt-fs-label">會議計時器</div>
   <div class="mt-fs-next" id="mt-fs-next"></div>
   <div class="mt-fs-progress" id="mt-fs-progress"></div>
-  <div class="mt-fs-hint">點擊任何地方退出全螢幕</div>
+  <div class="mt-fs-hint" id="mt-fs-hint">點擊任何地方退出全螢幕</div>
 </div>
 
 
