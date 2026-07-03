@@ -1,4 +1,4 @@
-const CACHE_NAME = 'kanso-v39';
+const CACHE_NAME = 'kanso-v41';
 const URLS_TO_CACHE = [
   '/index.html',
   '/manifest.json'

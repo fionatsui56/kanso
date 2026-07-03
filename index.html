@@ -8674,6 +8674,11 @@ function applyMtLang() {
   // Saved list title
   var savedTitle = document.getElementById('mt-saved-title');
   if (savedTitle) savedTitle.textContent = mtLang === 'en' ? 'Saved Rundowns' : '已儲存議程';
+  // Pause button
+  var pauseBtn2 = document.getElementById('mt-rd-pause-btn');
+  if (pauseBtn2 && pauseBtn2.style.display !== 'none') {
+    pauseBtn2.textContent = rdPaused ? (mtLang === 'en' ? '▶ Resume' : '▶ 繼續') : (mtLang === 'en' ? '⏸ Pause' : '⏸ 暫停');
+  }
   // Save/load buttons
   var saveRow = document.getElementById('mt-rd-save-row');
   if (saveRow) {
@@ -8836,6 +8841,29 @@ function renderSavedList() {
 function loadRundown(i) {
   var saved = loadSavedRundowns();
   if (!saved[i]) return;
+
+  if (rdRunning) {
+    var confirmMsg = mtLang === 'en'
+      ? 'Switch to "' + saved[i].name + '"? Current timer will reset.'
+      : '換成「' + saved[i].name + '」？當前計時會重設。';
+    if (!confirm(confirmMsg)) return;
+    // Reset then load
+    clearInterval(rdInterval);
+    rdRunning = false;
+    rdPaused = false;
+    rdCurrentIdx = 0;
+    // Hide running UI
+    document.getElementById('mt-rd-pause-btn').style.display = 'none';
+    document.getElementById('mt-rd-load-during-btn').style.display = 'none';
+    document.getElementById('mt-rd-display').style.display = 'none';
+    document.getElementById('mt-rd-label').style.display = 'none';
+    document.getElementById('mt-rd-progress').style.display = 'none';
+    document.getElementById('mt-rd-add-row').style.display = 'none';
+    document.getElementById('mt-rd-fs-btn').disabled = true;
+    document.getElementById('mt-rd-start-btn').style.display = '';
+    document.getElementById('mt-rd-save-row').style.display = 'flex';
+  }
+
   rdSessions = saved[i].sessions.slice();
   renderRdList();
   document.getElementById('mt-rd-start-btn').disabled = rdSessions.length === 0;
@@ -8854,6 +8882,7 @@ function deleteSavedRundown(i) {
 var rdSessions = [];
 var rdCurrentIdx = 0;
 var rdRunning = false;
+var rdPaused = false;
 var rdInterval = null;
 var rdRemaining = 0;
 var rdTotal = 0;
@@ -8901,12 +8930,33 @@ function delRdSession(i) {
   if (rdSessions.length === 0) document.getElementById('mt-rd-start-btn').disabled = true;
 }
 
+
+function toggleRdPause() {
+  var pauseBtn = document.getElementById('mt-rd-pause-btn');
+  var s = MT_STRINGS[mtLang];
+  if (rdPaused) {
+    // Resume
+    rdPaused = false;
+    rdInterval = setInterval(rdTick, 1000);
+    pauseBtn.textContent = mtLang === 'en' ? '⏸ Pause' : '⏸ 暫停';
+    showCiToast(mtLang === 'en' ? 'Resumed' : '繼續計時');
+  } else {
+    // Pause
+    rdPaused = true;
+    clearInterval(rdInterval);
+    pauseBtn.textContent = mtLang === 'en' ? '▶ Resume' : '▶ 繼續';
+    showCiToast(mtLang === 'en' ? 'Paused' : '已暫停');
+  }
+}
+
 function startRundown() {
   if (rdSessions.length === 0) return;
   rdCurrentIdx = 0;
   rdRunning = true;
   document.getElementById('mt-rd-start-btn').style.display = 'none';
+  document.getElementById('mt-rd-pause-btn').style.display = 'block';
   document.getElementById('mt-rd-save-row').style.display = 'none';
+  document.getElementById('mt-rd-load-during-btn').style.display = 'block';
   document.getElementById('mt-saved-section').style.display = 'none';
   document.getElementById('mt-rd-display').style.display = 'block';
   document.getElementById('mt-rd-label').style.display = 'block';
@@ -9028,6 +9078,11 @@ function resetRundown() {
   rdRemaining = 0;
   var startBtn = document.getElementById('mt-rd-start-btn');
   if (startBtn) { startBtn.style.display = ''; startBtn.disabled = true; }
+  var pauseBtn = document.getElementById('mt-rd-pause-btn');
+  if (pauseBtn) { pauseBtn.style.display = 'none'; pauseBtn.textContent = '⏸ 暫停'; }
+  var loadDuringBtn = document.getElementById('mt-rd-load-during-btn');
+  if (loadDuringBtn) loadDuringBtn.style.display = 'none';
+  rdPaused = false;
   var saveRow = document.getElementById('mt-rd-save-row');
   if (saveRow) saveRow.style.display = 'flex';
   var rdDisplay = document.getElementById('mt-rd-display');
@@ -9933,6 +9988,8 @@ if ('serviceWorker' in navigator) {
       <!-- Rundown controls -->
       <div class="mt-controls">
         <button class="btn btn-primary" id="mt-rd-start-btn" onclick="startRundown()" disabled>▶ 開始議程</button>
+        <button class="btn btn-secondary" id="mt-rd-pause-btn" onclick="toggleRdPause()" style="display:none">⏸ 暫停</button>
+        <button class="btn btn-secondary" id="mt-rd-load-during-btn" onclick="toggleSavedList()" style="display:none">📂 換議程</button>
         <button class="btn btn-secondary" onclick="resetRundown()">重設</button>
         <button class="btn btn-secondary" id="mt-rd-fs-btn" onclick="openMeetingFS()" disabled style="padding:12px">⛶ 全螢幕</button>
       </div>
