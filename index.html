@@ -6299,6 +6299,15 @@ function subtractCalendarDays(endDate, days) {
   return d;
 }
 
+
+function getLastWorkingDay(date) {
+  var d = new Date(date);
+  var day = d.getDay(); // 0=Sun, 6=Sat
+  if (day === 0) d.setDate(d.getDate() - 2); // Sun → Fri
+  else if (day === 6) d.setDate(d.getDate() - 1); // Sat → Fri
+  return d;
+}
+
 function countHolidaysBetween(start, end) {
   var d = new Date(start);
   d.setHours(0,0,0,0);
@@ -6357,9 +6366,13 @@ function calcNotice() {
     var hdList = holidays.slice(0,3).map(function(h){ return h.name; }).join('、');
     if (holidays.length > 3) hdList += '等';
 
-    document.getElementById('np-result-label').textContent = '最後上班日';
+    var lastWorkDay = getLastWorkingDay(lastDay);
+    var isWeekend = lastWorkDay.getTime() !== lastDay.getTime();
+    document.getElementById('np-result-label').textContent = '通知期完結';
     document.getElementById('np-result-date').textContent = fmt(lastDay);
     document.getElementById('np-result-detail').innerHTML =
+      (isWeekend ? '📅 最後上班日：<strong>' + fmt(lastWorkDay) + '</strong>（提早至星期' + ['日','一','二','三','四','五','六'][lastWorkDay.getDay()] + '）<br>' +
+      '<span style="font-size:11px;color:#C49A3C">⚠️ 出糧以最後上班日為準</span><br><br>' : '') +
       '遞信日：<strong>' + fmt(start) + '</strong><br>' +
       '通知期：<strong>' + getPeriodLabel(period) + '</strong><br>' +
       '期間公眾假期：<strong>' + holidays.length + ' 日</strong><br>' +
@@ -6382,10 +6395,15 @@ function calcNotice() {
     var hdList2 = holidays2.slice(0,3).map(function(h){ return h.name; }).join('、');
     if (holidays2.length > 3) hdList2 += '等';
 
+    var lastWorkDay2 = getLastWorkingDay(end2);
+    var isWeekend2 = lastWorkDay2.getTime() !== end2.getTime();
     document.getElementById('np-result-label').textContent = '最遲遞信日';
     document.getElementById('np-result-date').textContent = fmt(resignDay);
     document.getElementById('np-result-detail').innerHTML =
-      '目標最後上班日：<strong>' + fmt(end2) + '</strong><br>' +
+      '目標最後上班日：<strong>' + fmt(end2) + '</strong>' +
+      (isWeekend2 ? '（星期' + ['日','一','二','三','四','五','六'][end2.getDay()] + '）<br>' +
+      '📅 實際最後上班日：<strong>' + fmt(lastWorkDay2) + '</strong>（星期' + ['日','一','二','三','四','五','六'][lastWorkDay2.getDay()] + '）<br>' +
+      '<span style="font-size:11px;color:#C49A3C">⚠️ 出糧以最後上班日為準</span><br><br>' : '<br>') +
       '通知期：<strong>' + getPeriodLabel(period) + '</strong><br>' +
       '期間公眾假期：<strong>' + holidays2.length + ' 日</strong><br>' +
       (holidays2.length > 0 ? '<span style="font-size:11px;opacity:0.8">' + holidays2.map(function(h){ return h.key.substring(5) + ' ' + h.name; }).join('、') + '</span><br>' : '') +
