@@ -6761,38 +6761,39 @@ const CQ_ZH_GROUPS = ['','萬','億'];
 
 function numToZh(n) {
   if (n === 0) return '零';
+  const D = ['零','壹','貳','叄','肆','伍','陸','柒','捌','玖'];
+  const G = ['','萬','億'];
   let result = '';
-  let groupIdx = 0;
-  // Split into groups of 4
   const groups = [];
   let tmp = Math.floor(n);
-  while (tmp > 0) {
-    groups.push(tmp % 10000);
-    tmp = Math.floor(tmp / 10000);
-  }
-  for (let i = groups.length - 1; i >= 0; i--) {
-    const g = groups[i];
+  while (tmp > 0) { groups.push(tmp % 10000); tmp = Math.floor(tmp / 10000); }
+  for (let gi = groups.length - 1; gi >= 0; gi--) {
+    const g = groups[gi];
     if (g === 0) {
       if (result && !result.endsWith('零')) result += '零';
       continue;
     }
+    const t = Math.floor(g / 1000);
+    const h = Math.floor((g % 1000) / 100);
+    const s = Math.floor((g % 100) / 10);
+    const o = g % 10;
     let gStr = '';
-    const thousands = Math.floor(g / 1000);
-    const hundreds  = Math.floor((g % 1000) / 100);
-    const tens      = Math.floor((g % 100) / 10);
-    const ones      = g % 10;
-    if (thousands) gStr += CQ_ZH_DIGITS[thousands] + '仟';
-    if (hundreds)  { if (thousands && !hundreds) gStr += '零'; gStr += CQ_ZH_DIGITS[hundreds] + '佰'; }
-    else if (thousands) gStr += '零';
-    if (tens) { if (!hundreds && (thousands || i < groups.length - 1)) gStr += '零'; gStr += CQ_ZH_DIGITS[tens] + '拾'; }
-    else if (hundreds || thousands) gStr += '零';
-    if (ones) { if (!tens && (hundreds || thousands)) gStr += '零'; gStr += CQ_ZH_DIGITS[ones]; }
-    // Clean up trailing 零
+    if (t) gStr += D[t] + '仟';
+    if (h) {
+      gStr += D[h] + '佰';
+    } else if (t && (s || o)) {
+      gStr += '零';
+    }
+    if (s) {
+      gStr += D[s] + '拾';
+    } else if ((h || t) && o) {
+      gStr += '零';
+    }
+    if (o) gStr += D[o];
     gStr = gStr.replace(/零+$/, '');
-    result += gStr + CQ_ZH_GROUPS[i];
+    result += gStr + G[gi];
   }
-  // Clean up multiple 零
-  result = result.replace(/零+/g, '零').replace(/零([萬億])/g, '$1').replace(/^零/, '');
+  result = result.replace(/零+/g, '零').replace(/零([萬億])/g, '$1').replace(/^零/, '').replace(/零$/, '');
   return result;
 }
 
