@@ -4099,7 +4099,7 @@
       <div class="tool-icon mint">🔗</div>
       <div class="tool-header-text">
         <h1>縮短網址</h1>
-        <p>由 is.gd 提供支援 · 免費 · 無廣告</p>
+        <p>由 TinyURL 提供支援 · 免費 · 無廣告</p>
       </div>
     </div>
 
@@ -4340,9 +4340,12 @@ async function shortenUrl() {
   hideStatus('url-status');
 
   try {
-    const res = await fetch(`https://is.gd/create.php?format=simple&url=${encodeURIComponent(input)}`);
+    const res = await fetch(`https://tinyurl.com/api-create.php?url=${encodeURIComponent(input)}`);
     if (!res.ok) throw new Error('API 錯誤');
-    const short = await res.text();
+    const short = (await res.text()).trim();
+
+    // is.gd returns error messages starting with "Error:"
+    if (!short || !short.startsWith('http')) throw new Error('Invalid response');
 
     document.getElementById('url-short').value = short;
     document.getElementById('url-result').classList.add('show');
