@@ -4340,7 +4340,7 @@ async function shortenUrl() {
   hideStatus('url-status');
 
   try {
-    const res = await fetch(`https://da.gd/shorten?url=${encodeURIComponent(input)}`);
+    const res = await fetch(`https://is.gd/create.php?format=simple&url=${encodeURIComponent(input)}`);
     if (!res.ok) throw new Error('API 錯誤');
     const short = await res.text();
 
