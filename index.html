@@ -6086,7 +6086,7 @@ function updateMarquee() {
 
   var el = document.getElementById('mq-preview-text');
   // Double text for seamless loop
-  var gap = '　　　'; // 3 full-width spaces as separator
+  var gap = '　'; // 3 full-width spaces as separator
   el.innerHTML = '<span>' + text + gap + '</span><span>' + text + gap + '</span>';
   el.style.fontSize = Math.min(parseInt(size), 48) + 'px';
 
