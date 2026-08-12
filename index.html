@@ -1696,7 +1696,7 @@
     .mq-preview-wrap.light-bg .mq-text { color: var(--text); }
     @keyframes mq-scroll {
       from { transform: translateX(0); }
-      to   { transform: translateX(-100%); }
+      to   { transform: translateX(-50%); }
     }
     .mq-controls-grid {
       display: grid;
@@ -6085,10 +6085,11 @@ function updateMarquee() {
   document.getElementById('mq-speed-val').textContent = speedLabel;
 
   var el = document.getElementById('mq-preview-text');
-  el.textContent = text;
+  // Double text for seamless loop
+  el.innerHTML = '<span>' + text + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>' +
+                 '<span>' + text + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>';
   el.style.fontSize = Math.min(parseInt(size), 48) + 'px';
 
-  // Duration: higher speed = shorter duration
   var duration = Math.round(20000 / (parseInt(speed) / 80));
   el.style.animationDuration = duration + 'ms';
   el.style.animationPlayState = mqPaused ? 'paused' : 'running';
@@ -6122,6 +6123,7 @@ function openMqFullscreen() {
   var text = document.getElementById('mq-input').value || '輸入你的文字...';
   var size = document.getElementById('mq-size').value;
   var speed = document.getElementById('mq-speed').value;
+  var loopText = text + '      ' + text + '      ';
 
   var fs = document.getElementById('mq-fullscreen');
   var fsText = document.getElementById('mq-fs-text');
